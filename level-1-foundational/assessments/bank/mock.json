@@ -1,0 +1,576 @@
+{
+  "module": "MOCK",
+  "title": "Level 1 mock exam",
+  "items": [
+    {
+      "id": "MOCK-01", "module": "M1.1", "difficulty": "core",
+      "scenario": "A teammate needs to refactor error handling across 30 files in a service repository and plans to paste the files into a chat conversation in batches.",
+      "question": "What is the better route, and why?",
+      "options": [
+        "Keep the chat approach but paste smaller batches so the context doesn't overflow",
+        "Use Claude Code in the repository: it reads the real files, makes coordinated edits, and can run the tests",
+        "Upload the files to a Project so they persist, then ask for the refactor in chat",
+        "Use Claude in Chrome to open the files in the Git hosting UI and edit them there"
+      ],
+      "answer": 1,
+      "explanation": "Repository work belongs in Claude Code. Pasting into chat loses file relationships, can't run tests, and creates copy-paste drift between what Claude saw and what's on disk.",
+      "distractors": [
+        "Smaller batches make it worse: each batch sees even less of the codebase and nothing gets tested.",
+        null,
+        "A Project persists the files, but it still can't edit the repository or run anything. You'd copy results back by hand.",
+        "Browser-driven editing of 30 files is slow, unauditable and the wrong tool when a repository agent exists."
+      ]
+    },
+    {
+      "id": "MOCK-02", "module": "M1.1", "difficulty": "core",
+      "scenario": "A colleague posts a screenshot of a Claude feature in the champions channel. You can't find it in your own app.",
+      "question": "What's the most reliable way to determine whether you have it?",
+      "options": [
+        "Assume you have it, because the colleague is in the same company",
+        "Check your own settings and plan entitlements, and the official help/release notes for its plan and status",
+        "Ask Claude in chat whether your account has the feature",
+        "Reinstall the app until the feature appears"
+      ],
+      "answer": 1,
+      "explanation": "Features are gated by plan, seat type, admin settings and rollout status. Your own settings and the authoritative docs are the evidence, not someone else's screenshot.",
+      "distractors": [
+        "Different seats (Standard vs Premium, Team vs Enterprise) and admin toggles mean colleagues can see different features.",
+        null,
+        "The model doesn't reliably know your account's entitlements and can be confidently wrong.",
+        "Gating is server-side. Reinstalling doesn't change entitlements."
+      ]
+    },
+    {
+      "id": "MOCK-03", "module": "M1.1", "difficulty": "core",
+      "scenario": "You ask Claude in an agentic session to tidy a shared folder. In a plain chat last week, you asked it how to tidy the same folder.",
+      "question": "How should your review differ between the two?",
+      "options": [
+        "No difference. Review the final message in both cases",
+        "In chat you review an answer; in the agentic session you review the actions taken (files moved, renamed, deleted) as well as the summary",
+        "Agentic sessions don't need review because they show a progress bar",
+        "Review only the chat version. Agentic sessions are logged by the admin anyway"
+      ],
+      "answer": 1,
+      "explanation": "In chat nothing changes until you act. In an agentic session Claude acts on your behalf, so what you check moves from what it said to what it did.",
+      "distractors": [
+        "A summary can omit or misdescribe actions. You need to check the actions themselves.",
+        null,
+        "Progress indicators show activity, not correctness.",
+        "Audit logs support investigation after the fact. They don't replace your review before damage spreads."
+      ]
+    },
+    {
+      "id": "MOCK-04", "module": "M1.1", "difficulty": "core",
+      "scenario": "Your team wants a dependency-vulnerability summary generated every Monday morning from the same sources, in the same format.",
+      "question": "Which approach fits best?",
+      "options": [
+        "Someone pastes the sources into chat every Monday",
+        "A reusable Skill or workflow run as a scheduled task",
+        "Build a product feature on the API",
+        "Ask in a Project once and re-read the same answer each week"
+      ],
+      "answer": 1,
+      "explanation": "Repeatable or scheduled work maps to Skills and scheduled tasks, so the same instructions run consistently without manual re-prompting.",
+      "distractors": [
+        "Manual repetition drifts in format and quality, and depends on someone remembering.",
+        null,
+        "The API is for building product features. It's overkill for an internal recurring report.",
+        "A stale answer doesn't reflect new vulnerabilities."
+      ]
+    },
+    {
+      "id": "MOCK-05", "module": "M8.1", "difficulty": "core",
+      "scenario": "You need realistic data to reproduce a bug in a user-import pipeline that fails on unusual names and duplicate IDs.",
+      "question": "What should you give Claude?",
+      "options": [
+        "A sample of 50 real rows from the production users table",
+        "The schema and a description of the edge cases, asking it to generate synthetic records",
+        "The production rows with surnames removed",
+        "Nothing. Bugs involving user data can't be worked on with AI"
+      ],
+      "answer": 1,
+      "explanation": "Synthetic stand-ins keep the shape and edge cases without personal data. That's minimisation in practice.",
+      "distractors": [
+        "Production personal data is on the never-paste list.",
+        null,
+        "Partial removal still leaves identifiable personal data (first names, emails, IDs).",
+        "Over-correction. Synthetic data makes this safe."
+      ]
+    },
+    {
+      "id": "MOCK-06", "module": "M8.1", "difficulty": "core",
+      "scenario": "Claude is summarising a batch of inbound support tickets through a connector. Halfway through, it proposes closing three tickets and posting a comment quoting text from one customer's ticket.",
+      "question": "What's the right response?",
+      "options": [
+        "Approve. Closing resolved tickets saves time",
+        "Approve the comment but not the closures",
+        "Deny, stop the session, and report a likely prompt injection with the ticket attached",
+        "Ask Claude why it wants to do that, then approve if the reason sounds plausible"
+      ],
+      "answer": 2,
+      "explanation": "You asked for a summary, not writes. An unrequested write that echoes untrusted ticket content is the signature of injection. Recognise, stop, report.",
+      "distractors": [
+        "You didn't ask for closures, and the instruction likely came from untrusted content.",
+        "The comment is just as unrequested and may leak or spread the injected text.",
+        null,
+        "A hijacked session will produce a plausible-sounding reason. Asking it is not a control."
+      ]
+    },
+    {
+      "id": "MOCK-07", "module": "M8.1", "difficulty": "core",
+      "scenario": "You're about to share a Kubernetes manifest with Claude to debug a crash loop. It references a Secret by name, and an env block contains a database URL with an embedded password.",
+      "question": "What do you do before pasting?",
+      "options": [
+        "Nothing. Kubernetes manifests are internal, so they're fine on the company seat",
+        "Replace the password in the URL with a placeholder (and verify with a quick grep). The Secret reference name can stay",
+        "Base64-encode the password so it isn't readable",
+        "Delete the entire env block, including variable names"
+      ],
+      "answer": 1,
+      "explanation": "Credentials are never-paste, whatever the plan. Redact the value and keep the structure Claude needs for debugging.",
+      "distractors": [
+        "The manifest is internal, but the embedded credential is restricted. Classification follows the most sensitive item.",
+        null,
+        "Base64 is encoding, not encryption. It's trivially reversible.",
+        "Over-redaction. Variable names are often key to diagnosing a crash loop."
+      ]
+    },
+    {
+      "id": "MOCK-08", "module": "M8.1", "difficulty": "core",
+      "scenario": "A shared team Project contains your org's internal runbooks. You want to add a client's architecture document marked 'Confidential — NDA'.",
+      "question": "Which check matters most?",
+      "options": [
+        "Whether the document is under the file-size limit",
+        "Whether the client contract allows AI processing, and whether everyone in the Project is authorised to see that client's material",
+        "Whether memory is enabled for the Project",
+        "Whether the Project has custom instructions"
+      ],
+      "answer": 1,
+      "explanation": "Two gates: the client's permission for AI processing, and need-to-know across the Project's membership, since Project files are visible to every member.",
+      "distractors": [
+        "Feasibility, not confidentiality.",
+        null,
+        "Memory affects persistence. It doesn't settle authorisation.",
+        "Instructions shape output, not access."
+      ]
+    },
+    {
+      "id": "MOCK-09", "module": "M1.2", "difficulty": "core",
+      "scenario": "Your team is about to hard-code a specific model ID into a nightly data-classification job that will run for the next year.",
+      "question": "What should you check first?",
+      "options": [
+        "Whether the model is the newest one available",
+        "The model deprecation and retirement page, and a plan to re-test when you switch",
+        "Whether the model has the largest context window",
+        "Nothing. Model IDs are stable forever"
+      ],
+      "answer": 1,
+      "explanation": "Models retire. Before you standardise a script or team on a model, check its deprecation status and plan the migration and re-test.",
+      "distractors": [
+        "Newest isn't the criterion. Fitness for the task and the retirement timeline are.",
+        null,
+        "Context size is irrelevant to short classification inputs.",
+        "Models are deprecated and retired on published schedules."
+      ]
+    },
+    {
+      "id": "MOCK-10", "module": "M1.2", "difficulty": "core",
+      "scenario": "An engineer wants to load an entire 150k-line monorepo into a single chat to ask how authentication works.",
+      "question": "What's the best advice?",
+      "options": [
+        "It fits, since current models have huge context windows. Paste it all",
+        "Estimate the tokens first. At roughly 10 tokens per line it far exceeds the window, so use Claude Code's agentic search to find the auth code instead",
+        "Compress the code by removing all whitespace and comments so it fits",
+        "Ask a faster, smaller model, because it has a bigger context window"
+      ],
+      "answer": 1,
+      "explanation": "A rough estimate (150k lines × ~10 tokens ≈ 1.5M tokens) shows it won't fit. Even when something fits, stuffing degrades quality and cost. Targeted retrieval wins.",
+      "distractors": [
+        "A large window still has limits, and filling it raises cost and latency and dilutes attention.",
+        null,
+        "Mangling the code loses meaning and still won't fit.",
+        "Smaller models aren't defined by bigger windows, and the real fix is retrieval, not a different window."
+      ]
+    },
+    {
+      "id": "MOCK-11", "module": "M1.2", "difficulty": "core",
+      "scenario": "You ask Claude which version of a popular open-source library is the latest. It answers confidently.",
+      "question": "How should you treat the answer?",
+      "options": [
+        "Trust it. The model is trained on the library's docs",
+        "Treat it as possibly stale, because of the training cut-off, and force a web search or check the release page",
+        "Ask the same question again. If it repeats, it's correct",
+        "Switch to a bigger model, which will know the latest version"
+      ],
+      "answer": 1,
+      "explanation": "Anything that changes over time ('latest', prices, versions) may postdate the training cut-off. Use search or a primary source.",
+      "distractors": [
+        "Training data stops at the cut-off. Later releases are unknown.",
+        null,
+        "Consistency isn't correctness. A stale answer can repeat reliably.",
+        "Every model has a cut-off. Size doesn't fix recency."
+      ]
+    },
+    {
+      "id": "MOCK-12", "module": "M1.2", "difficulty": "core",
+      "scenario": "A QA engineer's test for an LLM-powered feature passes and fails on alternate runs with an identical prompt.",
+      "question": "What's the right interpretation?",
+      "options": [
+        "The API is broken. File a bug",
+        "Outputs are non-deterministic, so test properties across several runs (format, required facts, constraints), not exact strings",
+        "Set a random seed in the prompt text to make it deterministic",
+        "Retry until it passes, then commit"
+      ],
+      "answer": 1,
+      "explanation": "The same prompt can give different answers. Robust tests assert properties over a small sample of runs.",
+      "distractors": [
+        "Variation is expected behaviour, not an outage.",
+        null,
+        "Writing 'seed=42' in a prompt doesn't control sampling.",
+        "Retrying until green hides real failures."
+      ]
+    },
+    {
+      "id": "MOCK-13", "module": "M2.1", "difficulty": "core",
+      "scenario": "A prompt reads: 'Write something about the outage for the team.' The output is generic and too long.",
+      "question": "Which rewrite addresses the most defects?",
+      "options": [
+        "'Write something better about the outage for the team, please.'",
+        "'You are an expert. Write about the outage.'",
+        "'Draft a 120-word Slack update for the support team about today's 47-minute checkout outage (timeline below). Include impact, current status and next update time. Plain language, no internal service names, because support will paste it to customers.'",
+        "'Write about the outage. Do not be generic. Do not be long. Do not use jargon.'"
+      ],
+      "answer": 2,
+      "explanation": "It fixes the vague task, missing context, missing format and length, missing audience, and gives the reason (the why), which improves compliance with constraints.",
+      "distractors": [
+        "Politeness doesn't add task, context, format or audience.",
+        "A role alone leaves every other defect in place.",
+        null,
+        "Prohibitions without positive specification leave Claude guessing what you do want."
+      ]
+    },
+    {
+      "id": "MOCK-14", "module": "M2.1", "difficulty": "core",
+      "scenario": "You need Claude to analyse a 30-page RFC and answer a specific question about its rollback strategy.",
+      "question": "How should the prompt be structured?",
+      "options": [
+        "Question first, then the RFC, then repeat the question",
+        "The RFC inside clearly labelled tags first, then the instructions and question at the end",
+        "Just the question. Claude will ask for the RFC if needed",
+        "Split the RFC into 30 messages, one page each, then ask"
+      ],
+      "answer": 1,
+      "explanation": "Delimit the data from the instructions, put long material first and the question last. This improves long-document answers.",
+      "distractors": [
+        "Repetition adds noise. Placing the question after the material is the pattern that helps.",
+        null,
+        "Claude can't analyse a document it hasn't been given.",
+        "Fragmenting the document makes it harder to reason over as a whole."
+      ]
+    },
+    {
+      "id": "MOCK-15", "module": "M2.1", "difficulty": "core",
+      "scenario": "You gave Claude one example action-item row in your preferred table format. Every output row now copies the example's owner name and due date.",
+      "question": "What happened, and what's the fix?",
+      "options": [
+        "Claude is broken. Remove all examples",
+        "Overfitting to a single example. Use 2–3 diverse examples that vary the content, and state that content comes from the notes",
+        "Add 'DO NOT COPY THE EXAMPLE' in capitals",
+        "Increase the effort level"
+      ],
+      "answer": 1,
+      "explanation": "Examples are imitated strongly. Diverse examples teach the format without anchoring on specific values.",
+      "distractors": [
+        "Examples are valuable for format. Fix how you use them rather than dropping them.",
+        null,
+        "Shouting is weaker than better examples, and can over-trigger in other ways.",
+        "This is an example-design problem, not a reasoning-depth problem."
+      ]
+    },
+    {
+      "id": "MOCK-16", "module": "M2.1", "difficulty": "core",
+      "scenario": "After six follow-up corrections in the same chat, Claude's answers keep sliding back toward the first wrong interpretation.",
+      "question": "What's the most effective next step?",
+      "options": [
+        "Add a seventh, more forceful correction",
+        "Edit the original prompt to include what you learned, and re-run it in a fresh context",
+        "Switch to the smallest model for speed",
+        "Ask Claude to apologise and try harder"
+      ],
+      "answer": 1,
+      "explanation": "Accumulated wrong turns pollute the context. Fixing the spec and re-running gives a clean start with the right information.",
+      "distractors": [
+        "More corrections pile more conflicting context on top.",
+        null,
+        "This is a spec problem, not a speed one.",
+        "Apologies change nothing about the inputs."
+      ]
+    },
+    {
+      "id": "MOCK-17", "module": "M2.1", "difficulty": "core",
+      "scenario": "You're asking Claude to estimate migration effort for a legacy service, but key facts (team size, test coverage) are uncertain.",
+      "question": "Which addition to the prompt most improves the usefulness of the answer?",
+      "options": [
+        "'Be accurate.'",
+        "'List the assumptions you made and the open questions that would change the estimate, alongside the estimate.'",
+        "'Answer in one number only.'",
+        "'Pretend you know the team.'"
+      ],
+      "answer": 1,
+      "explanation": "Surfacing assumptions and open questions makes gaps visible and reviewable, instead of being silently filled with guesses.",
+      "distractors": [
+        "An instruction to be accurate adds no information.",
+        null,
+        "A bare number hides the uncertainty you most need to see.",
+        "That invites invention."
+      ]
+    },
+    {
+      "id": "MOCK-18", "module": "M3.1", "difficulty": "core",
+      "scenario": "Claude drafted a client status email that reads well. It mentions a delivery date of the 14th and a 20% performance gain.",
+      "question": "What must happen before you send it?",
+      "options": [
+        "Send it. The draft is fluent and professional",
+        "Check every name, number and commitment against the source, and add the verification note required for client-facing text",
+        "Ask Claude whether the numbers are correct",
+        "Run a spell-check, then send"
+      ],
+      "answer": 1,
+      "explanation": "Sending discipline: fluent isn't the same as correct. Every name, number and commitment is verified by you, and client-facing text carries a verification note.",
+      "distractors": [
+        "Polish lowers vigilance, and that's exactly when wrong numbers slip through.",
+        null,
+        "Self-checking by the same model isn't independent verification.",
+        "Spelling isn't the risk. Wrong commitments and figures are."
+      ]
+    },
+    {
+      "id": "MOCK-19", "module": "M3.1", "difficulty": "core",
+      "scenario": "You must explain the same database migration to (a) the client's CTO and (b) your peer engineers.",
+      "question": "What's the most efficient approach?",
+      "options": [
+        "Write one version and send it to both",
+        "In one chat, give the facts once, then ask for two drafts with an explicit reader and register for each (executive impact/risk vs technical steps/rollback)",
+        "Write the engineer version and ask the CTO to skip the technical parts",
+        "Ask Claude for 'a professional tone' and send it to both"
+      ],
+      "answer": 1,
+      "explanation": "Rewriting for a defined reader is a core technique. The same facts in different registers serve each audience without re-explaining context.",
+      "distractors": [
+        "One register rarely serves both audiences.",
+        null,
+        "That pushes the editing work onto the reader.",
+        "'Professional' isn't an audience. Name the reader."
+      ]
+    },
+    {
+      "id": "MOCK-20", "module": "M3.1", "difficulty": "core",
+      "scenario": "Claude turned a long incident thread into a decision summary with an action table listing owners and due dates.",
+      "question": "What is the key verification step?",
+      "options": [
+        "Check that the table formatting renders correctly",
+        "Trace every action, owner and date back to a specific message in the thread, because summaries can drop or invent them",
+        "Ask the thread participants whether they like the format",
+        "None. Summarisation is a strength of the model"
+      ],
+      "answer": 1,
+      "explanation": "Compression produces attribution errors and invented owners or dates. Each action must be traceable to its source.",
+      "distractors": [
+        "Formatting is cosmetic. Correctness is the risk.",
+        null,
+        "Preference isn't verification.",
+        "Being strong at a task doesn't make the output error-free. Summaries are exactly where hallucinated actions appear."
+      ]
+    },
+    {
+      "id": "MOCK-21", "module": "M3.1", "difficulty": "core",
+      "scenario": "You need a 25-page design document for a new platform service.",
+      "question": "Which workflow produces the best result?",
+      "options": [
+        "One prompt: 'Write the full design doc'",
+        "Outline first and review it, then draft section by section, then run consistency and glossary passes",
+        "Draft all sections in parallel chats and merge them by hand",
+        "Write it yourself, then ask Claude to make it longer"
+      ],
+      "answer": 1,
+      "explanation": "Outline-first gives structure and checkpoints. Section-by-section drafting keeps quality high. Consistency passes catch drift in terms and claims.",
+      "distractors": [
+        "One-shot long documents lose coherence and are hard to review.",
+        null,
+        "Parallel drafts without a shared outline drift in terminology and overlap.",
+        "Length isn't the goal. Clarity for the reader is."
+      ]
+    },
+    {
+      "id": "MOCK-22", "module": "M4.1", "difficulty": "core",
+      "scenario": "You enable a Drive connector and ask: 'Summarise my documents about the Q3 launch.'",
+      "question": "What does the connector have access to?",
+      "options": [
+        "Only documents with 'Q3' in the title",
+        "Whatever your account can access in Drive, through the tools the connector exposes, so scope the request tightly",
+        "Only documents you uploaded to Claude",
+        "Only public documents"
+      ],
+      "answer": 1,
+      "explanation": "Connectors act as your identity. The model sees only the results, but the reachable surface is everything you can reach. Scope by folder, date or owner.",
+      "distractors": [
+        "Filtering depends on what the model searches for, not a built-in title restriction.",
+        null,
+        "That describes Project uploads, not a connector.",
+        "Connectors use your permissions, including private files."
+      ]
+    },
+    {
+      "id": "MOCK-23", "module": "M4.1", "difficulty": "core",
+      "scenario": "In a session with a Jira connector, you review the transcript and see calls to get_issue, search_issues and transition_issue.",
+      "question": "Which statement is correct?",
+      "options": [
+        "All three are reads, because they relate to issues",
+        "get_issue and search_issues are reads. transition_issue is a write that changes state in Jira and deserves explicit review",
+        "All three are writes, because they call an API",
+        "Tool names don't matter. Only the final answer does"
+      ],
+      "answer": 1,
+      "explanation": "Classifying each tool call as read or write is the core auditing habit. Writes change the world outside the conversation.",
+      "distractors": [
+        "Transitioning an issue changes its state. That's a write.",
+        null,
+        "Reads call APIs too. What matters is whether the call changes anything.",
+        "Reading tool calls is what makes connector use auditable."
+      ]
+    },
+    {
+      "id": "MOCK-24", "module": "M4.1", "difficulty": "core",
+      "scenario": "You need to download five invoices from a vendor portal that has no API or connector.",
+      "question": "Which tool fits, with which precaution?",
+      "options": [
+        "A custom MCP connector you write today",
+        "Claude in Chrome on an allow-listed site, in a browser profile not signed in to unrelated sensitive systems, watching each step",
+        "Paste your vendor portal password into chat so Claude can log in",
+        "Claude Code with bypassPermissions"
+      ],
+      "answer": 1,
+      "explanation": "Chrome is the right tool when no connector exists. Its blast radius is your signed-in browser, so limit what that browser can reach and supervise it.",
+      "distractors": [
+        "Building and approving a connector is far out of proportion for five downloads, and needs admin approval.",
+        null,
+        "Credentials are never-paste.",
+        "The wrong surface, and the widest permission mode, for a web task."
+      ]
+    },
+    {
+      "id": "MOCK-25", "module": "M4.1", "difficulty": "core",
+      "scenario": "A colleague proposes setting every connector to auto-approve in your agentic sessions 'to stop the interruptions', including the Gmail connector with send.",
+      "question": "What's the best response?",
+      "options": [
+        "Agree. Approval prompts are just friction",
+        "Auto-approve only trusted read-only tools. Keep approval on any write tool such as send, because the prompt is the human gate against injection",
+        "Disable all connectors permanently",
+        "Agree, but check the sent folder each evening"
+      ],
+      "answer": 1,
+      "explanation": "Match the approval posture to the risk. Read-only tools can be trusted. Write tools, especially outbound ones, keep a human in the loop.",
+      "distractors": [
+        "The friction is the control. Removing it on send tools opens an exfiltration path.",
+        null,
+        "Over-correction that forfeits the value.",
+        "Checking after the fact can't recall a sent email."
+      ]
+    },
+    {
+      "id": "MOCK-E1", "module": "M6.1", "elective": true, "difficulty": "core",
+      "scenario": "It's your first day on an unfamiliar repository with Claude Code installed.",
+      "question": "What's the best first move?",
+      "options": [
+        "Ask it to modernise the codebase immediately",
+        "Create a branch, then ask questions about structure, build and tests before requesting any change",
+        "Switch to bypassPermissions so exploration is fast",
+        "Paste the README into chat instead"
+      ],
+      "answer": 1,
+      "explanation": "Questions before changes, and Git as the safety net. You learn the codebase and verify Claude's understanding before it touches anything.",
+      "distractors": [
+        "Large changes before you understand the repo are risky and hard to review.",
+        null,
+        "Widest permission on day one is exactly what not to do.",
+        "That throws away the repo-aware agent you have."
+      ]
+    },
+    {
+      "id": "MOCK-E2", "module": "M6.1", "elective": true, "difficulty": "core",
+      "scenario": "You want Claude Code to propose an approach to a risky schema migration, but you don't want any files changed yet.",
+      "question": "Which permission mode fits?",
+      "options": [
+        "acceptEdits",
+        "plan",
+        "bypassPermissions",
+        "dontAsk"
+      ],
+      "answer": 1,
+      "explanation": "Plan mode explores and proposes without editing, so you review the approach before execution.",
+      "distractors": [
+        "acceptEdits applies file edits without asking, which is the opposite of what you want.",
+        null,
+        "No checks at all. Sandbox or CI only.",
+        "dontAsk auto-denies anything not pre-allowed. It's for locked-down automation, not reviewing a plan."
+      ]
+    },
+    {
+      "id": "MOCK-E3", "module": "M6.1", "elective": true, "difficulty": "core",
+      "scenario": "A teammate suggests running bypassPermissions on their laptop because 'the prompts slow me down'.",
+      "question": "What's the correct guidance?",
+      "options": [
+        "Fine, as long as they're on a branch",
+        "No. bypassPermissions belongs only in an isolated sandbox or CI container. On a working laptop it can reach credentials, files and the network unchecked",
+        "Fine, as long as they use the most capable model",
+        "Fine during working hours only"
+      ],
+      "answer": 1,
+      "explanation": "A branch protects code, not your machine. Commands can still touch credentials, other directories and the network.",
+      "distractors": [
+        "Git can't undo a leaked credential or a command run outside the repo.",
+        null,
+        "Model capability doesn't remove the risk of acting unchecked, including injected instructions.",
+        "Risk doesn't depend on the clock."
+      ]
+    },
+    {
+      "id": "MOCK-E4", "module": "M6.1", "elective": true, "difficulty": "core",
+      "scenario": "Claude Code tells you the payment module retries failed charges three times with exponential backoff.",
+      "question": "Before you repeat this in a design review, what should you do?",
+      "options": [
+        "Nothing. Claude Code read the code, so it's correct",
+        "Open the referenced code and verify the retry logic yourself",
+        "Ask Claude Code again for confirmation",
+        "Check that the answer is formatted as a table"
+      ],
+      "answer": 1,
+      "explanation": "Verify key answers by reading the code. Agents can misread or generalise from a similarly named function.",
+      "distractors": [
+        "Having read files isn't a guarantee of reading the right ones correctly.",
+        null,
+        "Self-confirmation isn't independent verification.",
+        "Format is irrelevant to correctness."
+      ]
+    },
+    {
+      "id": "MOCK-E5", "module": "M6.1", "elective": true, "difficulty": "stretch",
+      "scenario": "A long Claude Code session has become slow and is mixing up details from an earlier, unrelated task.",
+      "question": "What's the best action?",
+      "options": [
+        "Keep going. More context is always better",
+        "Check context use with /context, then /clear to start the new task fresh (or /compact if you need continuity)",
+        "Reinstall Claude Code",
+        "Switch to bypassPermissions to speed things up"
+      ],
+      "answer": 1,
+      "explanation": "Unrelated history pollutes context and costs tokens. Clear between tasks, and compact when you need a summary carried forward.",
+      "distractors": [
+        "Irrelevant context dilutes attention and raises cost.",
+        null,
+        "This is a context problem, not an installation one.",
+        "Permissions don't affect context quality."
+      ]
+    }
+  ]
+}
