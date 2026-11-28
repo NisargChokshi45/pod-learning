@@ -1,0 +1,207 @@
+{
+ "module": "M4.2",
+ "title": "Skills and reusable workflows",
+ "status": "CORE",
+ "items": [
+  {
+   "id": "M4.2-01",
+   "difficulty": "core",
+   "scenario": "A colleague built a proposal-section Skill with detailed steps and the house template. When people ask 'draft the security section for the Fabrikam bid', Claude writes generic text and the Skill never loads. The description reads 'Proposal helper.'",
+   "question": "What is the most effective fix?",
+   "options": [
+    "Add more detailed step instructions and a second, fuller worked example to the body of SKILL.md",
+    "Rewrite the description to name its output, the house standard, and how people ask for it",
+    "Rename the Skill folder to something shorter and clearer so Claude notices it more easily",
+    "Tell users to type the Skill's exact name at the start of every request"
+   ],
+   "answer": 1,
+   "explanation": "Only the name and description are in context when Claude decides whether a Skill applies; the body loads after a match. A description that states the output, the standard and the trigger phrasings is what makes the Skill fire.",
+   "distractors": [
+    "The body isn't visible at match time, so better steps can't change whether the Skill is picked.",
+    null,
+    "The folder name carries far less matching signal than a specific description; a vague description stays vague.",
+    "That works around a broken trigger instead of fixing it, and nobody will remember the exact name."
+   ]
+  },
+  {
+   "id": "M4.2-02",
+   "difficulty": "core",
+   "scenario": "Six delivery leads each write a Friday client status report in slightly different shapes. The PMO wants one format with RAG status computed from milestone dates, used by every lead across all their engagements.",
+   "question": "Which reuse mechanism fits best?",
+   "options": [
+    "A saved prompt template that each lead keeps in a personal notes file",
+    "The template pasted into each engagement's Project instructions",
+    "A shared Skill with the template as a resource and a script that computes RAG",
+    "A one-off chat where the PMO lead writes all six reports each Friday"
+   ],
+   "answer": 2,
+   "explanation": "It repeats weekly, many people need it across many contexts, and it involves a template and a deterministic calculation. Those three signals point to a Skill with a resource and a script.",
+   "distractors": [
+    "Personal templates drift apart and can't run a script, which defeats the single format the PMO wants.",
+    "Six copies in six Projects drift independently, and Project instructions don't carry a RAG script.",
+    null,
+    "It doesn't scale, and it puts six engagements' knowledge through one person every week."
+   ]
+  },
+  {
+   "id": "M4.2-03",
+   "difficulty": "core",
+   "scenario": "While reviewing a jira-digest Skill on the org library, you find a script with a hard-coded Jira API token 'for convenience'. The Skill has been shared for three weeks and syncs into team members' Claude Code.",
+   "question": "What should happen first?",
+   "options": [
+    "Unpublish the Skill, rotate the token, and rebuild it to use the approved Jira connector",
+    "Delete the token line from the script and republish the Skill as a new version",
+    "Leave it published but add a warning to the description not to share it outside the team",
+    "Move the token into a separate resource file inside the same Skill folder"
+   ],
+   "answer": 0,
+   "explanation": "A Skill is copied, shared and synced, so the token has already spread. Treat it as a leaked credential: stop distribution, rotate, and use a connector for access instead of embedding secrets.",
+   "distractors": [
+    null,
+    "Earlier versions already synced to laptops; without rotation the exposed token stays valid.",
+    "A warning doesn't remove the secret from every copy already distributed.",
+    "Any file in the folder travels with the Skill; this relocates the secret without containing it."
+   ]
+  },
+  {
+   "id": "M4.2-04",
+   "difficulty": "core",
+   "scenario": "The platform team wants new joiners to get answers about the team's own services, runbooks and on-call history. Someone proposes a Skill with 40 pages of runbooks as resources.",
+   "question": "What is the better design?",
+   "options": [
+    "Keep the Skill but split the 40 pages across ten smaller resource files",
+    "Publish the Skill to the whole organisation so more people can benefit from the runbooks",
+    "Put the runbooks into the Skill's description so they are always loaded",
+    "Use a Project with the runbooks as knowledge files and onboarding instructions"
+   ],
+   "answer": 3,
+   "explanation": "The reusable part is a body of knowledge about one team, not a procedure for a type of task. That is what Projects are for; Skills package how to do something.",
+   "distractors": [
+    "Splitting files doesn't change that a knowledge base is being forced into a procedure mechanism.",
+    "Wider sharing spreads team-specific material to people who don't need it and doesn't fix the mechanism choice.",
+    "The description must stay short to work as a trigger; stuffing content into it breaks matching for every Skill.",
+    null
+   ]
+  },
+  {
+   "id": "M4.2-05",
+   "difficulty": "core",
+   "scenario": "A defect-report Skill asks Claude to 'calculate the percentage of affected users from the counts given and round to one decimal'. Two runs on the same input give 3.1% and 3.4%.",
+   "question": "What change makes this step reliable?",
+   "options": [
+    "Add 'be precise and double-check the arithmetic' to the step",
+    "Move the calculation into a script in the Skill so it is executed, not estimated",
+    "Raise the effort level so Claude reasons longer and more carefully about the numbers",
+    "Give an example with a worked percentage so Claude copies the method"
+   ],
+   "answer": 1,
+   "explanation": "Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts that run in the sandbox and return the same answer every time.",
+   "distractors": [
+    "Exhortations don't turn estimation into computation.",
+    null,
+    "More reasoning can reduce errors but still produces prose estimates rather than executed code.",
+    "An example shows the format, but the number is still generated rather than computed."
+   ]
+  },
+  {
+   "id": "M4.2-06",
+   "difficulty": "core",
+   "scenario": "You've written a status-report Skill and want to know it will trigger reliably before sharing it with your team.",
+   "question": "Which test plan gives you the most useful evidence?",
+   "options": [
+    "Ask Claude to confirm that the description is clear and will trigger correctly",
+    "Run the single phrasing you used while building it, three times in the same chat to be sure",
+    "Run five varied phrasings and two near-misses, each in a fresh chat; record fire or not",
+    "Share it with the team and collect complaints over the first month"
+   ],
+   "answer": 2,
+   "explanation": "Triggering depends on how real people phrase requests. Varied phrasings test recall; near-misses test that it doesn't over-fire; fresh chats remove carry-over from your build conversation.",
+   "distractors": [
+    "Self-assessment by the model is not evidence of how matching behaves on real requests.",
+    "One phrasing tests one case, and the same chat carries context that real users won't have.",
+    null,
+    "That moves testing onto users and delays finding a broken trigger by weeks."
+   ]
+  },
+  {
+   "id": "M4.2-07",
+   "difficulty": "core",
+   "scenario": "A new hire uploads a custom Skill ZIP and asks for a weekly report. Claude replies in plain text and nothing from the Skill seems to run. The description and steps look fine.",
+   "question": "What should you check first?",
+   "options": [
+    "Whether the file-creation setting that Skills depend on is on for their account",
+    "Whether the Skill folder name exactly matches the name used in the request they typed",
+    "Whether a more capable model is selected for the conversation",
+    "Whether memory is enabled so Claude remembers the Skill between chats"
+   ],
+   "answer": 0,
+   "explanation": "Skills depend on the code execution and file creation setting. When it's off, Skills silently don't run, which is a common blocker people don't know about.",
+   "distractors": [
+    null,
+    "Matching uses the description, not the requester typing the folder name.",
+    "Model choice doesn't enable a capability that a setting has switched off.",
+    "Skills aren't loaded through memory; memory settings don't affect whether a Skill runs."
+   ]
+  },
+  {
+   "id": "M4.2-08",
+   "difficulty": "core",
+   "scenario": "A colleague wants to install a third-party plugin they found that bundles a CRM connector and several sales Skills. It isn't on your organisation's approved plugin list.",
+   "question": "What is the right response?",
+   "options": [
+    "Install it in a personal chat first to test it, then request approval if it works",
+    "Install it, since plugins only add instructions and can't access data on their own",
+    "Copy the Skills out of the plugin and install those, skipping the connector",
+    "Don't install it; request a review so it can be assessed for the approved list"
+   ],
+   "answer": 3,
+   "explanation": "A plugin can carry connectors and actions, so installing it is a permission grant. The approved list exists because someone has checked what it can read and do and who maintains it.",
+   "distractors": [
+    "Testing it still grants its connector access to real accounts and data before any review.",
+    "Plugins can bundle connectors, commands and agents; they are not just instructions.",
+    "Unreviewed Skills can still contain scripts or content that breach policy; this bypasses the same review.",
+    null
+   ]
+  },
+  {
+   "id": "M4.2-09",
+   "difficulty": "stretch",
+   "scenario": "In Claude Code you edit a Skill that was synced from your claude.ai account, adding a required 'customer impact' field. The next morning the field is missing and the Skill behaves as before.",
+   "question": "What explains this, and what should you do?",
+   "options": [
+    "Claude Code caches Skills for a day; wait for the cache to expire and the local edit will come back",
+    "Synced Skills are overwritten from source; change it via the source Skill's owner and version it",
+    "Local edits require restarting Claude Code twice before they take effect",
+    "The edit was too long; shorten it so the Skill stays within its size limit"
+   ],
+   "answer": 1,
+   "explanation": "Account Skill sync flows one way into Claude Code and overwrites local copies. The durable fix is in the source, owned and versioned, so every surface receives it.",
+   "distractors": [
+    "There's no day-long cache; the sync replaced the edited copy, so waiting won't bring the edit back.",
+    null,
+    "Restarts don't preserve edits to a copy that the sync overwrites.",
+    "Length wasn't the problem; the edit was discarded by the sync, not truncated."
+   ]
+  },
+  {
+   "id": "M4.2-10",
+   "difficulty": "stretch",
+   "scenario": "Your team's interview-guide Skill works well. Engineering wants the identical behaviour in Claude Code and in an internal service that calls the API, without maintaining three versions.",
+   "question": "What is the soundest approach?",
+   "options": [
+    "Rewrite the Skill separately for each surface, since each one needs its own format",
+    "Convert the Skill into a long system prompt for the API and Project instructions for the app",
+    "Keep one SKILL.md folder under version control as the source and use it on every surface",
+    "Keep the app version only and tell engineers to paste its steps into their prompts"
+   ],
+   "answer": 2,
+   "explanation": "The same SKILL.md format runs in the apps, in Claude Code and through the API. One owned, versioned source avoids the drift that multiple copies create.",
+   "distractors": [
+    "The format is shared across surfaces; three rewrites create three versions that drift.",
+    "That throws away the Skill packaging and creates two divergent copies of the same procedure.",
+    null,
+    "Manual pasting loses the template resources and drifts with every copy."
+   ]
+  }
+ ]
+}

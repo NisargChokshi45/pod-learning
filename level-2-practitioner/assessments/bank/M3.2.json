@@ -1,0 +1,207 @@
+{
+  "module": "M3.2",
+  "title": "Documents, files, images and Artifacts",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M3.2-01",
+      "difficulty": "core",
+      "scenario": "The client sends v3 of a 60-page SOW the night before signature. Your lead asks what changed since v2, and Claude replies in prose: 'No material changes; mostly wording.'",
+      "question": "What should you do before reporting back?",
+      "options": [
+        "Report 'no material changes' and attach Claude's summary as supporting evidence",
+        "Get a change table quoting both versions with pages; hand-check money and liability rows",
+        "Ask Claude the same question again in a new chat and accept the answer if both chats agree",
+        "Paste both versions into one long message so Claude sees all of the text at once"
+      ],
+      "answer": 1,
+      "explanation": "An unreferenced prose verdict can't be checked. A change table that quotes both versions with page references makes every row verifiable in seconds, and the high-risk rows (money, scope, liability) get hand-checked before anyone signs.",
+      "distractors": [
+        "Passing on an unverified 'no changes' verdict on a contract is the exact failure this module targets; a changed number inside an unchanged sentence is easy to miss.",
+        null,
+        "Two unreferenced answers agreeing is not verification; they can share the same miss.",
+        "Changing how the text is delivered doesn't add references or quotes, so the answer is still unverifiable."
+      ]
+    },
+    {
+      "id": "M3.2-02",
+      "difficulty": "core",
+      "scenario": "A procurement analyst uploads a screenshot of a vendor's pricing page and asks Claude for the per-GB price and the minimum commitment. The table is dense and the conditions are in small grey print.",
+      "question": "How should the analyst treat Claude's reading of the screenshot?",
+      "options": [
+        "As exact, because current models read images at full resolution",
+        "As exact for the large numbers, and only approximate for the footnotes",
+        "As a lead to confirm against the source page or a zoomed crop before using it",
+        "As unusable, so the screenshot should be retyped by hand without using Claude at all"
+      ],
+      "answer": 2,
+      "explanation": "Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it enters the model.",
+      "distractors": [
+        "Images are downscaled before the model reasons over them; small text and dense cells are predicted, not read exactly.",
+        "Misreads can hit any cell in a dense table, not just footnotes; price figures still need checking.",
+        null,
+        "Over-correction: the reading is a useful lead. The fix is verification, not abandoning the tool."
+      ]
+    },
+    {
+      "id": "M3.2-03",
+      "difficulty": "core",
+      "scenario": "A team lead asks Claude whether a 400-page scanned (image-only) supplier contract contains a termination-for-convenience clause. Claude answers that it found no such clause.",
+      "question": "What is the most important thing to check before relying on that answer?",
+      "options": [
+        "Whether a more capable model gives the same answer on the same file",
+        "Whether the pages that could hold it were visually analysed, since scans have no text",
+        "Whether the file was under the per-file size limit for uploads",
+        "Whether Claude searched the document for the word 'termination' rather than its synonyms"
+      ],
+      "answer": 1,
+      "explanation": "Scanned pages carry no text layer, so they are only 'seen' through visual analysis, which has a lower page cap than text extraction. An absence claim on a long scanned document may just mean the relevant pages were never seen.",
+      "distractors": [
+        "A different model faces the same visual-analysis cap; agreement wouldn't prove the pages were seen.",
+        null,
+        "An oversized file would be rejected outright; it wouldn't produce a confident 'not found'.",
+        "Keyword matching is irrelevant when the pages have no extractable text to match against."
+      ]
+    },
+    {
+      "id": "M3.2-04",
+      "difficulty": "core",
+      "scenario": "You're drafting a design note that three engineers and the client's architect will comment on and edit over the next week.",
+      "question": "Where should the deliverable live?",
+      "options": [
+        "In the chat reply, copied into an email thread for comments",
+        "In a downloadable DOCX that you email to all four reviewers for tracked changes",
+        "In a PDF export, so nobody can make accidental edits",
+        "In a Claude Doc, shared with the reviewers for co-editing and comments"
+      ],
+      "answer": 3,
+      "explanation": "Who edits it next decides the form. Several people commenting and editing need a single live version with comments, which is what a Doc gives. A file forks into versions, and a PDF blocks the editing they need to do.",
+      "distractors": [
+        "Email threads scatter comments and leave no single current version.",
+        "Four emailed copies become four forks you'll merge by hand.",
+        "A PDF is for readers, not editors; it blocks the collaboration the task needs.",
+        null
+      ]
+    },
+    {
+      "id": "M3.2-05",
+      "difficulty": "core",
+      "scenario": "A bid lead needs a proposal deck that will go into the company's official PowerPoint template and be finished offline by the design team in PowerPoint.",
+      "question": "Which output form fits the next step best?",
+      "options": [
+        "A Slides artifact shared by link to the design team for them to work on",
+        "A downloadable PPTX file the design team takes into PowerPoint",
+        "A Claude Doc with one heading per slide",
+        "A long chat reply with the slide text the team can copy"
+      ],
+      "answer": 1,
+      "explanation": "The next editors work offline in their own tool and template, so they should own the next version as a file in that tool's format.",
+      "distractors": [
+        "An artifact suits collaborators working in Claude; this team finishes in PowerPoint under the house template.",
+        null,
+        "A Doc is the wrong container for slides that must land in a PowerPoint template.",
+        "Copy-paste from chat loses structure and makes the team rebuild the deck by hand."
+      ]
+    },
+    {
+      "id": "M3.2-06",
+      "difficulty": "core",
+      "scenario": "A colleague says artifacts, file creation and Skills 'all stopped working' on their account after a settings clean-up, and they want to raise a support ticket.",
+      "question": "What is the first thing to check?",
+      "options": [
+        "Whether they have switched to a smaller model that cannot create files",
+        "Whether their browser is blocking pop-ups and downloads from the Claude app",
+        "Whether the 'Create and edit files' capability setting is still turned on",
+        "Whether their organisation has run out of artifact storage"
+      ],
+      "answer": 2,
+      "explanation": "Artifacts, file creation and Skills all depend on the 'Create and edit files' capability. When all three fail at once after a settings change, that toggle is the common cause, and people are often blocked by it without knowing.",
+      "distractors": [
+        "Model choice doesn't disable all three features together.",
+        "Pop-up blocking wouldn't stop Skills from loading or files from being created.",
+        null,
+        "Storage is per artifact, and it wouldn't stop Skills or file creation."
+      ]
+    },
+    {
+      "id": "M3.2-07",
+      "difficulty": "core",
+      "scenario": "You've built an AI-powered estimator artifact that calls Claude when it's used, and you plan to share it with the client's project manager.",
+      "question": "What should you confirm before sharing?",
+      "options": [
+        "That the client PM's seat is allowed to use it, since it runs on the viewer's account",
+        "Nothing, because a shared artifact always runs on the author's own account and usage quota",
+        "That you've exported it to PDF first, so the AI features are preserved",
+        "That the artifact is under the per-file upload size limit"
+      ],
+      "answer": 0,
+      "explanation": "AI-powered artifacts run on the viewer's account, under their plan and policies. Sharing one with a client means it uses their seat and usage, so check that before you share. If they can't, share a static version.",
+      "distractors": [
+        null,
+        "This is the common wrong assumption; it's the viewer's account, not the author's.",
+        "A PDF export removes the interactivity; it doesn't preserve AI behaviour.",
+        "Upload limits are about inputs, not about who pays for and governs the artifact's AI calls."
+      ]
+    },
+    {
+      "id": "M3.2-08",
+      "difficulty": "core",
+      "scenario": "Using the Excel add-in on a shared client forecast, Claude proposes fixes for nine broken formulas and asks you to approve the writes.",
+      "question": "What is the right way to approve them?",
+      "options": [
+        "Approve all nine at once, since the add-in only ever writes what it has described",
+        "Switch to an automatic approval mode so the changes apply faster",
+        "Approve each fix after reading it; log cell, old and new formula, and the reason",
+        "Decline all of them and rewrite the formulas by hand to stay safe"
+      ],
+      "answer": 2,
+      "explanation": "Every write you approve is a change you own on a client file. Read each one and log it, so you can answer 'who changed this and why?' later.",
+      "distractors": [
+        "Batch-approving unread means signing off changes you can't describe.",
+        "Removing approvals on a shared client file removes the only checkpoint.",
+        null,
+        "Over-correction: the add-in's fixes are useful once reviewed; refusing them all wastes the tool."
+      ]
+    },
+    {
+      "id": "M3.2-09",
+      "difficulty": "stretch",
+      "scenario": "An engineer quotes the API's PDF page limit in a team guide on using the Claude app, and argues it overrides the larger figure in the app's help pages because 'the API is the real model'.",
+      "question": "How should the guide state PDF limits?",
+      "options": [
+        "Use only the API figure, because it reflects the model's true underlying capability",
+        "Average the two figures to give a conservative single limit",
+        "Use only the app figure, since the guide is aimed at app users",
+        "State each limit against its surface; the app and the API have different limits"
+      ],
+      "answer": 3,
+      "explanation": "Limits differ by surface. Neither one overrules the other, and an API fact never corrects an app fact. A guide should name the surface for every limit it quotes, especially when readers use both.",
+      "distractors": [
+        "Treating the API figure as 'the truth' for the app is the surface-routing error this module warns about.",
+        "An invented averaged figure is wrong for both surfaces.",
+        "Close, but dropping the API figure entirely leaves engineers who also use the API without the limit that applies to them.",
+        null
+      ]
+    },
+    {
+      "id": "M3.2-10",
+      "difficulty": "stretch",
+      "scenario": "You ask Claude to answer a question from a 90-page MSA 'only from the document', with supporting quotes. The answer cites a clause and quotes it word for word.",
+      "question": "What completes the verification of this answer?",
+      "options": [
+        "Nothing more, because quoting word for word proves the clause exists",
+        "Check the quoted text appears at the cited location and says what the answer claims",
+        "Ask Claude to confirm that the quote is accurate and was not paraphrased or trimmed in any way",
+        "Run the same question at a higher effort level and compare the two quotes"
+      ],
+      "answer": 1,
+      "explanation": "Asking for quotes makes the answer checkable, but the check is still yours to do. Confirm the quote exists at the cited page, and that it supports the claim rather than being taken out of context or paraphrased.",
+      "distractors": [
+        "Quotes can be fabricated, paraphrased or out of context; the format alone proves nothing.",
+        null,
+        "Self-confirmation is a filter, not a guarantee; the same model can repeat its own error.",
+        "A second generation isn't a check against the source; both can be wrong in the same way."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "module": "M2.3",
+  "title": "Context engineering and instruction hierarchy",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M2.3-01",
+      "difficulty": "core",
+      "scenario": "Legal asks you to answer questions about termination rights in a 100-page vendor contract. The answers will go into a memo to the CFO.",
+      "question": "Which prompting approach is most appropriate?",
+      "options": [
+        "Ask 'summarise the termination risks' and paste Claude's result straight into the memo",
+        "Get verbatim clause quotes with pages first, answer only from them, check each quote",
+        "Ask Claude to answer from its general knowledge of standard termination clauses",
+        "Split the contract into ten parts and ask for a separate risk score for each part"
+      ],
+      "answer": 1,
+      "explanation": "Quote-first grounding makes the answer checkable, and the exact-string check catches near-quotes with altered figures. High-stakes document Q&A needs both.",
+      "distractors": [
+        "An unsupported summary hides errors such as wrong numbers or missed clauses, with no way to check.",
+        null,
+        "General knowledge isn't this contract; the memo needs this contract's terms.",
+        "Arbitrary chunk scores aren't grounded answers and lose cross-clause context."
+      ]
+    },
+    {
+      "id": "M2.3-02",
+      "difficulty": "core",
+      "scenario": "Your Project instructions say 'all costs in EUR'. A teammate insists the Project instruction will always override anything typed in a message, so no testing is needed.",
+      "question": "What is the Practitioner response?",
+      "options": [
+        "Agree; Project instructions act as a hard lock on every later message in the Project",
+        "Agree, but only on Enterprise plans, where Project instructions are enforced",
+        "Design a deliberate conflict test (e.g. ask for USD) and record what actually happens",
+        "Move the rule into account-wide Instructions, which always win over the Project"
+      ],
+      "answer": 2,
+      "explanation": "Precedence between instruction layers is model behaviour, not a guaranteed lock. Test it with an observable conflict, run it more than once, and record the result.",
+      "distractors": [
+        "Project instructions are weighted context, not an enforcement mechanism.",
+        "Plan tier doesn't turn instruction weighting into a lock.",
+        null,
+        "Personal preferences sit below Project instructions, and moving the rule doesn't replace testing."
+      ]
+    },
+    {
+      "id": "M2.3-03",
+      "difficulty": "core",
+      "scenario": "A week-long capacity analysis lives in one chat. By turn 70, Claude re-proposes an autoscaling option you rejected on Monday and ignores your 'no bullet points' rule.",
+      "question": "What should you do?",
+      "options": [
+        "Keep going in the same chat and restate both rules every few turns from now on",
+        "Write a handover (goal, decisions, constraints, next step) and start a fresh chat",
+        "Ask Claude to scroll back through the chat and re-read Monday's messages carefully",
+        "Switch to a model with a larger context window so that nothing gets forgotten"
+      ],
+      "answer": 1,
+      "explanation": "These are overflow symptoms: forgotten instructions and re-proposed rejected options. A curated handover gives the next chat a clean, correct state, with rejected options listed explicitly.",
+      "distractors": [
+        "Restating adds more tokens to a polluted context and treats the symptom.",
+        null,
+        "The material is already in context; the problem is dilution, not access.",
+        "Capacity isn't the issue; attention over a long, noisy history is."
+      ]
+    },
+    {
+      "id": "M2.3-04",
+      "difficulty": "core",
+      "scenario": "To 'give Claude full context', an engineer adds 80 exported wiki pages (many from 2023) to an onboarding Project. New joiners now get answers describing the old architecture as current.",
+      "question": "What is the root-cause fix?",
+      "options": [
+        "Add 'prefer recent information' to the Project instructions and keep all 80 pages",
+        "Curate to current, owned documents with a refresh cadence, and have Claude cite files",
+        "Switch the Project to the most capable model so it can judge which of the pages are current",
+        "Tell new joiners to add 'as of 2026' to their questions so answers stay current"
+      ],
+      "answer": 1,
+      "explanation": "The context is the defect: stale material competes with current material, and retrieval can surface the wrong file. Curating to current, owned sources with citations fixes it at the source.",
+      "distractors": [
+        "The stale pages still compete in retrieval, and the instruction can't tell which pages are stale.",
+        null,
+        "A stronger model reading stale sources still answers from them.",
+        "Shifting the burden to every user doesn't remove the stale material."
+      ]
+    },
+    {
+      "id": "M2.3-05",
+      "difficulty": "core",
+      "scenario": "You need Claude to compare one clause across three versions of a SOW. You plan to type the question first, then paste the three 30-page documents below it.",
+      "question": "How should you structure the prompt?",
+      "options": [
+        "Keep the question first so that Claude knows what to look for while it reads each file",
+        "Put the three documents first, tagged with version metadata, and the question last",
+        "Paste only the first version in full and describe the other two in a sentence each",
+        "Ask the question three times, once straight after each document, and compare"
+      ],
+      "answer": 1,
+      "explanation": "With long inputs, material first and question last gives better answers. The instructions are then the freshest tokens before generation and aren't buried under 90 pages.",
+      "distractors": [
+        "A question buried above 90 pages of material is a known cause of weaker long-context answers.",
+        null,
+        "Describing documents instead of providing them invites invented differences.",
+        "Repeating the question fragments the task and loses the cross-version comparison."
+      ]
+    },
+    {
+      "id": "M2.3-06",
+      "difficulty": "core",
+      "scenario": "Client updates from the same Project read formal when Asha prompts and chatty when Ben does. Each blames the other's prompting style.",
+      "question": "How should this be framed and fixed?",
+      "options": [
+        "As a prompting skill gap: send Ben on a prompt-writing course before he writes more",
+        "As a context problem: put voice and audience in shared, versioned Project instructions",
+        "As a model problem: pin one model for the whole Project so both users get the same voice",
+        "As a memory problem: have both users reset memory so old preferences stop leaking"
+      ],
+      "answer": 1,
+      "explanation": "When two people's prompts contradict, the shared context isn't deciding the question. Fix it once in shared, reviewed instructions rather than policing individual prompts.",
+      "distractors": [
+        "Training one person leaves the shared context undecided; the next person reintroduces the drift.",
+        null,
+        "The same model follows whichever voice each prompt asks for.",
+        "Memory isn't what causes the voice split; the missing shared instruction is."
+      ]
+    },
+    {
+      "id": "M2.3-07",
+      "difficulty": "core",
+      "scenario": "You tell Claude 'answer only from the attached runbook'. For a question the runbook doesn't cover, Claude still gives a confident, generic answer.",
+      "question": "What change to the instruction most directly prevents this?",
+      "options": [
+        "Add: 'If the runbook doesn't answer it, reply \"not in the provided material\"'",
+        "Repeat 'ONLY from the runbook' in capital letters at the start and end of the prompt",
+        "Raise the effort level for the chat so Claude reasons harder about the runbook",
+        "Shorten the runbook so Claude reads every remaining section more carefully"
+      ],
+      "answer": 0,
+      "explanation": "Closed-book instructions need an escape hatch. Without a sanctioned way to say 'not covered', the model fills gaps with plausible general knowledge.",
+      "distractors": [
+        null,
+        "Emphasis doesn't give the model a permitted alternative when the material is silent.",
+        "More reasoning doesn't change what the instruction permits when the source is silent.",
+        "Cutting the runbook removes context without addressing gap-filling."
+      ]
+    },
+    {
+      "id": "M2.3-08",
+      "difficulty": "core",
+      "scenario": "An analyst on a confidential M&A engagement wants to do one exploratory analysis without it shaping any later chat. They normally keep memory on.",
+      "question": "What is the most proportionate control?",
+      "options": [
+        "Reset all memory before and after the session so that nothing from it carries forward",
+        "Use an incognito chat for that analysis, knowing it still appears in org exports",
+        "Turn off memory for the whole organisation before the analysis begins",
+        "Add 'forget this conversation' at the end of the chat so memory drops it"
+      ],
+      "answer": 1,
+      "explanation": "Match the scope of the control to the scope of the need: one chat calls for incognito. It isn't saved to history or memory, though it is still included in Team/Enterprise exports.",
+      "distractors": [
+        "Resetting destroys useful memory to protect one chat; that's disproportionate.",
+        null,
+        "An org-wide change for one person's single analysis is out of proportion and not theirs to make.",
+        "An instruction doesn't stop memory from being updated by the chat."
+      ]
+    },
+    {
+      "id": "M2.3-09",
+      "difficulty": "stretch",
+      "scenario": "Claude returns five 'verbatim' quotes from a 60-page policy to support its answer. Exact-string search finds three; two are close paraphrases, and one of those changes '30 days' to '60 days'.",
+      "question": "What does this tell you, and what should you do?",
+      "options": [
+        "Quote-first grounding clearly doesn't work, so drop it and read the whole document yourself",
+        "Quoting makes errors checkable, not impossible: fix both, re-derive what relied on them",
+        "Two near-misses out of five is acceptable for internal work, so carry on as before",
+        "Ask Claude to confirm the quotes are verbatim this time, and accept its confirmation"
+      ],
+      "answer": 1,
+      "explanation": "Quotes are generated like any other output. The mechanical check is the control, and any conclusion that rested on a bad quote must be re-derived.",
+      "distractors": [
+        "The technique did its job: it exposed the error cheaply. Dropping it loses that.",
+        null,
+        "A changed number in a policy citation is a material error, not an acceptable miss.",
+        "Self-confirmation is not verification; only the source settles it."
+      ]
+    },
+    {
+      "id": "M2.3-10",
+      "difficulty": "stretch",
+      "scenario": "A Project instruction says 'responses ≤200 words'. Your personal preference says 'be thorough, include all caveats'. Outputs flip unpredictably between terse and long across runs.",
+      "question": "What is the most robust fix?",
+      "options": [
+        "Delete your personal preference so that only the Project's length rule applies",
+        "Add a tie-break rule to the Project: completeness beats length, and flag the overrun",
+        "Raise the effort level so the model resolves the conflict more consistently each time",
+        "Run each prompt three times and keep whichever version you like the best"
+      ],
+      "answer": 1,
+      "explanation": "Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which wins, so the behaviour is deterministic and visible.",
+      "distractors": [
+        "This may remove useful defaults for other Projects and doesn't encode the intended priority here.",
+        null,
+        "More reasoning doesn't decide a priority you haven't stated.",
+        "Cherry-picking runs hides the inconsistency instead of fixing it."
+      ]
+    }
+  ]
+}

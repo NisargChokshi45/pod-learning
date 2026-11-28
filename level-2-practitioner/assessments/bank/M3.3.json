@@ -1,0 +1,217 @@
+{
+ "module": "M3.3",
+ "title": "Meetings, requirements and knowledge management with Projects",
+ "status": "CORE",
+ "items": [
+  {
+   "id": "M3.3-01",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "You extract actions from a steering-committee transcript. Claude's table assigns 'Owner: Priya' to an action that was discussed while Priya was speaking, but nobody actually took it on.",
+   "question": "What change to the extraction prompt prevents this?",
+   "options": [
+    "Require a named owner for every action so the table is complete and ready for the tracker",
+    "Ask Claude to assign owners from the org chart, matching each action to the most relevant role",
+    "Have Claude write UNASSIGNED where no owner was stated, with a source-quote column",
+    "Remove the owner column and let the team decide owners later in Slack"
+   ],
+   "answer": 2,
+   "explanation": "Claude fills the owner cell with the most plausible name. An explicit UNASSIGNED escape hatch plus a quote column stops invented owners and makes each row checkable against the transcript.",
+   "distractors": [
+    "Demanding completeness increases the pressure to invent an owner.",
+    "Assigning by role is still inference, not what was agreed in the meeting.",
+    null,
+    "Dropping owners loses the accountability that makes actions get done."
+   ]
+  },
+  {
+   "id": "M3.3-02",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "A delivery lead put 'Go-live is 3 March' in the Project instructions. The client later moved go-live to 21 April, and the updated plan file was uploaded to knowledge. Claude still says 3 March.",
+   "question": "What is the right fix?",
+   "options": [
+    "Move the date out of the instructions and keep dates only in knowledge",
+    "Add 'ALWAYS use the latest plan' in capitals to the instructions",
+    "Upload the updated plan file again so retrieval ranks the newer date higher",
+    "Start a fresh chat inside the same Project and ask the question again"
+   ],
+   "answer": 0,
+   "explanation": "Instructions are standing guidance and outrank knowledge. Facts belong in knowledge, where updating the file is the fix; instructions should say how to behave, not what is true.",
+   "distractors": [
+    null,
+    "Shouting adds a conflicting rule but leaves the stale fact in the higher-priority layer.",
+    "The stale instruction still outranks the file however it is ranked.",
+    "A new chat in the same Project loads the same stale instructions."
+   ]
+  },
+  {
+   "id": "M3.3-03",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "Your consultancy runs two retail clients with overlapping scopes. To save setup time, a manager proposes one shared Project holding both clients' SOWs and minutes.",
+   "question": "What is the main problem?",
+   "options": [
+    "Projects cannot hold more than one signed SOW, so the second upload would be rejected",
+    "Both clients' files share one retrieval pool, so one client's data can leak into the other's work",
+    "Retrieval mode becomes noticeably slower when knowledge comes from two different clients",
+    "Project instructions can describe only one audience, so the outputs would get the tone wrong"
+   ],
+   "answer": 1,
+   "explanation": "One Project per engagement keeps confidential material separated. A shared knowledge base lets content from client A appear in answers or drafts for client B.",
+   "distractors": [
+    "There is no such rule; the problem is confidentiality, not capacity.",
+    null,
+    "Speed is not the issue; confidentiality is.",
+    "Instructions could describe two audiences, but the data-mixing risk remains."
+   ]
+  },
+  {
+   "id": "M3.3-04",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "A team-function Project for the SRE runbooks was set up a year ago. Nobody owns it, and two runbooks describe a deploy pipeline that was replaced in the spring.",
+   "question": "What should have prevented this?",
+   "options": [
+    "A named owner and a refresh cadence in the Project README",
+    "Retrieval mode, which automatically down-ranks older files in the Project",
+    "Switching the Project to view-only sharing",
+    "Asking Claude to flag any outdated runbook whenever it answers a question"
+   ],
+   "answer": 0,
+   "explanation": "Projects rot without ownership. A named owner and a scheduled review cadence are what keep knowledge current; tooling does not know what changed in the real world.",
+   "distractors": [
+    null,
+    "Retrieval does not know a file is outdated; it ranks by relevance.",
+    "View-only sharing restricts edits but does nothing about staleness.",
+    "Claude cannot know the pipeline changed unless the knowledge says so."
+   ]
+  },
+  {
+   "id": "M3.3-05",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "During a project, an engineer uploads a config file containing a database connection string to a Project shared with the client's team and two subcontractors.",
+   "question": "What is the correct response?",
+   "options": [
+    "Leave it, because only people with Project access can see the knowledge files",
+    "Change the Project's sharing from 'Can edit' to 'Can view' for everyone",
+    "Add a Project instruction telling Claude never to reveal any connection string",
+    "Remove it, get the credential rotated, and re-upload a redacted copy"
+   ],
+   "answer": 3,
+   "explanation": "Shared Projects must never hold credentials. Anyone with access, now or later, can retrieve them by asking. Once exposed, a secret needs rotation, not just deletion.",
+   "distractors": [
+    "Everyone with access, including future members, can retrieve it; that is the exposure.",
+    "View rights still allow reading and retrieving the file.",
+    "An instruction is a soft control; the secret is still in the knowledge base and already exposed.",
+    null
+   ]
+  },
+  {
+   "id": "M3.3-06",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "A client emails a change request to add a second hosting region. Your PM asks Claude in the engagement Project for the impact.",
+   "question": "Which request best fits this module?",
+   "options": [
+    "Ask for a revised estimate in person-days so you can reply to the client with a number today",
+    "Ask Claude to accept the change and update the plan and SOW files in the Project automatically",
+    "Ask what requirements, deliverables, dates and risks change, citing the SOW, then verify with the tech lead",
+    "Ask for a summary of the client's email to forward to the steering committee for a decision"
+   ],
+   "answer": 2,
+   "explanation": "Change-impact analysis lists what changes and cites where, and a human confirms it because Claude cannot see undocumented dependencies. Estimates need a human owner (M5.1).",
+   "distractors": [
+    "An estimate without impact analysis and a human owner is premature.",
+    "Accepting scope changes is a human, contractual decision.",
+    null,
+    "A summary of the request says nothing about its impact."
+   ]
+  },
+  {
+   "id": "M3.3-07",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "You ask a large engagement Project: 'List every change to the payment terms across all contract amendments.' Claude lists three changes with citations. The engagement actually has five amendments.",
+   "question": "What is the most likely explanation and the right next step?",
+   "options": [
+    "Retrieval pulled only some chunks; ask per amendment or open the files",
+    "Claude is withholding information it judged sensitive; escalate to the admin",
+    "The model is too small for this; switch to a larger model and ask again",
+    "Two of the amendments must be invalid, so the list of three is correct"
+   ],
+   "answer": 0,
+   "explanation": "In retrieval mode, unretrieved chunks do not exist for that answer, and exhaustive questions fail quietly. Asking per document or reading the files directly restores completeness.",
+   "distractors": [
+    null,
+    "Nothing is being hidden; the issue is the retrieval mechanism.",
+    "Model size does not change which chunks retrieval returns.",
+    "Unretrieved content is not invalid; it simply was not in context."
+   ]
+  },
+  {
+   "id": "M3.3-08",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "An auditor asks how a data-retention control was decided. Ask Your Org returns a confident summary of the decision.",
+   "question": "How should you use that result?",
+   "options": [
+    "Paste the summary into the audit response, since it was generated from company sources",
+    "Ask Claude to rewrite the summary in a formal register suitable for the auditor",
+    "Discard it, because enterprise search results can't be trusted for audit purposes",
+    "Use it to locate the thread, ticket and document, then cite those sources"
+   ],
+   "answer": 3,
+   "explanation": "Enterprise search makes live, permission-scoped calls and returns only what was written down. It is a way to find sources; the evidence is the sources themselves.",
+   "distractors": [
+    "A generated summary is not evidence; auditors need primary records.",
+    "Formality does not turn a summary into evidence.",
+    "It is useful for finding sources; discarding it wastes that.",
+    null
+   ]
+  },
+  {
+   "id": "M3.3-09",
+   "module": "M3.3",
+   "difficulty": "stretch",
+   "scenario": "At engagement end the client asks for 'the Project' so their team can continue. The working Project holds draft pricing, superseded SOWs and internal notes about client staff.",
+   "question": "What should you hand over?",
+   "options": [
+    "The working Project, after adding an instruction telling Claude to ignore internal notes",
+    "An export of every chat from the working Project, so nothing the team learned is lost",
+    "A clean hand-over Project with the final decisions log, risks, runbooks and contacts",
+    "Nothing; Projects cannot be shared outside your organisation"
+   ],
+   "answer": 2,
+   "explanation": "A hand-over Project is curated for the recipient. Handing over the working Project leaks drafts, superseded material and internal notes, and an instruction to ignore them protects nothing.",
+   "distractors": [
+    "An instruction does not remove the material from the knowledge base.",
+    "Chat exports carry the same drafts and internal discussion, and more.",
+    null,
+    "The point is choosing what to hand over, not whether sharing is technically possible."
+   ]
+  },
+  {
+   "id": "M3.3-10",
+   "module": "M3.3",
+   "difficulty": "stretch",
+   "scenario": "Two engineers in the same Team workspace ask Ask Your Org the same question about the on-call policy and get different answers.",
+   "question": "What is the most likely reason?",
+   "options": [
+    "One of them is getting results from an outdated cached copy of the index",
+    "Enterprise search randomises the order of results to reduce answer bias",
+    "Each query runs live against only the sources that person can access",
+    "One engineer has memory turned on, which overrides the search results"
+   ],
+   "answer": 2,
+   "explanation": "There is no shared index. Each query runs live against the sources the asking user can access, so permissions shape the answer.",
+   "distractors": [
+    "There is no index to go stale; calls are live.",
+    "Results are not deliberately randomised.",
+    null,
+    "Memory does not override what the sources return."
+   ]
+  }
+ ]
+}

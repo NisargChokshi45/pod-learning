@@ -1,0 +1,207 @@
+{
+  "module": "M3.5",
+  "title": "Spreadsheet and data analysis",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M3.5-01",
+      "difficulty": "core",
+      "scenario": "An ops manager uploads a 4,800-row ticket export and immediately asks 'Is P1 resolution getting worse?' Claude replies that P1 is 'roughly 40% worse this quarter'.",
+      "question": "What is the best next step?",
+      "options": [
+        "Ask for data profiling first, then quarterly figures computed with code, code shown",
+        "Accept the figure, since the trend direction matches what the whole team has felt",
+        "Ask Claude how confident it is in the 40% figure, and keep it if Claude answers 'high'",
+        "Ask for a chart of the 40% change so the point lands clearly in the ops review"
+      ],
+      "answer": 0,
+      "explanation": "'Roughly' signals a prose estimate. Profile first, so that duplicates, open tickets and bad timestamps are known. Then compute with code so the figure can be recomputed.",
+      "distractors": [
+        null,
+        "Matching a hunch isn't verification; an estimate can confirm a wrong belief.",
+        "A model's stated confidence carries no information about whether the number is correct.",
+        "Charting an unverified estimate just makes the wrong number more persuasive."
+      ]
+    },
+    {
+      "id": "M3.5-02",
+      "difficulty": "core",
+      "scenario": "Claude computed utilisation per engineer with pandas and printed a table. The delivery lead will use the team average in a staffing decision tomorrow.",
+      "question": "How should you verify the key figure?",
+      "options": [
+        "Ask Claude in the same chat to double-check its calculation step by step",
+        "Rerun the same code in the same chat and compare the two outputs line by line",
+        "Read the code for filters, units and drops, then recompute independently in a sheet",
+        "Accept it as final, since any figure produced by executed code is always going to be right"
+      ],
+      "answer": 2,
+      "explanation": "Code makes a figure recomputable, not automatically correct. Read the code for wrong filters, units or silent drops. Then recompute the decision figure in a different tool, so a shared wrong assumption can't hide.",
+      "distractors": [
+        "A same-chat self-check shares the same assumptions and can repeat the error.",
+        "Rerunning identical code reproduces the identical mistake.",
+        null,
+        "Executed code can compute the wrong thing perfectly: a wrong filter or unit still runs."
+      ]
+    },
+    {
+      "id": "M3.5-03",
+      "difficulty": "core",
+      "scenario": "A generated analysis of cloud costs merged a billing export with a service-owner table. Every total looks about 30% higher than finance's figures.",
+      "question": "Which code issue should you suspect first?",
+      "options": [
+        "The model rounded figures to two decimal places in the output",
+        "A join that duplicated rows, inflating every sum computed after it",
+        "The chart used a logarithmic axis that distorted how the totals compared",
+        "The CSV was too large for Claude to read in full"
+      ],
+      "answer": 1,
+      "explanation": "A merge where the lookup table has repeated keys duplicates rows, and every sum after it inflates. Joins are one of the five things to check in generated code.",
+      "distractors": [
+        "Rounding to two decimals can't produce a 30% gap.",
+        null,
+        "An axis scale changes the picture, not the computed totals.",
+        "Executed code reads every row; file size wouldn't inflate totals."
+      ]
+    },
+    {
+      "id": "M3.5-04",
+      "difficulty": "core",
+      "scenario": "For a quarterly review, Claude produced a bar chart of P1 resolution time by quarter. The y-axis starts at 2.5 hours, so Q3's bar looks twice as tall as Q2's even though the values differ by 15%.",
+      "question": "What should you change before the chart goes into the deck?",
+      "options": [
+        "Keep it, because the axis labels are technically accurate",
+        "Switch to a 3D bar chart to make the values easier to compare",
+        "Add a note to the speaker script explaining the true size of the difference",
+        "Start the bar axis at zero, label units, and state n and any exclusions"
+      ],
+      "answer": 3,
+      "explanation": "A truncated bar axis exaggerates the difference and misleads the decision. Bars start at zero, axes carry units, and the caption states n and exclusions.",
+      "distractors": [
+        "Accurate labels don't fix a misleading visual; people read bar height, not tick labels.",
+        "3D adds distortion, not honesty.",
+        "The slide misleads anyone who reads it without the script; fix the chart itself.",
+        null
+      ]
+    },
+    {
+      "id": "M3.5-05",
+      "difficulty": "core",
+      "scenario": "Sales asks for a pipeline summary by stage and quarter. The CRM export includes contact names, emails, phone numbers and free-text deal notes about client strategy.",
+      "question": "What should you do before uploading?",
+      "options": [
+        "Upload the full export, since the organisation uses an approved plan",
+        "Drop contact details and notes; keep only the stage, value, date and owner needed",
+        "Upload the full export but tell Claude not to mention any names",
+        "Ask Claude to delete the personal columns itself once it has loaded and read the full file"
+      ],
+      "answer": 1,
+      "explanation": "The question needs aggregates. Minimise before upload so personal data and client confidences never reach a place the question didn't need them. An approved plan doesn't change minimisation.",
+      "distractors": [
+        "An approved plan governs where data may go, not whether unnecessary data should go at all.",
+        null,
+        "An instruction about the output doesn't stop the data being uploaded and processed.",
+        "Deletion after upload is too late; the data has already been shared."
+      ]
+    },
+    {
+      "id": "M3.5-06",
+      "difficulty": "core",
+      "scenario": "Before asking any business questions about a 5,000-row timesheet export, you want to know what you're dealing with.",
+      "question": "Which first prompt best fits Practitioner practice?",
+      "options": [
+        "'Look through this whole data set and tell me the most interesting insights and trends you find.'",
+        "'Summarise this file in three bullets for my manager, with the headline numbers first.'",
+        "'Using code, profile types, missing values, duplicates, outliers. List issues; no conclusions.'",
+        "'Clean the data however you think is best, then give me the totals for each region.'"
+      ],
+      "answer": 2,
+      "explanation": "Profiling first, as its own step, surfaces the data issues that would otherwise silently shape every answer, and leaves the cleaning decisions with you.",
+      "distractors": [
+        "An open-ended insight request skips profiling and invites plausible, unverifiable patterns.",
+        "Summarising for a manager comes after you know the data is sound.",
+        null,
+        "Unlogged cleaning hands your decisions to the model and hides what was changed."
+      ]
+    },
+    {
+      "id": "M3.5-07",
+      "difficulty": "core",
+      "scenario": "Claude generated an XLSX budget for the finance partner, who will adjust assumptions and re-check the totals in Excel next week.",
+      "question": "What should you ask Claude to make sure of in the workbook?",
+      "options": [
+        "Totals are live formulas referencing the input cells, not pasted values",
+        "All numbers are pasted in as values so that they can't change by accident",
+        "Each sheet contains a chart so the workbook is easy to read",
+        "The workbook is saved as a PDF copy to prevent edits"
+      ],
+      "answer": 0,
+      "explanation": "The reader will change assumptions and recompute. Live formulas let them trace and recompute every figure, while pasted values break that.",
+      "distractors": [
+        null,
+        "Pasted values freeze the numbers, so changed assumptions silently don't flow through.",
+        "Charts don't help someone tracing how a total is computed.",
+        "A PDF blocks the very editing the finance partner needs to do."
+      ]
+    },
+    {
+      "id": "M3.5-08",
+      "difficulty": "core",
+      "scenario": "Your variance report says cloud spend was over plan 'mainly due to higher usage'. The finance partner asks what's missing.",
+      "question": "Which revision best meets the reporting standard?",
+      "options": [
+        "Add a sentence saying the analysis was done carefully, with AI assistance, and reviewed",
+        "Give the variance size, its sized drivers, and the caveats and assumptions",
+        "Replace the sentence with a chart of monthly spend and no text",
+        "Lengthen the narrative with more detail on each cloud service used"
+      ],
+      "answer": 1,
+      "explanation": "A variance narrative gives actual against plan with absolute and % deltas, then names the drivers with their sizes and states the assumptions and caveats, each traceable to computed figures.",
+      "distractors": [
+        "Saying the analysis was done carefully adds nothing a reader can check.",
+        null,
+        "A chart without stated drivers and caveats leaves the explanation to guesswork.",
+        "More detail without sizes and caveats is more words, not a better explanation."
+      ]
+    },
+    {
+      "id": "M3.5-09",
+      "difficulty": "stretch",
+      "scenario": "Claude's code-based analysis prints a P1 mean of 9.8 hours, but its written summary says 'P1 tickets average about 8 hours'. The code and output look correct.",
+      "question": "What does this tell you about where to check?",
+      "options": [
+        "Nothing important, because the difference is within normal rounding",
+        "The code must be wrong, so rerun the analysis from scratch",
+        "The executed figure should be trusted over the code, so remove the code from the report",
+        "Prose can drift from computed output; check the narrative against the printed results"
+      ],
+      "answer": 3,
+      "explanation": "Code execution makes the computed figure reliable, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.",
+      "distractors": [
+        "9.8 versus 'about 8' is not rounding; it's a misquote.",
+        "The executed output is consistent; the drift is in the prose written afterwards.",
+        "Removing the code removes recomputability, which is the point of the module.",
+        null
+      ]
+    },
+    {
+      "id": "M3.5-10",
+      "difficulty": "stretch",
+      "scenario": "A P1 mean resolution time jumped from 3.1 to 4.4 hours between quarters, while the median stayed at 2.0 hours. There were 48 P1 tickets in the latest quarter.",
+      "question": "What is the most defensible reading before claiming P1 handling got worse?",
+      "options": [
+        "Handling clearly got worse, because the mean rose by over 40%",
+        "Handling clearly improved, because the median is now well below the mean",
+        "A few outliers likely moved the mean, so inspect them before claiming a trend",
+        "The data is unusable, because a mean and a median should always match closely"
+      ],
+      "answer": 2,
+      "explanation": "Durations are right-skewed. A stable median with a rising mean on a small n usually means a few long tickets. Look at the outliers and report both statistics before you claim a trend.",
+      "distractors": [
+        "A mean-only reading on skewed data with n=48 can be one ticket.",
+        "Median below mean is normal for skewed data; it says nothing about improvement.",
+        null,
+        "Means and medians differ for all skewed data; that's expected, not a defect."
+      ]
+    }
+  ]
+}

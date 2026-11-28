@@ -1,0 +1,217 @@
+{
+  "module": "M8.2",
+  "title": "Verification: hallucination detection, output validation, code verification",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M8.2-01",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Claude's market summary cites 'Gartner, Cloud Cost Report 2025, p. 14' for a statistic. The citation is well formatted, and the paragraph around it reads confidently.",
+      "question": "What should you do before the summary goes to the client?",
+      "options": [
+        "Accept it, because a specific page number shows the source was consulted",
+        "Ask Claude in the same chat whether the citation is accurate",
+        "Open the source and confirm the quote exists and says what is claimed",
+        "Remove the page number so the citation is harder to challenge"
+      ],
+      "answer": 2,
+      "explanation": "Citations are a high-risk content type, and fabricated ones are well formed and specific by nature. Only checking the source confirms both that the quote exists and that it supports the claim.",
+      "distractors": [
+        "Specificity is part of what a fabricated citation looks like; it carries no evidence of being real.",
+        "The same chat may confirm a citation it believes in; that's not an external check.",
+        null,
+        "Obscuring an unverified citation hides the problem instead of verifying it."
+      ]
+    },
+    {
+      "id": "M8.2-02",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Claude produced a 3-year TCO table for a client proposal, with totals by vendor. You ask 'Can you double-check your maths?' and it replies that all figures are correct.",
+      "question": "What is the right verification step?",
+      "options": [
+        "Accept the confirmation, since Claude has now re-checked the arithmetic itself",
+        "Recompute the key figures independently in a spreadsheet from the inputs",
+        "Ask Claude to show its working, then accept it if the steps look right",
+        "Round the totals so that small slips no longer matter"
+      ],
+      "answer": 1,
+      "explanation": "For data, verification means independent recomputation in a different tool. A same-model re-check shares the original slip risk, and this deliverable is external and financial, so it needs a full review.",
+      "distractors": [
+        "A self-confirmation is a filter at best; it isn't independent verification.",
+        null,
+        "Visible working helps you check, but it still needs recomputing; plausible steps can hide a unit or formula slip.",
+        "Rounding hides errors instead of catching them, and the deliverable is client-facing."
+      ]
+    },
+    {
+      "id": "M8.2-03",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Claude generated a 120-line integration using a vendor SDK method you've never seen. The unit tests it wrote all pass, and they mock the vendor client.",
+      "question": "What should you check first?",
+      "options": [
+        "That the method exists at your pinned SDK version, by running it in a sandbox",
+        "Nothing more, because a passing test suite already shows that the generated code works",
+        "That the code style matches the team's lint rules",
+        "That the generated tests reach at least 90% line coverage across the module"
+      ],
+      "answer": 0,
+      "explanation": "API and library names are high-risk for fabrication. Tests that mock the vendor client can pass even when the method doesn't exist, so run against real behaviour and check the dependency.",
+      "distractors": [
+        null,
+        "Mocked tests can pass while the mocked call doesn't exist; a green suite proves nothing here.",
+        "Style matters less than whether the core call exists at all.",
+        "Coverage measures lines executed, not whether the mocked method is real."
+      ]
+    },
+    {
+      "id": "M8.2-04",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Your team uses Claude to tag 3,000 internal support tickets into themes for a quarterly trend chart. Tags can be corrected later, and nothing leaves the company.",
+      "question": "What level of verification is proportional?",
+      "options": [
+        "A full manual review of every one of the 3,000 tagged tickets",
+        "No verification, because the work is internal and reversible",
+        "A second Claude run over the same tickets, keeping only the tags that agree both times",
+        "Check a stratified random sample, record the error rate, escalate if too high"
+      ],
+      "answer": 3,
+      "explanation": "Low-risk bulk work is verified by sampling: stratified so every category is covered, with the error rate recorded and a threshold that triggers fuller review.",
+      "distractors": [
+        "Full review of low-risk bulk work wastes effort that belongs on high-stakes deliverables.",
+        "Unverified tags can still drive a wrong roadmap decision; low risk means sample, not skip.",
+        "Agreement between two runs of the same model shares blind spots; it isn't verification.",
+        null
+      ]
+    },
+    {
+      "id": "M8.2-05",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "A colleague says: 'I only verify Claude's answers when it hedges with phrases like I believe or I'm not certain. When it sounds sure, it's usually right.'",
+      "question": "What is wrong with this approach?",
+      "options": [
+        "Nothing, because confident phrasing is a reliable proxy for how accurate an answer is",
+        "Hedged answers are the ones that should be trusted most, not least",
+        "Tone carries no correctness signal; check high-risk content types regardless",
+        "It is only wrong for code; for prose, confidence is a good guide"
+      ],
+      "answer": 2,
+      "explanation": "Models produce fluent, assured text whether or not the content is right, so tone can't filter errors. Verification is driven by content type and consequence, not phrasing.",
+      "distractors": [
+        "Confident fabrication is common; sounding sure isn't evidence of being right.",
+        "Hedging doesn't make content more reliable either; it simply isn't a signal.",
+        null,
+        "The tone-correctness gap applies to prose claims as much as to code."
+      ]
+    },
+    {
+      "id": "M8.2-06",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "You're sending a two-line email to a client that quotes the renewal price Claude extracted from the contract. It seems too small to be worth formally verifying.",
+      "question": "How should you treat it?",
+      "options": [
+        "Full review against the contract, because it's external and financial",
+        "Skip review, because short messages carry little risk",
+        "Spot-check it by asking Claude to repeat the figure in a new message and compare",
+        "Add 'subject to change' to the email so the figure doesn't matter"
+      ],
+      "answer": 0,
+      "explanation": "Proportional verification is driven by consequence, not length. External and financial are both full-review triggers, so check the figure against the source document.",
+      "distractors": [
+        null,
+        "Length doesn't set risk; a wrong price quoted to a client is costly however short the email.",
+        "Repetition from the same model isn't an independent check against the contract.",
+        "A disclaimer doesn't fix a wrong figure and can still damage trust or create a dispute."
+      ]
+    },
+    {
+      "id": "M8.2-07",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Your verification note for a vendor comparison reads: 'Reviewed by the team. AI-assisted. All verified.' Your manager sends it back.",
+      "question": "What does a useful verification note contain?",
+      "options": [
+        "A statement that the AI was instructed to be accurate and to avoid making errors",
+        "A note that the work was done on an approved, enterprise Claude plan",
+        "A longer version of the same sentence, with the team members listed",
+        "What was checked, how, by whom, the results, what wasn't, and a named owner"
+      ],
+      "answer": 3,
+      "explanation": "A verification note records method, checker, results including errors found, explicit gaps, and a named human who signs off. 'All verified' with no detail gives a reader nothing to trust.",
+      "distractors": [
+        "Instructions to the model don't verify anything; the note records human checks.",
+        "The plan governs data handling, not whether the content is correct.",
+        "Listing names still doesn't say what was checked or how, and 'the team' isn't one accountable owner.",
+        null
+      ]
+    },
+    {
+      "id": "M8.2-08",
+      "module": "M8.2",
+      "difficulty": "core",
+      "scenario": "Claude recommends migrating to a managed queue service and lists its benefits. The recommendation reads well, but it rests on assumptions about message volume and team skills.",
+      "question": "Which validation fits a recommendation like this?",
+      "options": [
+        "Check the grammar and structure of the recommendation document",
+        "List what would have to be true for it to be right, then check those conditions",
+        "Ask Claude for a second recommendation and pick whichever one sounds more convincing",
+        "Accept it if the listed benefits match the vendor's marketing page"
+      ],
+      "answer": 1,
+      "explanation": "Decisions are validated by surfacing the conditions they depend on (volume, skills, cost) and checking each one, which turns a persuasive narrative into testable claims.",
+      "distractors": [
+        "Presentation quality says nothing about whether the decision is right.",
+        null,
+        "Choosing by persuasiveness repeats the tone-over-substance mistake.",
+        "Vendor marketing is a secondary, interested source; it doesn't test your conditions."
+      ]
+    },
+    {
+      "id": "M8.2-09",
+      "module": "M8.2",
+      "difficulty": "stretch",
+      "scenario": "Using the API with citations enabled on a policy document, your code confirms that every cited_text span appears verbatim in the source. A reviewer asks whether this means the answer is verified.",
+      "question": "What is the accurate response?",
+      "options": [
+        "Yes, because verbatim citations make fabrication impossible",
+        "No, because API citations are only approximate and can't be checked by code at all",
+        "Partly: it proves the quotes exist; a human must confirm they support the claims",
+        "Yes, provided the answer was also generated at high effort"
+      ],
+      "answer": 2,
+      "explanation": "Mechanical checks prove the quoted span exists in the source. Whether that span actually supports the claim, in context and scope, still needs a human reading.",
+      "distractors": [
+        "A real quote can still be misapplied, taken out of context, or about a different case.",
+        "Cited spans come with locations and can be checked mechanically; that's their point.",
+        null,
+        "Effort affects reasoning depth, not whether the cited text supports the claim."
+      ]
+    },
+    {
+      "id": "M8.2-10",
+      "module": "M8.2",
+      "difficulty": "stretch",
+      "scenario": "You sampled 20 of 2,000 Claude-extracted invoice records and found no errors. You're about to report the extraction as '0% error rate' in a client-facing data-quality statement.",
+      "question": "What is the problem with that statement?",
+      "options": [
+        "Nothing, because zero errors in the sample means zero errors overall",
+        "Zero in 20 still allows a true error rate near 14%; client-facing work needs full review",
+        "The sample was far too large; checking just 5 records would have given the same result faster",
+        "The error rate should be reported as 100% until every record is checked"
+      ],
+      "answer": 1,
+      "explanation": "A small clean sample bounds the error rate only loosely (roughly 3/n at 95%). A client-facing, financial deliverable also crosses the full-review threshold.",
+      "distractors": [
+        "Absence of errors in a small sample doesn't establish their absence in the whole set.",
+        null,
+        "A smaller sample makes the uncertainty worse, not better.",
+        "That's inaccurate in the other direction; report what was checked and its uncertainty."
+      ]
+    }
+  ]
+}

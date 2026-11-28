@@ -1,0 +1,217 @@
+{
+  "module": "M2.2",
+  "title": "Reasoning guidance and advanced prompting",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M2.2-01",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "A teammate sets effort to Max for every request, including 'what port does staging Redis use?' with the config file pasted in. Answers are correct but take 30–40 seconds and burn usage.",
+      "question": "What is the best advice?",
+      "options": [
+        "Keep Max effort for everything, because extra reasoning always reduces the error rate",
+        "Match effort to task: low for lookups and transforms, higher for deep analysis",
+        "Switch thinking off entirely so that all answers return faster",
+        "Add 'answer quickly' to the prompt and keep the effort at Max"
+      ],
+      "answer": 1,
+      "explanation": "A grounded lookup has no multi-step reasoning to improve, so higher effort adds latency and cost but not accuracy. Effort is bought where errors are costly and reasoning is multi-hop.",
+      "distractors": [
+        "Extra reasoning doesn't improve a lookup that's already answered by the pasted config; it just costs time.",
+        null,
+        "Thinking can't be switched off on 5.5-generation models in the app, and effort is the intended lever anyway.",
+        "A prompt instruction doesn't override the effort setting's spend; set the right effort instead."
+      ]
+    },
+    {
+      "id": "M2.2-02",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "You ask Claude to draft a 2-page RFP security response covering all 22 requirements, with no claims beyond your capability document. The draft is 2 pages but silently skips four requirements.",
+      "question": "Which change to the prompt most directly prevents this?",
+      "options": [
+        "Raise the effort level so Claude reasons longer about the response",
+        "Ask Claude to write in a more concise style so that every required point still fits",
+        "Rank the constraints (accuracy, coverage, length) and have it flag conflicts",
+        "Remove the length limit and let Claude decide the right length"
+      ],
+      "answer": 2,
+      "explanation": "The constraints conflicted and Claude resolved the conflict silently in favour of length. An explicit priority order with a tie-break and 'report conflicts' makes the trade-off visible and correct.",
+      "distractors": [
+        "More reasoning without priorities can still pick the wrong trade-off; the problem is unranked constraints.",
+        "Concision still forces the same silent trade-off when 22 responses don't fit.",
+        null,
+        "Dropping a constraint you actually have just moves the problem; rank it instead."
+      ]
+    },
+    {
+      "id": "M2.2-03",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "During an incident you type: 'I think the connection pool is exhausted — can you confirm from these logs?' Claude replies that the logs are consistent with pool exhaustion. Later the real cause turns out to be a DNS TTL change.",
+      "question": "Which failure mode occurred, and what is the better prompt?",
+      "options": [
+        "Over-confidence; ask Claude to use a more cautious tone in its replies",
+        "Sycophancy; ask neutrally for candidate causes ranked by cited log evidence",
+        "Instruction drift; restate the incident rules at the top of every new message",
+        "Verbosity; ask for a shorter answer so the key point isn't buried"
+      ],
+      "answer": 1,
+      "explanation": "A leading question invites agreement with your framing. Asking for ranked candidate causes, each tied to specific log lines, removes the bias and forces an evidence trail.",
+      "distractors": [
+        "Tone is not the issue; a cautious tone can still agree with a wrong premise.",
+        null,
+        "This was a single exchange, not a long chat losing early instructions.",
+        "Length wasn't the problem; the answer confirmed the user's hypothesis without evidence."
+      ]
+    },
+    {
+      "id": "M2.2-04",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "You need an analysis that compares three vendor SOWs, recommends one and drafts the email to the client. Your single prompt returns a polished email built on a misread of one SOW's liability clause.",
+      "question": "What should you have done?",
+      "options": [
+        "Asked for a plan, then chained summarise, compare, recommend, draft, checking each step",
+        "Used one prompt but added 'be extremely careful with every legal clause' at the very end",
+        "Asked Claude to write the email first and justify it afterwards",
+        "Raised effort to Max and kept the single prompt unchanged"
+      ],
+      "answer": 0,
+      "explanation": "Decomposition gives you inspectable intermediate outputs, so the misread clause would show up in the summary step before it shaped the recommendation and email.",
+      "distractors": [
+        null,
+        "An exhortation doesn't create a checkpoint; the error stays hidden inside a one-shot answer.",
+        "Justifying after the fact rationalises the conclusion instead of exposing the faulty step.",
+        "More reasoning in one shot still hides intermediate state; you need checkpoints."
+      ]
+    },
+    {
+      "id": "M2.2-05",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "A PM asks for an effort estimate on 'add SSO to the admin portal' by end of day. The identity provider, number of roles and session model are all unknown, and you can't reach the client until tomorrow.",
+      "question": "How should you prompt Claude for the estimate?",
+      "options": [
+        "Ask for a single best-guess figure so the PM has a clear number",
+        "Wait until the client replies before asking Claude anything at all",
+        "Ask for a work breakdown and range tied to a logged list of every assumption",
+        "Ask Claude to assume the most common client setup and not mention any assumptions"
+      ],
+      "answer": 2,
+      "explanation": "When you can't resolve ambiguity before proceeding, an assumption log turns each hidden guess into a reviewable line item, and the range reflects the uncertainty honestly.",
+      "distractors": [
+        "A single figure with hidden assumptions becomes a commitment, and every assumption becomes scope creep.",
+        "You can make progress now; the right move is to make the assumptions explicit, not to stall.",
+        null,
+        "Silently choosing a setup is exactly the invented-specifics failure mode."
+      ]
+    },
+    {
+      "id": "M2.2-06",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "Thinking is on. Your prompt template, inherited from an older model, says: 'THINK VERY CAREFULLY. Consider EVERY possibility. Double-check EVERYTHING at every step.' Answers are slow, padded and over-hedged.",
+      "question": "What is the best fix?",
+      "options": [
+        "Add even stronger emphasis, in capitals, so that Claude takes the instruction seriously",
+        "Turn the effort down to Low and keep the template wording exactly as it is",
+        "Move the instruction to the end of the prompt so it has more influence",
+        "Replace it with calm, specific requests for checkable output, like an assumption list"
+      ],
+      "answer": 3,
+      "explanation": "With thinking on, generic reasoning exhortations are redundant and current models take the emphasis literally, over-applying it. Asking for specific, visible artefacts gives you something to verify.",
+      "distractors": [
+        "More emphasis makes the over-triggering worse on literal-following models.",
+        "Lowering effort may cut latency but leaves the over-prompting that pads and hedges the output.",
+        "Placement doesn't fix an instruction that is itself the cause of the padding.",
+        null
+      ]
+    },
+    {
+      "id": "M2.2-07",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "Every Monday you run the same four-step chain by hand: paste the ticket export, group by theme, compare with last week, draft the status note in the house template. Two other leads want to do the same.",
+      "question": "What is the right next step for this chain?",
+      "options": [
+        "Keep running it by hand and email the prompts to the other two leads",
+        "Package the stable steps, template and checklist as a Skill or Project instructions",
+        "Merge all four steps into one long prompt so it runs in a single message",
+        "Automate it fully on a schedule straight away, before anyone has reviewed the individual steps"
+      ],
+      "answer": 1,
+      "explanation": "The chain is stable, repeated and needed by others, which are the signals to move it from a manual chain into a reusable mechanism.",
+      "distractors": [
+        "Emailed prompts drift between copies and have no ownership or versioning.",
+        null,
+        "Collapsing the chain removes the checkpoints that make it reliable.",
+        "Automating an unreviewed chain runs any mistakes faster and with less visibility."
+      ]
+    },
+    {
+      "id": "M2.2-08",
+      "module": "M2.2",
+      "difficulty": "core",
+      "scenario": "Claude drafted a design note and you asked it, in the same chat, to self-check against your rubric. It reported all eight criteria as passed. A colleague then found a fabricated library name in the note.",
+      "question": "What does this tell you about the self-check?",
+      "options": [
+        "The rubric was wrong, because a good rubric would have caught it",
+        "Self-checks are useless and should be dropped from the workflow",
+        "A self-check filters slips but can't certify facts it believes; verify externally",
+        "The model should have been told explicitly to be fully honest in the self-check prompt"
+      ],
+      "answer": 2,
+      "explanation": "The checker shares the generator's knowledge and blind spots. It catches format and coverage slips well but not belief errors such as a fabricated name, so external verification is still required.",
+      "distractors": [
+        "Even a good rubric is applied by the same model that believes the fabricated name is real.",
+        "Self-checks reliably catch slips; they're a useful filter, just not a guarantee.",
+        null,
+        "Honesty instructions don't give the model knowledge it lacks about whether a name exists."
+      ]
+    },
+    {
+      "id": "M2.2-09",
+      "module": "M2.2",
+      "difficulty": "stretch",
+      "scenario": "A classification prompt for support tickets gives different labels for the same ticket across five runs. A colleague suggests forcing determinism with a sampling parameter in the API call.",
+      "question": "What is the most effective fix?",
+      "options": [
+        "Find where runs diverge and add the missing label definitions and boundary examples",
+        "Set the sampling parameter to its minimum so the labels stop changing",
+        "Run each ticket five times and take whichever label appears most often",
+        "Raise the effort to Max so that the model reasons its way to a stable, repeatable label"
+      ],
+      "answer": 0,
+      "explanation": "Run-to-run inconsistency means the task is under-determined. Defining every label with boundary examples removes the ambiguity at its source, and sampling parameters aren't the lever on current models.",
+      "distractors": [
+        null,
+        "This masks the ambiguity rather than resolving it, and sampling parameters are removed on the current API version.",
+        "Majority voting multiplies cost and still leaves genuinely ambiguous tickets unresolved.",
+        "Extra reasoning can't settle a question the spec leaves open; the label boundary must be defined."
+      ]
+    },
+    {
+      "id": "M2.2-10",
+      "module": "M2.2",
+      "difficulty": "stretch",
+      "scenario": "You want an adversarial review of a migration design Claude helped you write over a 50-turn chat. You plan to ask, in that same chat, 'Now critique this design as a sceptical principal engineer.'",
+      "question": "How can you get a more useful review?",
+      "options": [
+        "Ask in the same chat but raise effort, since that chat already has the most context",
+        "Ask in the same chat and remind Claude that it should be brutally honest",
+        "Skip the review, since Claude already agreed the design was sound earlier",
+        "Open a fresh chat with only the design and constraints, plus a reviewer role"
+      ],
+      "answer": 3,
+      "explanation": "In the original chat, the model is conditioned on having produced and defended the draft. A fresh context with only the artefact removes that pressure, which is the same reason authors make poor reviewers of their own code.",
+      "distractors": [
+        "The extra context is exactly what biases the review towards the existing draft.",
+        "An honesty reminder doesn't remove the 50 turns of commitment to the design in context.",
+        "Earlier agreement is the sycophancy risk itself, not evidence the design is sound.",
+        null
+      ]
+    }
+  ]
+}

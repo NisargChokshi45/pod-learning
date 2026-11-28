@@ -1,0 +1,217 @@
+{
+ "module": "M8.3",
+ "title": "Intellectual property, licensing, policy and accountability",
+ "status": "CORE",
+ "items": [
+  {
+   "id": "M8.3-01",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "Three weeks into a project, a developer finds a SOW clause: 'Supplier shall not use third-party AI services on Client materials without prior written consent.' The team has been using the organisation's enterprise Claude seats on client code.",
+   "question": "What should happen next?",
+   "options": [
+    "Carry on, because an enterprise plan's data terms already protect the client's material",
+    "Stop using Claude on the client's material, escalate to the lead and legal, and seek consent",
+    "Switch to personal accounts so the organisation's enterprise usage stays clean",
+    "Add a disclaimer to all future deliverables saying AI tools may have been used on this account"
+   ],
+   "answer": 1,
+   "explanation": "The client contract governs the relationship with the client. Provider terms can't override a clause that requires consent, so stop, escalate and get consent before resuming.",
+   "distractors": [
+    "Provider terms govern you and the provider. They don't satisfy a client clause requiring written consent.",
+    null,
+    "Personal accounts add a shadow-AI breach on top of the contract breach.",
+    "A disclaimer isn't consent. The clause requires prior written consent."
+   ]
+  },
+  {
+   "id": "M8.3-02",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "Claude suggests an AGPL-3.0 PDF library for a feature in your multi-tenant SaaS product. The code would run on your servers and never be distributed as a binary.",
+   "question": "How should you treat the suggestion?",
+   "options": [
+    "Accept it, because AGPL obligations only apply when you distribute compiled binaries to customers",
+    "Accept it if the library's README describes it as free and open source",
+    "Treat it as blocked pending licence review, and look for verified permissive alternatives",
+    "Accept it but remove the licence header from any copied files"
+   ],
+   "answer": 2,
+   "explanation": "AGPL treats offering the software over a network like distribution, so SaaS use can trigger source obligations. Copyleft goes through the approved-list review.",
+   "distractors": [
+    "That's the GPL trigger. AGPL adds network interaction, which is exactly the SaaS case.",
+    "'Open source' says nothing about the obligations. The licence terms decide.",
+    null,
+    "Stripping licence notices breaches even permissive licences and doesn't remove AGPL obligations."
+   ]
+  },
+  {
+   "id": "M8.3-03",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A contractor admits they pasted client production logs into their personal Claude Pro account because their company seat was still being provisioned.",
+   "question": "What is the right response?",
+   "options": [
+    "Have them delete the chat today. Since nothing was trained on, no further action is needed at all",
+    "Treat it as a data incident: report it under the client contract, then fix the provisioning delay",
+    "Tell them it's fine as long as they upgrade the personal account to Max",
+    "Ask Claude in the same personal account to confirm the logs were not retained"
+   ],
+   "answer": 1,
+   "explanation": "Client data processed under consumer terms with no audit trail is a contract and data-handling problem. Handle it as an incident, then fix the root cause (provisioning lag) that pushed the person to shadow AI.",
+   "distractors": [
+    "Deleting the chat hides the event. It doesn't undo the processing or meet notification duties.",
+    null,
+    "A different consumer tier doesn't make it an approved, organisation-governed plan.",
+    "The model can't attest to retention. That's governed by terms and admin controls."
+   ]
+  },
+  {
+   "id": "M8.3-04",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "Your team wants an automation that compiles the weekly client status report from Jira with Claude and emails it to the client every Friday.",
+   "question": "Where should the human approval gate go?",
+   "options": [
+    "After the email is sent, as a weekly spot-check of what went out",
+    "At the start, when someone approves that the automation may run at all",
+    "Before the send: a named approver reviews the compiled report and its verification note",
+    "Nowhere, as long as the prompt instructs Claude to double-check all of its figures first"
+   ],
+   "answer": 2,
+   "explanation": "Gates belong where an error leaves your control. An external email is irreversible, so the named owner approves before sending.",
+   "distractors": [
+    "Post-hoc checks find errors the client has already seen.",
+    "Approving the automation once doesn't review each week's content.",
+    null,
+    "A self-check is a filter, not an accountable approval."
+   ]
+  },
+  {
+   "id": "M8.3-05",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A Claude Code session ends with: 'Fixed the flaky test. I only modified files under tests/. All tests pass.' You are about to approve the PR.",
+   "question": "What should your review be based on?",
+   "options": [
+    "The agent's summary, since it ran the tests itself",
+    "The full diff, the changed-file list and the CI run, checked against the summary",
+    "A second prompt asking the agent to confirm it touched only files under tests/ and nothing else",
+    "The commit message, since it was generated from the actual changes"
+   ],
+   "answer": 1,
+   "explanation": "An agent's report is a claim. The evidence is the diff and CI. Review what it actually changed.",
+   "distractors": [
+    "The summary can omit or misstate changes, such as an edited production timeout.",
+    null,
+    "Asking again produces another claim, not evidence.",
+    "A generated commit message is also a summary, not the change itself."
+   ]
+  },
+  {
+   "id": "M8.3-06",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A proposed workflow uses Claude to score 400 job applicants and automatically send rejection emails to the bottom 300.",
+   "question": "What is the correct position?",
+   "options": [
+    "Acceptable if the scoring prompt tells Claude to ignore protected characteristics and proxies for them",
+    "Acceptable if a human spot-checks ten rejections each week",
+    "Not acceptable: Claude may summarise or structure, but a human makes and records each decision",
+    "Acceptable if candidates are told in the job ad that AI is used"
+   ],
+   "answer": 2,
+   "explanation": "Hiring decisions are on the never-fully-automate list. They're consequential, bias-prone and regulated. Claude can assist. A human decides and records the reasons.",
+   "distractors": [
+    "A prompt instruction doesn't remove bias or the need for human decision-making.",
+    "Sampling after the fact still leaves automated decisions about people.",
+    null,
+    "Disclosure doesn't make automated rejection acceptable."
+   ]
+  },
+  {
+   "id": "M8.3-07",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A generated dependency list contains a package whose registry entry shows no licence field, and the repository has no LICENSE file.",
+   "question": "How should the audit classify it?",
+   "options": [
+    "Allowed, since public code with no stated licence is effectively public domain",
+    "Allowed for internal tools only, since nobody will enforce it",
+    "Blocked until legal clears it, because no licence means no permission",
+    "Review only if it has fewer than 100 GitHub stars"
+   ],
+   "answer": 2,
+   "explanation": "Copyright applies by default. Without a licence you have no permission to use, modify or distribute the code.",
+   "distractors": [
+    "Public visibility isn't a grant of rights. Public domain requires an explicit dedication.",
+    "The legal position doesn't depend on whether anyone enforces it.",
+    null,
+    "Popularity has nothing to do with the licence."
+   ]
+  },
+  {
+   "id": "M8.3-08",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A bid manager asks how to disclose AI use in a public-sector tender. Their draft adds 'AI may have been used in preparing this document' to every page.",
+   "question": "What disclosure approach fits best?",
+   "options": [
+    "Keep the blanket footer on every page, since more disclosure is always the safer choice in a bid",
+    "Remove it, since disclosure is never needed if a human reviewed the text",
+    "Follow the tender's and the organisation's rules, saying what AI did and what humans checked",
+    "Disclose only if the evaluators ask during clarification"
+   ],
+   "answer": 2,
+   "explanation": "Disclosure is driven by contract, policy or norm, and should be specific and proportional: what AI did and what was verified.",
+   "distractors": [
+    "A vague blanket footer gives no useful information and may not meet a specific disclosure rule.",
+    "Human review doesn't cancel a disclosure requirement.",
+    null,
+    "Rules usually require disclosure up front, not on request."
+   ]
+  },
+  {
+   "id": "M8.3-09",
+   "module": "M8.3",
+   "difficulty": "stretch",
+   "scenario": "A client asks whether they will own the code your team writes with Claude. Your engagement lead replies: 'Yes. Anthropic's terms say outputs belong to the customer, so that settles it.'",
+   "question": "What is wrong with this answer?",
+   "options": [
+    "Nothing. Provider terms are the only document that governs who owns AI-generated output under any contract",
+    "It relies on one document; the client contract's IP clauses and employment terms also apply, so ask legal",
+    "It is wrong because AI-generated code can never be owned by anyone in any jurisdiction",
+    "It is wrong because only the individual developer can own code produced with their prompts"
+   ],
+   "answer": 1,
+   "explanation": "Provider terms cover you and the provider. The client contract (IP assignment, AI clauses) and employment terms cover the rest. Questions about the copyrightability of machine-generated material go to legal.",
+   "distractors": [
+    "Provider terms don't govern the client relationship or employee assignment.",
+    null,
+    "This overstates an unsettled area. The position varies and human authorship matters.",
+    "Employment and contract terms usually assign work product away from the individual."
+   ]
+  },
+  {
+   "id": "M8.3-10",
+   "module": "M8.3",
+   "difficulty": "stretch",
+   "scenario": "You are designing scope limits for a scheduled agent that cleans up stale cloud resources in a client's staging account every night.",
+   "question": "Which design best meets the agentic responsibilities in this module?",
+   "options": [
+    "Admin credentials so it never fails, plus a summary email of what it reports deleting",
+    "Staging-scoped least-privilege credentials, a dry-run list a named owner approves, full logging and a stop procedure",
+    "Read-write credentials for every environment so it can also clean up production resources whenever someone asks it to",
+    "Least-privilege credentials and no logging, since staging resources are not important"
+   ],
+   "answer": 1,
+   "explanation": "The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log, and a known way to stop it.",
+   "distractors": [
+    "Admin credentials maximise the blast radius, and a self-reported summary isn't evidence.",
+    null,
+    "Scope creep into production removes the boundary entirely.",
+    "Without logs you can't reconstruct or defend what the agent did."
+   ]
+  }
+ ]
+}

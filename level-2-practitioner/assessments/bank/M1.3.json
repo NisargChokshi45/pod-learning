@@ -1,0 +1,207 @@
+{
+  "module": "M1.3",
+  "title": "Interaction patterns, settings and personalisation",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M1.3-01",
+      "difficulty": "core",
+      "scenario": "Twenty turns into a design chat, Claude keeps building around a 'must stay on MySQL' constraint you stated at turn 4 and have since dropped. Two follow-up corrections haven't stuck.",
+      "question": "What is the most effective next move?",
+      "options": [
+        "Send a third correction in capitals so the model gives the new rule more weight",
+        "Edit the turn-4 message to remove the constraint and regenerate from there",
+        "Switch to a larger model and ask it to ignore the earlier constraint",
+        "Add the new requirement to your account-wide Instructions for future chats"
+      ],
+      "answer": 1,
+      "explanation": "Editing the earlier turn creates a branch whose context never contained the constraint. Follow-up corrections add tokens beside the old premise, which keeps pulling answers back.",
+      "distractors": [
+        "Louder corrections still sit next to sixteen turns conditioned on the old constraint; emphasis doesn't remove context.",
+        null,
+        "A bigger model reads the same polluted context; the premise is still in it.",
+        "Account Instructions apply to every chat and don't remove the constraint from this one."
+      ]
+    },
+    {
+      "id": "M1.3-02",
+      "difficulty": "core",
+      "scenario": "A colleague asks Claude for 'a six-slide deck as a PPTX file' and keeps getting slide text in Markdown instead of a file. Three retries give the same result.",
+      "question": "What should they check first?",
+      "options": [
+        "Whether the prompt names the PPTX output format clearly enough for Claude",
+        "Whether a different model handles file output better",
+        "Whether 'Create and edit files' is enabled for them or their org",
+        "Whether the chat is too long and needs a fresh start"
+      ],
+      "answer": 2,
+      "explanation": "File creation (and Artifacts and Skills) depends on the code-execution/file-creation capability. When it's off, possibly org-wide, Claude can only answer in text, whatever the prompt says.",
+      "distractors": [
+        "The request already names PPTX; a consistent text-only reply points to a missing capability, not wording.",
+        "The capability gate applies regardless of model.",
+        null,
+        "Three fresh retries failing the same way rule out context drift."
+      ]
+    },
+    {
+      "id": "M1.3-03",
+      "difficulty": "core",
+      "scenario": "A tech lead on your company's Enterprise plan wants help wording a sensitive performance conversation. They open an incognito chat 'so nobody at the company can ever see it'.",
+      "question": "What is the accurate guidance?",
+      "options": [
+        "Correct: incognito chats are deleted immediately and are invisible to the organisation",
+        "It skips history and memory, but org exports can still include it; anonymise the person",
+        "They should use a personal account instead, because company plans log everything",
+        "They should use a normal chat and pause memory, because incognito isn't allowed for HR topics"
+      ],
+      "answer": 1,
+      "explanation": "Incognito is history-and-memory hygiene and isn't used for training. It is not invisibility from the employer: on Team and Enterprise it is still included in data exports available to owners. Personal-data rules still apply.",
+      "distractors": [
+        "Incognito chats are retained for a period and appear in organisational exports.",
+        null,
+        "Moving company HR material to a personal account is shadow AI and a policy breach (M8.3).",
+        "Nothing bans incognito for this use; it's the right choice for keeping it out of memory."
+      ]
+    },
+    {
+      "id": "M1.3-04",
+      "difficulty": "core",
+      "scenario": "You support two clients in the same week on one seat with memory on. In a Fabrikam draft, Claude refers to 'the cut-over plan we discussed', which was a Contoso conversation.",
+      "question": "Which setup prevents this?",
+      "options": [
+        "One Project per client, account memory off in each, client work kept inside it",
+        "Telling Claude at the start of each chat which client you're working on today",
+        "Adding 'never mix up clients or their details' to your account-wide Instructions",
+        "Deleting yesterday's chats from the sidebar before starting the next client"
+      ],
+      "answer": 0,
+      "explanation": "Memory follows the user, not the engagement. Scoping each client to its own Project with account memory off keeps one client's facts out of the other's context.",
+      "distractors": [
+        null,
+        "Memory and past-chat search still pull in the other client's facts; a reminder doesn't remove them from context.",
+        "An instruction can't stop retrieved memory from being in context; the facts are still there.",
+        "Deleting chats doesn't reliably remove facts already summarised into memory topics."
+      ]
+    },
+    {
+      "id": "M1.3-05",
+      "difficulty": "core",
+      "scenario": "After a helpful session analysing a client's contract, you want to give positive feedback by clicking thumbs-up so 'the model learns'.",
+      "question": "What should you consider before rating?",
+      "options": [
+        "Nothing: a rating only records the score, not the conversation it was given on",
+        "Ratings are fine on enterprise plans because client data never leaves the org",
+        "Rating shares the whole chat for review and it's retained; don't rate client chats",
+        "Only thumbs-down shares the conversation; thumbs-up is anonymous"
+      ],
+      "answer": 2,
+      "explanation": "A thumbs rating is an explicit act of sharing: the conversation is sent for review and retained. Give feedback inside the chat instead, and rate only chats without client or personal data.",
+      "distractors": [
+        "The rating carries the conversation, not just a score.",
+        "Rating is a deliberate share regardless of plan defaults; that's why owners can disable 'Rate chats'.",
+        null,
+        "Both directions send the conversation."
+      ]
+    },
+    {
+      "id": "M1.3-06",
+      "difficulty": "core",
+      "scenario": "You're writing account-wide Instructions. A draft includes: 'I lead the Contoso payments migration; their DB is Postgres 14 on RDS; always answer in bullet points; I'm a backend engineer; say when unsure.'",
+      "question": "What should you change?",
+      "options": [
+        "Nothing; more detail in account-wide Instructions always improves every answer",
+        "Move the Contoso details into that client's Project; keep the durable generic lines",
+        "Remove 'say when unsure' because it makes answers less confident",
+        "Move everything into a custom Style so it only applies when that Style is selected"
+      ],
+      "answer": 1,
+      "explanation": "Account Instructions apply to every chat, including other clients' work. Client context belongs in that client's Project; Instructions should hold durable, generic preferences.",
+      "distractors": [
+        "Client specifics in global context leak into unrelated work and dilute attention.",
+        null,
+        "Flagging uncertainty is a valuable durable instruction; confident and wrong is the failure mode.",
+        "Styles control voice, not facts about a client; this misplaces the content."
+      ]
+    },
+    {
+      "id": "M1.3-07",
+      "difficulty": "core",
+      "scenario": "A new hire asks why their teammate's Claude 'just searched the web' unprompted, while their own Team-plan chats never search, even when asked.",
+      "question": "What is the most likely explanation to check first?",
+      "options": [
+        "Web search is a model feature that only the most expensive model has access to",
+        "Search needs enabling at org level, and the experience differs by app version",
+        "Their prompts don't say 'please', so the model declines tools",
+        "Searching is only available in the mobile app, not on desktop or the web"
+      ],
+      "answer": 1,
+      "explanation": "On Team and Enterprise an owner enables web search for the organisation. In the newer experience Claude searches on its own when helpful. Settings and experience differences explain the gap, not prompts.",
+      "distractors": [
+        "Search availability is a setting, not a property of one model.",
+        null,
+        "Politeness doesn't gate tools; an organisation setting does.",
+        "Web search isn't mobile-only."
+      ]
+    },
+    {
+      "id": "M1.3-08",
+      "difficulty": "core",
+      "scenario": "Your team's customer-facing incident updates come out in five different voices depending on which engineer prompted Claude.",
+      "question": "What is the best fix?",
+      "options": [
+        "Ask each engineer to describe the tone carefully at the start of every prompt",
+        "Have everyone switch to the same model so that the writing voice comes out identical",
+        "Create one shared style (or style skill) from approved past updates for everyone",
+        "Turn memory on so Claude learns the team's tone over time"
+      ],
+      "answer": 2,
+      "explanation": "Voice is a shared, reusable artefact. One style or skill built from approved examples gives consistent tone without relying on five people's adjectives.",
+      "distractors": [
+        "Per-prompt tone descriptions vary by person; that's the source of the inconsistency.",
+        "Model choice doesn't set house voice; all models follow whatever tone they're given.",
+        null,
+        "Memory is per user and unreviewed; it won't converge five people on one voice."
+      ]
+    },
+    {
+      "id": "M1.3-09",
+      "difficulty": "stretch",
+      "scenario": "Your organisation has migrated Styles into skills. A manager says the 'personal setup checklist' item 'a Style chosen' is now obsolete and can be deleted from the policy.",
+      "question": "What is the best response?",
+      "options": [
+        "Agree, because voice settings no longer exist anywhere once the migration finishes",
+        "Disagree, because the presets are guaranteed to stay in the menu for existing users",
+        "Keep the intent, a shared voice, but point it at the style skill that replaced it",
+        "Replace it with 'set default effort to max' so every reply is high quality"
+      ],
+      "answer": 2,
+      "explanation": "Product mechanisms change; the principle (deliberately choose and share a voice) doesn't. Update the checklist to the current mechanism rather than dropping the control.",
+      "distractors": [
+        "Custom styles migrate to skills; voice control still exists in a new form.",
+        "Hinging policy on a menu staying unchanged is exactly the volatile-fact trap.",
+        null,
+        "Effort is about reasoning depth and cost, not voice; max everywhere wastes time and usage."
+      ]
+    },
+    {
+      "id": "M1.3-10",
+      "difficulty": "stretch",
+      "scenario": "You're comparing two branches of a chat: branch A (original) and branch B (you edited turn 6 to add the client's latency budget). Branch B's architecture is different and you prefer it.",
+      "question": "Before adopting branch B's design, what is the most rigorous next step?",
+      "options": [
+        "Adopt branch B, since a later branch always reflects better and more complete information",
+        "Trace which differences come from the latency budget, and verify branch B's key claims",
+        "Regenerate branch A five times and pick the best answer overall",
+        "Merge both branches by pasting them into a new chat and asking Claude which is better"
+      ],
+      "answer": 1,
+      "explanation": "Branching gives a controlled comparison. Use it to see what the changed constraint caused, then verify the preferred output; a branch is still model output, not truth.",
+      "distractors": [
+        "Newer isn't automatically correct; the branch still needs verification.",
+        null,
+        "Re-rolling the unconstrained branch doesn't test the effect of the constraint.",
+        "Asking Claude to judge its own two outputs without criteria isn't a substitute for checking claims."
+      ]
+    }
+  ]
+}
