@@ -1,0 +1,991 @@
+{
+ "module": "MOCK",
+ "title": "Level 2 mock exam",
+ "items": [
+  {
+   "id": "MOCK-01",
+   "module": "M2.2",
+   "difficulty": "core",
+   "scenario": "You ask Claude for a Black Friday capacity plan that must meet a 99.9% availability target, stay under a fixed cloud budget, and use no new vendors. The draft quietly exceeds the budget to hit the target and never says so.",
+   "question": "What change to the prompt fixes this most reliably?",
+   "options": [
+    "Repeat 'all three constraints are mandatory' in capitals at the start and the end of the prompt",
+    "State the priority order and a tie-break, and require it to name any relaxed constraint",
+    "Switch to a more capable model so it can satisfy every constraint at once without trade-offs",
+    "Drop the budget constraint for now and add it back in a follow-up once the plan looks right"
+   ],
+   "answer": 1,
+   "explanation": "When constraints conflict, Claude has to pick one. Stating priorities and a tie-break rule, and requiring it to name any relaxed constraint, makes the trade-off explicit and reviewable.",
+   "distractors": [
+    "Shouting doesn't resolve a real conflict between constraints. Current models may also over-apply emphatic rules.",
+    null,
+    "No model can satisfy constraints that conflict. The trade-off needs a rule, not more capability.",
+    "Removing a hard constraint produces a plan that is invalid, and the follow-up then has to fight the first draft."
+   ]
+  },
+  {
+   "id": "MOCK-02",
+   "module": "M2.2",
+   "difficulty": "core",
+   "scenario": "You need migration runbooks for moving 40 microservices to a new cluster. Services have dependencies on each other and a few share a database. A colleague plans to ask for 'the complete migration runbook' in one prompt at Max effort.",
+   "question": "What is the better approach?",
+   "options": [
+    "Run the single prompt at Max effort, then skim the long result for anything that looks missing",
+    "Paste the same prompt into 40 parallel chats, one per service, and merge the outputs afterwards",
+    "Ask for the whole runbook plus a confidence score per step, and only review the low-scoring steps",
+    "Ask for a phased plan with dependencies first, review it, then generate each phase"
+   ],
+   "answer": 3,
+   "explanation": "Plan-then-execute: reviewing the plan before the work catches ordering and dependency errors while they're cheap to fix. The phases then become a chain of smaller, checkable steps.",
+   "distractors": [
+    "One huge output hides ordering mistakes, and skimming won't find dependency errors.",
+    "The services aren't independent. Parallel chats can't see shared databases or ordering, so the merged result conflicts.",
+    "Self-reported confidence isn't calibrated. A fluent step can be wrong with a high score.",
+    null
+   ]
+  },
+  {
+   "id": "MOCK-03",
+   "module": "M2.2",
+   "difficulty": "core",
+   "scenario": "During a long root-cause session, you float two contradictory hypotheses ten turns apart: first a DNS failure, then certificate expiry. Claude agrees enthusiastically with each, citing the same log lines as support.",
+   "question": "Which failure mode is this, and what is the counter?",
+   "options": [
+    "Instruction drift, so restate the full original instructions every five turns from now on",
+    "Sycophancy, so ask for evidence for and against each one without giving your view",
+    "Verbosity, so set a strict word limit so that the two hypotheses are easier to compare",
+    "Over-confidence, so raise the effort level to Max so it reasons harder about the logs"
+   ],
+   "answer": 1,
+   "explanation": "Claude adopting whatever framing you supply is sycophancy. Ask neutrally for evidence on both sides, ideally in a fresh context, so the logs decide rather than your phrasing.",
+   "distractors": [
+    "The instructions weren't forgotten. The model is following your framing, and restating instructions doesn't remove that bias.",
+    null,
+    "Length isn't the problem. A shorter answer would agree with you just as readily.",
+    "More effort spent inside a biased framing still follows the framing. Remove the leading question instead."
+   ]
+  },
+  {
+   "id": "MOCK-04",
+   "module": "M2.3",
+   "difficulty": "core",
+   "scenario": "Your engagement Project's instructions say 'British English'. Your personal preferences say 'American English'. Outputs alternate between the two, and a client noticed. A teammate says the hierarchy is documented, so there's nothing to test.",
+   "question": "What should you do?",
+   "options": [
+    "Assume your personal preferences win, because they are the setting most specific to you alone",
+    "Run a short test prompt to see which applies, then remove the conflict at the right level",
+    "Assume the Project instructions always win and leave both settings exactly as they are",
+    "Delete both settings and state the spelling convention in every message you send instead"
+   ],
+   "answer": 1,
+   "explanation": "Precedence should be tested, not assumed. Once you see the behaviour, remove the contradiction: the team rule belongs in the Project, so align or remove the personal setting.",
+   "distractors": [
+    "Assuming precedence is the mistake. Personal preferences aren't guaranteed to win, and the conflict still causes drift.",
+    null,
+    "Leaving a live conflict in place keeps the output unpredictable, whichever rule wins on paper.",
+    "Per-message instructions are fragile and get forgotten. Fix the shared setting once instead."
+   ]
+  },
+  {
+   "id": "MOCK-05",
+   "module": "M2.3",
+   "difficulty": "core",
+   "scenario": "To be safe, an engineer enables Drive, Slack, Gmail and Calendar connectors in every chat. On a code-review question about a pull request, Claude's answer leans on an unrelated Slack thread about a different service.",
+   "question": "What is the best fix?",
+   "options": [
+    "Enable only the connectors the task needs, since their results fill and steer the context",
+    "Keep every connector on, and add 'ignore irrelevant sources' to the end of each prompt you send",
+    "Move the code review into an incognito chat so that the connectors are bypassed automatically",
+    "Ask the workspace owner to remove Slack from the organisation so it cannot pollute any answers"
+   ],
+   "answer": 0,
+   "explanation": "Connector results are part of the context window. Pulling in unrelated material spends budget and distracts the answer, so scope the context to the task.",
+   "distractors": [
+    null,
+    "A blanket 'ignore irrelevant sources' doesn't stop retrieval from filling the window, and Claude can't reliably judge relevance after the fact.",
+    "Incognito controls history and memory, not which connectors run.",
+    "Removing a tool for the whole org to fix one person's context habit is out of proportion and blocks legitimate use."
+   ]
+  },
+  {
+   "id": "MOCK-06",
+   "module": "M2.3",
+   "difficulty": "core",
+   "scenario": "The shared delivery Project's instructions are edited by whoever has an idea. Last week someone removed the 'no delivery-date commitments' line, and a client update promised a date nobody had agreed.",
+   "question": "Which practice would have prevented this?",
+   "options": [
+    "Ask every team member to keep a personal copy of the instructions saved as their own preferences",
+    "Lock the Project so nobody can change it, and handle every new need in individual chats",
+    "Treat the instructions like code, with an owner, a change log and a review before changes land",
+    "Add a weekly reminder for the team to re-read the Project instructions before sending updates"
+   ],
+   "answer": 2,
+   "explanation": "Team instructions are shared context. Versioning, ownership and review stop a single edit from silently changing everyone's output.",
+   "distractors": [
+    "Personal copies split the context and bring back the inconsistency that shared instructions exist to prevent.",
+    "Freezing the instructions pushes rules into ad-hoc chats, where nobody can see them or review them.",
+    null,
+    "Re-reading doesn't catch an unreviewed removal. The change still reaches every output."
+   ]
+  },
+  {
+   "id": "MOCK-07",
+   "module": "M3.2",
+   "difficulty": "core",
+   "scenario": "After a design session you photograph the whiteboard: an architecture sketch with handwritten port numbers, CIDR ranges and service names. Claude turns it into a tidy specification table.",
+   "question": "What must you do before the spec goes to the network team?",
+   "options": [
+    "Nothing further, since a clean table shows that Claude read the photo without any trouble",
+    "Check every number and name against the photo, as vision misreads small handwriting",
+    "Ask Claude in the same chat to confirm its own reading of the photo is completely accurate",
+    "Re-upload the same photo at a lower resolution so the reading is faster and more consistent"
+   ],
+   "answer": 1,
+   "explanation": "Exact values from images are high-risk: small handwriting, digits and CIDR ranges are where vision is approximately right, which means wrong. Verify against the source before anyone acts.",
+   "distractors": [
+    "A tidy format says nothing about whether the digits are correct.",
+    null,
+    "Self-confirmation in the same context repeats the same reading. It isn't independent.",
+    "Lower resolution makes small text harder to read, not easier."
+   ]
+  },
+  {
+   "id": "MOCK-08",
+   "module": "M3.2",
+   "difficulty": "core",
+   "scenario": "Each month the ops director forwards a finished service report, unchanged, as an attachment to the board. Nobody comments on it or edits it after it is sent.",
+   "question": "Which output form fits best?",
+   "options": [
+    "A Claude Doc, so that board members can co-edit it and leave comments in real time",
+    "The reply text pasted straight into the email body, so it renders in any mail client",
+    "An AI-powered artifact, so board members can ask follow-up questions of it directly",
+    "A downloadable PDF or DOCX file, since it is sent on as-is and nobody edits it next"
+   ],
+   "answer": 3,
+   "explanation": "Who edits it next decides the form. Nobody edits a report that is sent unchanged as an attachment, so a fixed file is right.",
+   "distractors": [
+    "Co-editing features solve a problem this report doesn't have, and the board may not have accounts.",
+    "Pasted text loses structure and tables, and isn't the attachment format the board expects.",
+    "AI-powered artifacts run on each viewer's own account, which is unsuitable for board distribution and adds unverified answers.",
+    null
+   ]
+  },
+  {
+   "id": "MOCK-09",
+   "module": "M3.2",
+   "difficulty": "core",
+   "scenario": "Procurement wants a comparison table built from twelve supplier quote PDFs. Each quote has price, payment terms and warranty buried in different sections. The table will drive a purchase decision.",
+   "question": "What should you require from Claude?",
+   "options": [
+    "A short narrative summary of which supplier seems best overall, so the table isn't needed",
+    "Each cell cites its file and page, and you spot-check cells against the PDFs before use",
+    "The table only, without references, since references would make it too wide to read easily",
+    "That it reads all twelve PDFs twice and confirms both readings match before it answers you"
+   ],
+   "answer": 1,
+   "explanation": "Provenance makes multi-file extraction checkable: page references let you verify the cells, and a spot-check against the source before a decision is the minimum.",
+   "distractors": [
+    "A verdict without the evidence can't be checked, and procurement needs the comparison itself.",
+    null,
+    "Without references, every cell has to be re-found by hand, so the output can't be verified.",
+    "Reading twice in the same context doesn't independently verify anything, and you still can't check it."
+   ]
+  },
+  {
+   "id": "MOCK-10",
+   "module": "M3.4",
+   "difficulty": "core",
+   "scenario": "An executive asks whether a shortlisted vendor holds SOC 2 Type II. Claude says yes, citing a 2022 tech-blog article it found by web search.",
+   "question": "What is the right next step before you answer the executive?",
+   "options": [
+    "Answer yes, since Claude searched the web and cited a source the executive can read",
+    "Ask Claude to search again and answer yes if a second blog post says the same thing",
+    "Get the vendor's current report or trust-centre page; an old secondary source isn't proof",
+    "Answer that it is probably true, and let the executive decide whether that is good enough"
+   ],
+   "answer": 2,
+   "explanation": "Search is retrieval, not verification. Compliance status is time-bound and needs a current primary source.",
+   "distractors": [
+    "A cited source isn't a verified one. An old secondary article can be outdated or wrong.",
+    "Two secondary sources can both be stale. The primary source settles it.",
+    null,
+    "Passing on an unchecked claim with a hedge still presents an unverified source as near-fact."
+   ]
+  },
+  {
+   "id": "MOCK-11",
+   "module": "M3.4",
+   "difficulty": "core",
+   "scenario": "The team is enthusiastic about committing to a three-year contract with a new data platform. Everyone agrees it is the right call, and the decision meeting is tomorrow.",
+   "question": "Which technique best surfaces the risks the group is not seeing?",
+   "options": [
+    "A pre-mortem: assume it failed badly in 18 months and list the most likely reasons why",
+    "Ask Claude to write a persuasive summary of the benefits for the decision meeting tomorrow",
+    "Run a quick poll of the team so that the strength of agreement is recorded in writing",
+    "Ask Claude for a single confident verdict, so the meeting can move on more quickly"
+   ],
+   "answer": 0,
+   "explanation": "A pre-mortem breaks group optimism by making failure the premise. It produces concrete risks for an assumption and risk register.",
+   "distractors": [
+    null,
+    "A persuasive benefits summary reinforces the bias you're trying to counter.",
+    "A poll measures consensus, not risk. Strong agreement is exactly when blind spots grow.",
+    "A single verdict hides trade-offs and assumptions. Decision support should expose them."
+   ]
+  },
+  {
+   "id": "MOCK-12",
+   "module": "M3.4",
+   "difficulty": "core",
+   "scenario": "Your research deliverable for a CTO opens with five pages of background. The recommendation appears on page six, and the sources are footnotes with titles but no links.",
+   "question": "How should you restructure it?",
+   "options": [
+    "Keep the order, since background first is how a careful argument is usually built",
+    "Summary first, then an evidence table, open questions and a checkable sources list",
+    "Cut the sources entirely, since the CTO trusts the team and only needs the conclusion",
+    "Move the recommendation to the title and leave the rest of the document unchanged"
+   ],
+   "answer": 1,
+   "explanation": "A decision-ready deliverable leads with the answer and makes its evidence checkable: an evidence table, open questions and sources with links.",
+   "distractors": [
+    "Burying the recommendation wastes the decision-maker's time, and the unlinked sources still can't be checked.",
+    null,
+    "Removing sources presents unchecked material as fact, which is the core failure this module guards against.",
+    "A recommendation in the title doesn't fix the unlinked sources or the missing open questions."
+   ]
+  },
+  {
+   "id": "MOCK-13",
+   "module": "M8.2",
+   "difficulty": "core",
+   "scenario": "Claude drafted release notes that include: 'Fixed CVE-2026-31337 by upgrading libparse to 3.2.1, released last week by the maintainers.' The notes go to customers today.",
+   "question": "Which part needs the most careful verification?",
+   "options": [
+    "The tone of the sentence, since customers may read it as admitting a previous failure",
+    "The CVE ID, version and release claim, checked against the advisory and changelog",
+    "The grammar and punctuation, since release notes reflect on the quality of the product",
+    "The length of the release notes, since customers often skip long security sections"
+   ],
+   "answer": 1,
+   "explanation": "IDs, versions, dates and named references are high-risk content types. They are where fabrication and stale knowledge hide, and they must match the system of record.",
+   "distractors": [
+    "Tone matters, but a wrong CVE or version misleads customers about their exposure.",
+    null,
+    "Grammar errors are cosmetic. A fabricated identifier is a correctness and trust failure.",
+    "Length doesn't affect correctness. The risk is in the specific identifiers."
+   ]
+  },
+  {
+   "id": "MOCK-14",
+   "module": "M8.2",
+   "difficulty": "core",
+   "scenario": "Claude's capacity forecast concludes you won't need new database nodes until Q4. It assumes 20% quarter-on-quarter growth. Last quarter's actual growth isn't mentioned anywhere.",
+   "question": "How do you validate this analysis?",
+   "options": [
+    "Re-run the same forecast at higher effort and accept it if the conclusion stays the same",
+    "Check the growth rate against actuals and find the rate that would change the answer",
+    "Accept it, since the arithmetic in the forecast table adds up correctly on inspection",
+    "Ask a colleague whether the Q4 date feels roughly right based on their past experience"
+   ],
+   "answer": 1,
+   "explanation": "For analysis, validation means challenging the assumptions. Check the key input against actuals, and find the breakpoint where the conclusion flips.",
+   "distractors": [
+    "Re-running with the same assumption reproduces the same answer. Consistency isn't correctness.",
+    null,
+    "Correct arithmetic on a wrong assumption gives a wrong conclusion.",
+    "Intuition isn't a check. The growth rate can be compared with real data."
+   ]
+  },
+  {
+   "id": "MOCK-15",
+   "module": "M8.2",
+   "difficulty": "core",
+   "scenario": "Claude recommends using a framework's 'useServerCache' API and says the latest major version is 4.2. Your team's dependency file already pins version 5.1, and you can't find that API in the 5.x docs.",
+   "question": "What best explains this, and what should you do?",
+   "options": [
+    "Claude is right and the docs are incomplete, so use the API and see whether it compiles",
+    "Your dependency file is probably wrong, so downgrade to 4.2 to match the recommendation",
+    "Stale knowledge from a training cutoff, so check current docs for version facts",
+    "This is a one-off glitch, so regenerate until the answer mentions version 5.1 correctly"
+   ],
+   "answer": 2,
+   "explanation": "Models have a training cutoff, and versions and APIs change. Version-specific claims need checking against the current docs or the system of record.",
+   "distractors": [
+    "Trying an API that may not exist moves the verification into production code.",
+    "Downgrading to match a possibly stale claim reverses the burden of proof.",
+    null,
+    "Regenerating until you like the answer isn't verification, and an answer that mentions 5.1 can still be wrong."
+   ]
+  },
+  {
+   "id": "MOCK-16",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "Setting up a client-engagement Project, a delivery lead pastes the full 12-page SOW into the Project instructions, 'so Claude always sees it'. The glossary and org chart go in the same place.",
+   "question": "What is the better design?",
+   "options": [
+    "Keep everything in the instructions, because that guarantees Claude reads all of it",
+    "Put stable rules in the instructions, and reference documents in knowledge",
+    "Put everything in knowledge and leave the instructions empty, so nothing is duplicated",
+    "Paste the SOW into each chat instead, so the newest copy is always the one being used"
+   ],
+   "answer": 1,
+   "explanation": "Instructions are for how Claude should behave: rules, audience and standards. Knowledge is for material it consults. Mixing them bloats the instructions and buries the rules.",
+   "distractors": [
+    "Huge instructions dilute the rules that matter and make the Project hard to maintain.",
+    null,
+    "Empty instructions lose the standing rules (audience, evidence standard) that make outputs consistent.",
+    "Per-chat pasting breaks the shared knowledge base and invites version drift."
+   ]
+  },
+  {
+   "id": "MOCK-17",
+   "module": "M3.3",
+   "difficulty": "core",
+   "scenario": "You want Claude to prepare the agenda for next week's steering committee, so the meeting produces decisions rather than another round of discussion.",
+   "question": "Which input will give the most useful agenda?",
+   "options": [
+    "Last meeting's minutes, open actions with owners, and pending decisions",
+    "The project's original kickoff deck, so the agenda reflects the initial goals",
+    "A list of everyone attending, so the agenda can give each person equal time",
+    "A generic agenda template downloaded from the web, adapted by changing the title"
+   ],
+   "answer": 0,
+   "explanation": "An outcome-driven agenda comes from the open state: pending decisions, actions with named owners, and what changed since the last meeting.",
+   "distractors": [
+    null,
+    "The kickoff deck is out of date. It doesn't show what is open now.",
+    "Equal airtime isn't the goal. The agenda should be built around the decisions needed.",
+    "A generic template has none of the project's actual open items."
+   ]
+  },
+  {
+   "id": "MOCK-18",
+   "module": "M3.5",
+   "difficulty": "core",
+   "scenario": "You need to show how six services each contribute to total monthly cloud spend over the last twelve months, for a finance review.",
+   "question": "Which chart is most appropriate?",
+   "options": [
+    "Twelve pie charts, one per month, each showing the six services' share of spend",
+    "A stacked bar chart by month with a zero baseline and units labelled on the axis",
+    "A 3D bar chart with a y-axis starting near the smallest monthly total for contrast",
+    "A dual-axis line chart, with the two largest services plotted on separate scales"
+   ],
+   "answer": 1,
+   "explanation": "The question is composition over time. Stacked bars by month show both the total and each part's contribution, and an honest axis keeps the comparison fair.",
+   "distractors": [
+    "Twelve pies make month-to-month comparison almost impossible.",
+    null,
+    "3D distortion and a truncated baseline exaggerate differences, which is dishonest.",
+    "Dual axes invite false visual comparisons and drop four of the six services."
+   ]
+  },
+  {
+   "id": "MOCK-19",
+   "module": "M3.5",
+   "difficulty": "core",
+   "scenario": "In a shared forecast workbook, a VLOOKUP returns the wrong customer tier for about 5% of rows. Claude offers to 'fix the formula' across the whole column.",
+   "question": "What is the right way to proceed?",
+   "options": [
+    "Accept the fix across the column, since a formula change is easy to undo later",
+    "Have Claude explain the formula's logic, then test the fix on known rows first",
+    "Replace the formulas with pasted values, so the tiers can no longer change unexpectedly",
+    "Sort the sheet by customer name first, since that usually resolves lookup issues"
+   ],
+   "answer": 1,
+   "explanation": "Formula repair means understanding why it fails (for example an approximate-match flag or a type mismatch), then proving the fix on rows with known answers before changing a shared file.",
+   "distractors": [
+    "Bulk changes to a shared workbook without testing can silently corrupt other rows.",
+    null,
+    "Pasting values hides the bug and breaks the forecast's ability to update.",
+    "Sorting addresses one possible cause by guessing, and the diagnosis is still missing."
+   ]
+  },
+  {
+   "id": "MOCK-20",
+   "module": "M4.2",
+   "difficulty": "core",
+   "scenario": "A team lead wants to publish a 'customer escalation summary' Skill to the organisation library. Its example resource is a real escalation with customer names, emails and contract values.",
+   "question": "What must happen before it is published?",
+   "options": [
+    "Publish it now, since the library review will strip any personal data automatically",
+    "Restrict sharing to the lead's own team, so the personal data stays reasonably contained",
+    "Replace the example with synthetic data, because Skills must not contain personal data",
+    "Add a line to SKILL.md asking users not to copy the customer details from the example"
+   ],
+   "answer": 2,
+   "explanation": "Skills are shared and copied. They must contain no secrets or personal data, so examples should be synthetic.",
+   "distractors": [
+    "Review and scanning are safety nets, not a substitute for the author's responsibility, and they may not catch personal data.",
+    "Narrower sharing still distributes personal data without need.",
+    null,
+    "A polite instruction doesn't remove the data from the files."
+   ]
+  },
+  {
+   "id": "MOCK-21",
+   "module": "M4.2",
+   "difficulty": "core",
+   "scenario": "A defect-report Skill's SKILL.md has grown to 1,200 lines covering every edge case anyone has raised. It now behaves inconsistently and sometimes ignores core steps.",
+   "question": "What should you do?",
+   "options": [
+    "Add a summary of all the rules at the top, so Claude sees the important ones first",
+    "Keep SKILL.md to the core steps and move templates and examples into resources",
+    "Split it into twelve separate Skills with near-identical descriptions for each edge case",
+    "Convert the whole Skill into Project instructions, since those are always loaded"
+   ],
+   "answer": 1,
+   "explanation": "Short Skills stay reliable. Keep the essential steps in SKILL.md and load templates and examples as resources only when needed.",
+   "distractors": [
+    "A summary on top of 1,200 lines adds length. It doesn't remove the dilution.",
+    null,
+    "Near-identical descriptions make triggering ambiguous, so the wrong Skill fires.",
+    "Project instructions don't travel across teams or surfaces, and long instructions dilute the same way."
+   ]
+  },
+  {
+   "id": "MOCK-22",
+   "module": "M1.3",
+   "difficulty": "core",
+   "scenario": "You need a data-migration plan for a client system you don't know well. You aren't sure which details matter: volumes, downtime windows, rollback, compliance.",
+   "question": "What is the most effective way to start?",
+   "options": [
+    "Ask for a full plan straight away and correct it over several follow-up turns in the chat",
+    "Ask Claude to ask you the questions it needs answered before it drafts anything",
+    "Paste every document you have about the client system and ask for the plan",
+    "Ask for three plans of different lengths and choose the one that looks best"
+   ],
+   "answer": 1,
+   "explanation": "When you don't know what matters, have Claude interview you first. Its guesses become your decisions before the draft is built on them.",
+   "distractors": [
+    "Correcting a plan built on wrong guesses means many turns of rework and a polluted context.",
+    null,
+    "Dumping everything doesn't surface what's missing, such as downtime constraints you never wrote down.",
+    "Options built on the same unknown assumptions don't fill the gaps."
+   ]
+  },
+  {
+   "id": "MOCK-23",
+   "module": "M1.3",
+   "difficulty": "core",
+   "scenario": "Thirty-five turns into revising a design document, each fix Claude makes breaks something agreed earlier, and the chat is now mostly your corrections.",
+   "question": "What should you do?",
+   "options": [
+    "Keep correcting in the same chat, since Claude now has the most context about the whole work",
+    "Start a fresh chat with a complete prompt that includes everything you've learned so far",
+    "Ask Claude to apologise and list its mistakes, so it pays more attention afterwards",
+    "Switch to a different Style in the same chat, so the tone of the replies resets"
+   ],
+   "answer": 1,
+   "explanation": "A chat full of wrong drafts and corrections keeps steering the output. A clean start with a corrected spec beats continued patching.",
+   "distractors": [
+    "The accumulated context is the problem. More turns make it worse.",
+    null,
+    "Listing mistakes adds more polluted context and doesn't fix the specification.",
+    "Tone isn't the issue. The conversation history is still there."
+   ]
+  },
+  {
+   "id": "MOCK-24",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "A product marketer asks Claude to 'rewrite this section of a competitor's whitepaper in our voice' for the company website, pasting in four pages of the competitor's text.",
+   "question": "What is the right response?",
+   "options": [
+    "Proceed, since rewording the text in your own voice is enough to make it your own content",
+    "Proceed, but credit the competitor in a footnote at the bottom of the web page",
+    "Decline to rework their text, and write original content from your own sources",
+    "Proceed, as long as fewer than half the original sentences remain recognisable"
+   ],
+   "answer": 2,
+   "explanation": "Lightly rewording protected text can still infringe copyright, and there is a brand risk too. Original content from your own material avoids both.",
+   "distractors": [
+    "Rewording doesn't create ownership of someone else's expression.",
+    "Attribution doesn't grant permission to republish derived copyrighted text.",
+    null,
+    "There is no safe percentage threshold. Derivation is the problem."
+   ]
+  },
+  {
+   "id": "MOCK-25",
+   "module": "M8.3",
+   "difficulty": "core",
+   "scenario": "Claude drafted a job advert for a backend engineer role. It includes 'young, energetic team', 'digital native' and 'rockstar who works all hours'.",
+   "question": "What should happen before it is published?",
+   "options": [
+    "Publish it, since the wording is common in the industry and sounds enthusiastic",
+    "Run a bias and inclusive-language review, revise it, and get a named owner's approval",
+    "Ask Claude to make the advert longer, so that the problem phrases stand out less",
+    "Publish it on internal channels only, where the wording carries less risk to anyone"
+   ],
+   "answer": 1,
+   "explanation": "Generated content needs bias checks. These phrases signal age bias and exclusion, and a named human owns the final wording.",
+   "distractors": [
+    "Common wording can still be discriminatory, and AI-generated text gets no exemption.",
+    null,
+    "Diluting biased phrases doesn't remove them.",
+    "Internal candidates are also protected, so the bias still matters."
+   ]
+  },
+  {
+   "id": "MOCK-E01",
+   "module": "M3.6",
+   "difficulty": "core",
+   "scenario": "Marketing will send a finished one-page product sheet from Claude Design to an external print shop. Nobody will edit it again.",
+   "question": "Which export fits best?",
+   "options": [
+    "A standalone HTML file, so that it opens in any browser the print shop uses",
+    "A PDF, since the recipient prints it as-is and is not expected to edit it",
+    "A .zip of the design source, so the print shop has every layer available",
+    "Google Slides, so the print shop can make last-minute text changes"
+   ],
+   "answer": 1,
+   "explanation": "Choose the export by what the recipient does next. A print shop reproducing a fixed layout needs a PDF.",
+   "distractors": [
+    "HTML rendering varies by browser and isn't a print format.",
+    null,
+    "Source bundles invite edits and need tooling the print shop may not have.",
+    "An editable deck invites unreviewed changes and isn't a print-ready format."
+   ],
+   "elective": true,
+   "block": "DESIGN"
+  },
+  {
+   "id": "MOCK-E02",
+   "module": "M3.6",
+   "difficulty": "core",
+   "scenario": "A prototype's error dialog reads: 'Error 4021: operation failed.' Users in testing didn't know what had happened or what to do next.",
+   "question": "What should the revised microcopy do?",
+   "options": [
+    "Show the error code more prominently, so support can find the cause faster",
+    "Say what happened and what the user can do next, in the product's voice",
+    "Remove the dialog entirely, so users aren't alarmed by any error messages",
+    "Add a link to the full technical log, so curious users can investigate"
+   ],
+   "answer": 1,
+   "explanation": "Good error microcopy explains the problem in plain language and gives the next step, written in the brand voice.",
+   "distractors": [
+    "A code helps support but tells the user nothing.",
+    null,
+    "Hiding errors leaves users stuck without knowing why.",
+    "Raw logs are for engineers and may expose internal details."
+   ],
+   "elective": true,
+   "block": "DESIGN"
+  },
+  {
+   "id": "MOCK-E03",
+   "module": "M3.6",
+   "difficulty": "core",
+   "scenario": "Executives want to try a new checkout flow before engineering commits a sprint to it. Static screens in a slide deck have led to misunderstandings before.",
+   "question": "What is the best approach?",
+   "options": [
+    "Write a detailed text specification of the flow and circulate it widely for written comments",
+    "Build a clickable prototype of the flow and run a stakeholder review before planning",
+    "Start building it in code immediately, since execs can review the real thing later",
+    "Send the executives the static screens again, with arrows added between them"
+   ],
+   "answer": 1,
+   "explanation": "An interactive prototype lets stakeholders experience the flow and give concrete feedback before engineering time is spent.",
+   "distractors": [
+    "Text descriptions of interaction are easy to misread, as the past misunderstandings show.",
+    null,
+    "Building first makes changes expensive and skips the review the brief asked for.",
+    "Arrows on static screens still don't convey interaction, which is the source of past confusion."
+   ],
+   "elective": true,
+   "block": "DESIGN"
+  },
+  {
+   "id": "MOCK-E04",
+   "module": "M3.6",
+   "difficulty": "core",
+   "scenario": "In a review of a signup form, every field uses grey placeholder text as its only label. The placeholder disappears as soon as the user starts typing.",
+   "question": "What is the accessibility issue, and what fix should you request?",
+   "options": [
+    "None; placeholders are a modern pattern and keep the form visually clean",
+    "Contrast only; darken the placeholder text and keep it as the only label",
+    "Missing persistent labels; add visible labels that stay while the user types",
+    "Field size; make the inputs larger so that placeholders are easier to read"
+   ],
+   "answer": 2,
+   "explanation": "Placeholder-only labels vanish on input, which hurts memory, screen-reader users and error recovery. Fields need persistent, programmatically associated labels.",
+   "distractors": [
+    "Visual cleanliness doesn't outweigh users losing the field's purpose.",
+    "Better contrast helps, but the label still disappears.",
+    null,
+    "Larger fields don't solve the disappearing label."
+   ],
+   "elective": true,
+   "block": "DESIGN"
+  },
+  {
+   "id": "MOCK-E05",
+   "module": "M3.6",
+   "difficulty": "core",
+   "scenario": "A designer imports the client's design system, then changes its primary colour and button radius locally 'so this screen pops'. Other teams use the same system.",
+   "question": "What should happen?",
+   "options": [
+    "Keep the local change, since a single screen is allowed to differ from the system",
+    "Raise the change with the design-system owner rather than diverging locally",
+    "Copy the modified tokens into every other team's projects for consistency",
+    "Remove the design system import and style the screen manually from scratch"
+   ],
+   "answer": 1,
+   "explanation": "Design systems have owners. Local divergence breaks consistency and fidelity at handoff, so changes go through the owner.",
+   "distractors": [
+    "Silent local overrides drift from the house style and confuse developers.",
+    null,
+    "Pushing an unapproved change to other teams spreads the divergence.",
+    "Dropping the system loses the reason it was imported: matching house style."
+   ],
+   "elective": true,
+   "block": "DESIGN"
+  },
+  {
+   "id": "MOCK-E06",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "A story in the backlog reads: 'As a user, I want the reports page to be fast.' Claude was asked to write acceptance criteria and produced: 'Given the page loads, then it is fast.'",
+   "question": "What is the right correction?",
+   "options": [
+    "Keep it, since the criterion matches the wording of the original story",
+    "Make it measurable, such as p95 load under 2 s for an account with 10,000 rows",
+    "Remove the criterion, since performance is a non-functional concern for later",
+    "Change 'fast' to 'very fast' so the expectation is clearer to the developer"
+   ],
+   "answer": 1,
+   "explanation": "Acceptance criteria must be testable. A non-functional requirement needs a measurable threshold and a defined condition.",
+   "distractors": [
+    "Restating vague wording gives a test that can't fail.",
+    null,
+    "Non-functional requirements belong in the criteria. Deferring them hides the real constraint.",
+    "An intensifier is still unmeasurable."
+   ],
+   "elective": true,
+   "block": "D5"
+  },
+  {
+   "id": "MOCK-E07",
+   "module": "M5.2",
+   "difficulty": "core",
+   "scenario": "Claude generated fifteen CRUD controllers over a week. The most recent five return errors in a different JSON shape from the team's template, and the client's front end breaks on them.",
+   "question": "What prevents this drift?",
+   "options": [
+    "Ask Claude to remember the error format, and trust it to apply it in future",
+    "Send the template and a reference controller with each request; diff against them",
+    "Fix the front end so it accepts both error shapes, and keep generating as before",
+    "Generate all future controllers in a single prompt, so they share one format"
+   ],
+   "answer": 1,
+   "explanation": "Generated boilerplate stays consistent when every request carries the template and a reference, and the output is checked against them.",
+   "distractors": [
+    "Relying on recall across sessions is exactly how the drift happened.",
+    null,
+    "Accommodating inconsistency spreads it, and the contract is left ambiguous.",
+    "One huge prompt doesn't scale, and nothing checks the output against the template."
+   ],
+   "elective": true,
+   "block": "D5"
+  },
+  {
+   "id": "MOCK-E08",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "A Node.js service's memory grows steadily until it restarts every few hours. Claude lists three plausible causes: an event-listener leak, an unbounded cache, and large buffered responses.",
+   "question": "What should you do next?",
+   "options": [
+    "Fix all three causes in one change, so that the leak is surely gone after the next deploy",
+    "Take heap snapshots over time and compare them to find what is actually growing",
+    "Increase the container memory limit, so the restarts become less frequent",
+    "Pick the most likely cause from Claude's list and deploy a fix for that one"
+   ],
+   "answer": 1,
+   "explanation": "Profile first. Heap snapshots compared over time show what is growing, which turns hypotheses into evidence before you change code.",
+   "distractors": [
+    "Shotgun fixes change three things blind and won't tell you which mattered.",
+    null,
+    "More memory postpones the symptom and fixes nothing.",
+    "Ranking hypotheses is a start, but deploying on likelihood alone skips the evidence."
+   ],
+   "elective": true,
+   "block": "D5"
+  },
+  {
+   "id": "MOCK-E09",
+   "module": "M5.5",
+   "difficulty": "core",
+   "scenario": "For an API-heavy product, a QA lead plans 400 browser-based end-to-end tests generated by Claude, one for each business rule.",
+   "question": "What strategy is better?",
+   "options": [
+    "Proceed, since end-to-end tests exercise the real system and so give the most confidence",
+    "Test most rules at unit and API level, and keep a few E2E tests for key journeys",
+    "Skip automation and run the business rules manually before each release instead",
+    "Generate the 400 tests but run them only once a month to keep CI times down"
+   ],
+   "answer": 1,
+   "explanation": "Test pyramid: business rules are cheaper, faster and less flaky to test at lower levels. End-to-end tests cover critical user journeys.",
+   "distractors": [
+    "400 UI tests are slow, flaky and costly to maintain, and confidence drops as flakiness rises.",
+    null,
+    "Manual testing doesn't scale and misses regressions between releases.",
+    "Monthly runs find regressions too late to be useful."
+   ],
+   "elective": true,
+   "block": "D5"
+  },
+  {
+   "id": "MOCK-E10",
+   "module": "M5.5",
+   "difficulty": "core",
+   "scenario": "A generated unit test for calculate_discount() patches calculate_discount itself with a mock that returns 10, then asserts that the result equals 10. Coverage tools count the module as covered.",
+   "question": "What is wrong, and what is the fix?",
+   "options": [
+    "Nothing; mocking makes the test fast and isolated, which is good practice",
+    "It proves nothing; mock only external boundaries and assert on the real function",
+    "The assertion is too strict; check only that some value is returned instead",
+    "Coverage should be turned off for this module, since mocks distort the numbers"
+   ],
+   "answer": 1,
+   "explanation": "A test that mocks the unit under test verifies the mock, not the code. Mock dependencies at the boundaries, and assert on real behaviour.",
+   "distractors": [
+    "Isolation means isolating dependencies, not replacing the thing being tested.",
+    null,
+    "A weaker assertion makes a meaningless test even weaker.",
+    "Hiding coverage doesn't fix the test. The point is that coverage doesn't measure assertion quality."
+   ],
+   "elective": true,
+   "block": "D5"
+  },
+  {
+   "id": "MOCK-E11",
+   "module": "M6.2",
+   "difficulty": "core",
+   "scenario": "You run /compact with no instructions in a long Claude Code session. Afterwards, Claude no longer follows the API naming convention you agreed an hour earlier.",
+   "question": "What should you have done?",
+   "options": [
+    "Avoided compaction entirely and let the session run until the context is full",
+    "Compacted with instructions naming what must survive, like decisions and conventions",
+    "Started a new session without any handover, so the context is completely clean",
+    "Raised the effort level so Claude remembers the conventions more reliably"
+   ],
+   "answer": 1,
+   "explanation": "Compaction summarises the history. Instructions tell it what to keep, and durable conventions belong in CLAUDE.md anyway.",
+   "distractors": [
+    "Running until full makes quality drop and triggers auto-compaction anyway.",
+    null,
+    "A clean start without a handover loses the same decisions.",
+    "Effort doesn't restore information the summary dropped."
+   ],
+   "elective": true,
+   "block": "D6"
+  },
+  {
+   "id": "MOCK-E12",
+   "module": "M6.2",
+   "difficulty": "core",
+   "scenario": "During a session, Claude ran a database migration against the shared development database and edited three files. The approach turns out to be wrong, so you rewind to the checkpoint before it.",
+   "question": "What state are you in after the rewind?",
+   "options": [
+    "Everything is restored, including the database, since checkpoints capture the whole session",
+    "Files are restored, but the shared database migration needs its own rollback",
+    "Nothing is restored, since any session that ran shell commands disables checkpoints entirely",
+    "The database is restored, but the three edited files need to be reverted by hand from Git"
+   ],
+   "answer": 1,
+   "explanation": "Checkpoints track local file edits, not external side effects. Anything a command did to a database or remote system needs its own rollback.",
+   "distractors": [
+    "Checkpoints don't reach external systems. Assuming they do leaves the database changed.",
+    null,
+    "Checkpoints still work for file edits. Commands don't disable them.",
+    "This is backwards: the file edits are what rewind restores."
+   ],
+   "elective": true,
+   "block": "D6"
+  },
+  {
+   "id": "MOCK-E13",
+   "module": "M6.3",
+   "difficulty": "core",
+   "scenario": "A regression appeared after a three-day agent-assisted feature. Fortunately the work landed as 30 small commits, each with passing tests and a message explaining why.",
+   "question": "What is the fastest reliable way to find the cause?",
+   "options": [
+    "Read all 30 diffs carefully, from the first commit onwards, until something looks wrong",
+    "Use git bisect with a reproduction test over the commits to find the first bad change",
+    "Revert all 30 commits and re-implement the feature in a single new pull request",
+    "Ask Claude which of its commits most likely caused the regression, and revert that one"
+   ],
+   "answer": 1,
+   "explanation": "Small, tested commits exist so you can bisect. A reproduction test plus bisect finds the culprit in about log2(30) steps, from evidence.",
+   "distractors": [
+    "Reading every diff is slow, and subtle interactions are easy to miss.",
+    null,
+    "Reverting everything throws away good work to avoid a diagnosis.",
+    "A guess about likelihood isn't evidence, and reverting the wrong commit wastes time."
+   ],
+   "elective": true,
+   "block": "D6"
+  },
+  {
+   "id": "MOCK-E14",
+   "module": "M6.3",
+   "difficulty": "core",
+   "scenario": "You plan to run five worktrees in parallel for a release. One task renames a core database column that every other task's code reads.",
+   "question": "How should you organise the work?",
+   "options": [
+    "Run all five in parallel anyway, and resolve the merge conflicts at the end",
+    "Land the shared schema change first as one change, then parallelise the rest",
+    "Give the schema change to all five sessions, so each one adapts its own code",
+    "Use a single worktree for all five tasks, so the sessions see each other's changes"
+   ],
+   "answer": 1,
+   "explanation": "Parallelism stops paying when work needs one coherent decision. Land the shared change first, then branch the independent tasks from it.",
+   "distractors": [
+    "Every task will conflict on the same column, so the merge becomes the hard part.",
+    null,
+    "Five agents renaming the same column create five divergent versions of the change.",
+    "Sessions sharing one checkout fight over the working tree."
+   ],
+   "elective": true,
+   "block": "D6"
+  },
+  {
+   "id": "MOCK-E15",
+   "module": "M6.8",
+   "difficulty": "core",
+   "scenario": "Your team is starting a new feature with Claude Code. Following the repository convention, you'll commit intent.md, spec.md and plan.md alongside the code.",
+   "question": "Which should be written first, and what does it hold?",
+   "options": [
+    "plan.md, holding the implementation steps, since Claude needs those to start working",
+    "intent.md, holding what you are trying to achieve and for whom, before anything else",
+    "spec.md, generated after implementation, so it accurately matches the code that shipped",
+    "None of them until the work is done, then all three at once for the PR description"
+   ],
+   "answer": 1,
+   "explanation": "Intent comes first: the goal and the audience. Then the spec (testable statements), then the plan from plan mode. The worklog follows verification.",
+   "distractors": [
+    "A plan without agreed intent and spec optimises the wrong thing.",
+    null,
+    "A spec written after the fact documents what was built, not what was required.",
+    "Written retroactively, they can't guide the work and tend to rationalise it."
+   ],
+   "elective": true,
+   "block": "D6"
+  },
+  {
+   "id": "MOCK-E16",
+   "module": "M7.1",
+   "difficulty": "core",
+   "scenario": "Under load, your service gets 429 and 529 responses from the API. The current code retries immediately in a tight loop, which makes the errors worse.",
+   "question": "What should the retry logic do?",
+   "options": [
+    "Retry immediately but in parallel, so that at least one attempt gets through",
+    "Back off exponentially, honour retry-after when present, and cap the attempts",
+    "Never retry, and return an error to the user straight away on any failure",
+    "Switch to a different model on every failure, so the load is spread around"
+   ],
+   "answer": 1,
+   "explanation": "Rate-limit and overload errors call for backing off: exponential delays, respecting server hints, and a limit on attempts. The official SDKs already do this by default.",
+   "distractors": [
+    "Parallel immediate retries add to the overload that caused the errors.",
+    null,
+    "Transient errors are often recoverable. Failing instantly hurts reliability needlessly.",
+    "Model-hopping changes behaviour and cost unpredictably, and the backoff problem remains."
+   ],
+   "elective": true,
+   "block": "D7"
+  },
+  {
+   "id": "MOCK-E17",
+   "module": "M7.1",
+   "difficulty": "core",
+   "scenario": "To ship an internal prototype quickly, a developer puts the Claude API key in the React front end and calls the API directly from the browser.",
+   "question": "What should change?",
+   "options": [
+    "Nothing, since the tool is internal and only employees will ever load the page",
+    "Call the API from a backend that holds the key; never ship it to a browser",
+    "Obfuscate the key in the JavaScript bundle so it is harder to find in dev tools",
+    "Rotate the key monthly so any leaked copy only works for a few weeks"
+   ],
+   "answer": 1,
+   "explanation": "Anything shipped to a browser is readable. Keys belong on a server, which also gives you a place for auth, logging and cost controls.",
+   "distractors": [
+    "Internal pages still get cached, shared and inspected, so the key leaks.",
+    null,
+    "Obfuscation is trivially reversed.",
+    "Rotation limits the damage but still ships a usable secret to every browser."
+   ],
+   "elective": true,
+   "block": "D7"
+  },
+  {
+   "id": "MOCK-E18",
+   "module": "M7.1",
+   "difficulty": "core",
+   "scenario": "A team prototyped against the OpenAI SDK compatibility layer to compare models quickly. They now plan to launch the client product on it unchanged.",
+   "question": "What is the right advice?",
+   "options": [
+    "Launch on it, since the compatibility layer behaves identically to the native API",
+    "Use the native SDK in production; the compatibility layer is for testing only",
+    "Launch on it, but add a wrapper that retries every failed request three more times",
+    "Keep it, and switch to the native SDK only if a customer reports a problem"
+   ],
+   "answer": 1,
+   "explanation": "The compatibility layer is for evaluation. Production needs the native API's features and support.",
+   "distractors": [
+    "It isn't identical. Several features are missing or behave differently.",
+    null,
+    "Retries don't add missing features or production support.",
+    "Waiting for customer-reported problems makes the customer your test suite."
+   ],
+   "elective": true,
+   "block": "D7"
+  },
+  {
+   "id": "MOCK-E19",
+   "module": "M7.2",
+   "difficulty": "core",
+   "scenario": "An assistant has tools search_orders and search_invoices. Asked 'what did we bill Acme in May?', Claude keeps calling search_orders. Both descriptions just say 'Search tool.'",
+   "question": "What is the most effective fix?",
+   "options": [
+    "Force tool selection in code so that billing questions never reach the model",
+    "Write descriptions saying when to use each tool, what it searches and returns",
+    "Merge both tools into one generic search tool that takes a free-text query",
+    "Remove search_orders until the assistant learns to call search_invoices instead"
+   ],
+   "answer": 1,
+   "explanation": "Tool descriptions are the model's main signal for choosing a tool. Say clearly when to use each one, what it covers and what it returns.",
+   "distractors": [
+    "Hard-coding routing outside the model is brittle and doesn't fix the ambiguous descriptions.",
+    null,
+    "A generic tool moves the ambiguity into its arguments and loses structure.",
+    "Removing a needed tool breaks the order queries."
+   ],
+   "elective": true,
+   "block": "D7"
+  },
+  {
+   "id": "MOCK-E20",
+   "module": "M7.2",
+   "difficulty": "core",
+   "scenario": "An invoice extractor uses structured outputs with a strict JSON schema. Every response parses, but in about 2% of invoices the extracted total doesn't equal the sum of the line items.",
+   "question": "What should you add?",
+   "options": [
+    "Nothing, since a strict schema already guarantees that the extracted data is correct",
+    "Business-rule checks in code, such as totals versus line sums, with retry or review",
+    "A second schema with more required fields, so the model has less room for mistakes",
+    "A prompt line asking Claude to be extra careful with the arithmetic in totals"
+   ],
+   "answer": 1,
+   "explanation": "A schema guarantees shape, not truth. Validate the business rules in code, and route failures to a retry or to human review.",
+   "distractors": [
+    "Valid JSON can still hold wrong values. That's exactly the 2% here.",
+    null,
+    "More fields constrain shape, not arithmetic correctness.",
+    "Exhortation doesn't verify anything. Code checks are deterministic."
+   ],
+   "elective": true,
+   "block": "D7"
+  }
+ ]
+}
