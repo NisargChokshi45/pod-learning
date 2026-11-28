@@ -3,7 +3,8 @@
 **Time:** 60 minutes, timed · **Format:** individual, open-notes, real Claude seat (org-approved plan)
 **Mirrors:** the 60-minute practical lab in the Level 1 assessment.
 **Pass line:** **70/100 overall** *and* **no zero in Task 1 (data handling)**. A data-handling failure
-fails the lab regardless of total — the same rule M8.1 applies in real work.
+fails the lab regardless of total — the same rule M8.1 applies in real work. Points: 25 + 20 + 25 + 20 + 10
+= 100. Missing the injected instruction (Task 4, 8 pts) is a coaching flag even on a pass.
 
 > **Trainer setup (before the session):** prepare the lab pack below as files (synthetic data only —
 > never real customer data). Seed the three marked traps. Give each candidate a fresh chat/Project.
@@ -98,7 +99,7 @@ Deliver three artefacts: customer email, exec summary (≤150 words), Slack chan
 | Criterion | Pts |
 |---|---|
 | Works on a **new branch**; first asks Claude questions before asking for changes | 3 |
-| Uses plan mode or default (Manual) mode — **not** `bypassPermissions` — and reads each proposed edit | 3 |
+| Checks the mode indicator (recent versions start in `auto`) and works in plan or default (Manual) — never `bypassPermissions` — reading each proposed edit | 3 |
 | Fix + a test that reproduces the duplicate send; test passes | 3 |
 | Commit message is accurate and contains no customer data | 1 |
 
