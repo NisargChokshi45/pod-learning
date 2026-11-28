@@ -5,22 +5,22 @@
   {
    "id": "MOCK-01",
    "module": "M2.2",
-   "difficulty": "core",
-   "scenario": "You ask Claude for a Black Friday capacity plan that must meet a 99.9% availability target, stay under a fixed cloud budget, and use no new vendors. The draft quietly exceeds the budget to hit the target and never says so.",
-   "question": "What change to the prompt fixes this most reliably?",
+   "difficulty": "stretch",
+   "scenario": "You need a rollback strategy for a schema change on a 2 TB orders table with a 15-minute maintenance window. Claude's single proposal looks reasonable, but you have no idea what else was possible or what it traded away.",
+   "question": "Which follow-up prompt adds the most decision value?",
    "options": [
-    "Repeat 'all three constraints are mandatory' in capitals at the start and the end of the prompt",
-    "State the priority order and a tie-break, and require it to name any relaxed constraint",
-    "Switch to a more capable model so it can satisfy every constraint at once without trade-offs",
-    "Drop the budget constraint for now and add it back in a follow-up once the plan looks right"
+    "Ask for three materially different strategies, then score each against the window and rollback criteria",
+    "Ask it to redo the same proposal at Max effort, so the reasoning behind its choice is deeper and fuller",
+    "Ask it to rate its confidence in the proposal from 1 to 10, and explain any score lower than eight",
+    "Ask it to list every rollback strategy known for relational databases, with pros and cons for each"
    ],
-   "answer": 1,
-   "explanation": "When constraints conflict, Claude has to pick one. Stating priorities and a tie-break rule, and requiring it to name any relaxed constraint, makes the trade-off explicit and reviewable.",
+   "answer": 0,
+   "explanation": "Generate-then-select: forcing materially different options and scoring them against your stated criteria exposes the trade-offs a single proposal hides, and the selection step is checkable.",
    "distractors": [
-    "Shouting doesn't resolve a real conflict between constraints. Current models may also over-apply emphatic rules.",
     null,
-    "No model can satisfy constraints that conflict. The trade-off needs a rule, not more capability.",
-    "Removing a hard constraint produces a plan that is invalid, and the follow-up then has to fight the first draft."
+    "More effort deepens one framing. It doesn't make Claude explore the alternatives it never considered.",
+    "Self-rated confidence isn't calibrated, and a score says nothing about the options that were never generated.",
+    "An exhaustive generic list isn't tied to your window or rollback criteria, so you still have no selection."
    ]
   },
   {
@@ -48,42 +48,42 @@
    "id": "MOCK-03",
    "module": "M2.2",
    "difficulty": "core",
-   "scenario": "During a long root-cause session, you float two contradictory hypotheses ten turns apart: first a DNS failure, then certificate expiry. Claude agrees enthusiastically with each, citing the same log lines as support.",
+   "scenario": "Claude drafts a postmortem from the timeline you pasted. It states the outage began at 14:32 UTC and affected 12,400 users. Neither figure appears in your timeline, and both read naturally.",
    "question": "Which failure mode is this, and what is the counter?",
    "options": [
-    "Instruction drift, so restate the full original instructions every five turns from now on",
-    "Sycophancy, so ask for evidence for and against each one without giving your view",
-    "Verbosity, so set a strict word limit so that the two hypotheses are easier to compare",
-    "Over-confidence, so raise the effort level to Max so it reasons harder about the logs"
+    "Invented specifics; require every figure to come from the timeline and mark gaps [UNKNOWN]",
+    "Over-confidence; ask it to attach a confidence rating to each figure in the postmortem draft",
+    "Instruction drift; restate the original instructions at the top of each new turn you send",
+    "Verbosity; cap the length of the draft so there is less room for unrequested detail"
    ],
-   "answer": 1,
-   "explanation": "Claude adopting whatever framing you supply is sycophancy. Ask neutrally for evidence on both sides, ideally in a fresh context, so the logs decide rather than your phrasing.",
+   "answer": 0,
+   "explanation": "Plausible numbers and times that aren't in the source are invented specifics. The counter is grounding: figures only from the supplied material, with an explicit placeholder where the material is silent, then a check against the timeline.",
    "distractors": [
-    "The instructions weren't forgotten. The model is following your framing, and restating instructions doesn't remove that bias.",
     null,
-    "Length isn't the problem. A shorter answer would agree with you just as readily.",
-    "More effort spent inside a biased framing still follows the framing. Remove the leading question instead."
+    "A confidence rating sits on top of an invented number; it doesn't remove it or trace it to a source.",
+    "Nothing was forgotten. The model filled a gap with plausible detail, which restating instructions doesn't prevent.",
+    "A shorter draft can still contain an invented figure. Length isn't the mechanism."
    ]
   },
   {
    "id": "MOCK-04",
    "module": "M2.3",
    "difficulty": "core",
-   "scenario": "Your engagement Project's instructions say 'British English'. Your personal preferences say 'American English'. Outputs alternate between the two, and a client noticed. A teammate says the hierarchy is documented, so there's nothing to test.",
-   "question": "What should you do?",
+   "scenario": "You must find every indemnity and liability-cap clause across 14 supplier contracts. Together they are far larger than you can usefully put in one chat, and the answer goes into a legal risk register.",
+   "question": "What is the most reliable way to structure the work?",
    "options": [
-    "Assume your personal preferences win, because they are the setting most specific to you alone",
-    "Run a short test prompt to see which applies, then remove the conflict at the right level",
-    "Assume the Project instructions always win and leave both settings exactly as they are",
-    "Delete both settings and state the spelling convention in every message you send instead"
+    "Upload all 14 at once in one chat and ask for every clause, so it sees everything together",
+    "Go contract by contract: extract clauses with quotes and pages to a table, then query it",
+    "Ask Research mode to find the clauses, since it is built to handle large volumes of documents",
+    "Ask for a summary of each contract first, then answer the clause question from the summaries"
    ],
    "answer": 1,
-   "explanation": "Precedence should be tested, not assumed. Once you see the behaviour, remove the contradiction: the team rule belongs in the Project, so align or remove the personal setting.",
+   "explanation": "Chunk, extract, then ask: per-contract extraction with verbatim quotes and page numbers keeps each step inside the window and checkable, and the cross-contract question runs on a compact, verified table.",
    "distractors": [
-    "Assuming precedence is the mistake. Personal preferences aren't guaranteed to win, and the conflict still causes drift.",
+    "Past the window's useful size, material gets dropped or skimmed, and you can't tell which clauses were missed.",
     null,
-    "Leaving a live conflict in place keeps the output unpredictable, whichever rule wins on paper.",
-    "Per-message instructions are fragile and get forgotten. Fix the shared setting once instead."
+    "Research is for web and connected sources. It isn't a method for exhaustive extraction from your own contracts.",
+    "Generic summaries lose the exact clause wording and limits the register needs, so the answer can't be checked."
    ]
   },
   {
@@ -220,17 +220,17 @@
    "question": "Which technique best surfaces the risks the group is not seeing?",
    "options": [
     "A pre-mortem: assume it failed badly in 18 months and list the most likely reasons why",
-    "Ask Claude to write a persuasive summary of the benefits for the decision meeting tomorrow",
-    "Run a quick poll of the team so that the strength of agreement is recorded in writing",
-    "Ask Claude for a single confident verdict, so the meeting can move on more quickly"
+    "A balanced pros-and-cons list of the platform, to circulate before the meeting tomorrow",
+    "Three reference customers from the vendor, to confirm the platform works as promised",
+    "A sensitivity table on price and usage growth, to show how the three-year cost could move"
    ],
    "answer": 0,
    "explanation": "A pre-mortem breaks group optimism by making failure the premise. It produces concrete risks for an assumption and risk register.",
    "distractors": [
     null,
-    "A persuasive benefits summary reinforces the bias you're trying to counter.",
-    "A poll measures consensus, not risk. Strong agreement is exactly when blind spots grow.",
-    "A single verdict hides trade-offs and assumptions. Decision support should expose them."
+    "A pros-and-cons list written inside the group's framing tends to mirror its optimism. It doesn't make failure the premise.",
+    "Vendor-chosen references are selected to be positive, so they confirm the bias rather than test it.",
+    "Sensitivity on cost is useful, but it covers one dimension and won't surface operational, people or lock-in risks."
    ]
   },
   {
@@ -278,22 +278,22 @@
   {
    "id": "MOCK-14",
    "module": "M8.2",
-   "difficulty": "core",
-   "scenario": "Claude's capacity forecast concludes you won't need new database nodes until Q4. It assumes 20% quarter-on-quarter growth. Last quarter's actual growth isn't mentioned anywhere.",
-   "question": "How do you validate this analysis?",
+   "difficulty": "stretch",
+   "scenario": "You have 45 minutes before a 12-page Claude-drafted migration assessment goes to the client. It contains cost figures, product version numbers, two named client stakeholders and several pages of background prose.",
+   "question": "How do you spend the review time?",
    "options": [
-    "Re-run the same forecast at higher effort and accept it if the conclusion stays the same",
-    "Check the growth rate against actuals and find the rate that would change the answer",
-    "Accept it, since the arithmetic in the forecast table adds up correctly on inspection",
-    "Ask a colleague whether the Q4 date feels roughly right based on their past experience"
+    "Fully check the figures, versions and names, and sample the background prose",
+    "Check a random 10% of all sentences, since sampling is the proportional approach",
+    "Ask Claude in the same chat to self-check against a rubric, and send if it passes",
+    "Read the whole draft end to end once for flow, since a careful read catches errors"
    ],
-   "answer": 1,
-   "explanation": "For analysis, validation means challenging the assumptions. Check the key input against actuals, and find the breakpoint where the conclusion flips.",
+   "answer": 0,
+   "explanation": "Proportional verification is risk-tiered, not uniform. It is external, so the high-risk content types (numbers, versions, people) get full checks against sources; low-risk prose can be sampled.",
    "distractors": [
-    "Re-running with the same assumption reproduces the same answer. Consistency isn't correctness.",
     null,
-    "Correct arithmetic on a wrong assumption gives a wrong conclusion.",
-    "Intuition isn't a check. The growth rate can be compared with real data."
+    "Sampling suits low-risk bulk work. A uniform 10% sample will miss most of the high-risk items in an external deliverable.",
+    "A self-check is a filter, not a guarantee. It can't certify facts the model already believes.",
+    "A read for flow doesn't check numbers or versions against any source, and fluent text hides errors."
    ]
   },
   {
@@ -346,17 +346,17 @@
    "question": "Which input will give the most useful agenda?",
    "options": [
     "Last meeting's minutes, open actions with owners, and pending decisions",
-    "The project's original kickoff deck, so the agenda reflects the initial goals",
-    "A list of everyone attending, so the agenda can give each person equal time",
-    "A generic agenda template downloaded from the web, adapted by changing the title"
+    "The full transcripts of the last three meetings, so that nothing is missed",
+    "The project plan's milestone list, so the agenda follows the schedule",
+    "A request for a standard agenda with fixed time boxes per workstream"
    ],
    "answer": 0,
    "explanation": "An outcome-driven agenda comes from the open state: pending decisions, actions with named owners, and what changed since the last meeting.",
    "distractors": [
     null,
-    "The kickoff deck is out of date. It doesn't show what is open now.",
-    "Equal airtime isn't the goal. The agenda should be built around the decisions needed.",
-    "A generic template has none of the project's actual open items."
+    "Raw transcripts bury the open state in discussion, and the agenda still won't be built around decisions.",
+    "Milestones show the schedule, not which decisions or actions are open right now.",
+    "Fixed time boxes per workstream produce a status round, which is the discussion you want to avoid."
    ]
   },
   {
@@ -383,7 +383,7 @@
   {
    "id": "MOCK-19",
    "module": "M3.5",
-   "difficulty": "core",
+   "difficulty": "stretch",
    "scenario": "In a shared forecast workbook, a VLOOKUP returns the wrong customer tier for about 5% of rows. Claude offers to 'fix the formula' across the whole column.",
    "question": "What is the right way to proceed?",
    "options": [
@@ -467,22 +467,22 @@
   {
    "id": "MOCK-23",
    "module": "M1.3",
-   "difficulty": "core",
-   "scenario": "Thirty-five turns into revising a design document, each fix Claude makes breaks something agreed earlier, and the chat is now mostly your corrections.",
+   "difficulty": "stretch",
+   "scenario": "Eight turns into refining a client status update, each Claude draft is closer than the last. The only remaining issue is the tone of one paragraph. A colleague says long chats always degrade and you should start fresh.",
    "question": "What should you do?",
    "options": [
-    "Keep correcting in the same chat, since Claude now has the most context about the whole work",
-    "Start a fresh chat with a complete prompt that includes everything you've learned so far",
-    "Ask Claude to apologise and list its mistakes, so it pays more attention afterwards",
-    "Switch to a different Style in the same chat, so the tone of the replies resets"
+    "Start a fresh chat now and paste the brief again, since chats this long always degrade",
+    "Stay in this chat and ask for a targeted change to that paragraph, naming the tone you want",
+    "Open an incognito chat, so that the earlier drafts stop influencing the next reply you get",
+    "Switch the Style to Formal and regenerate the whole update from the beginning in this chat"
    ],
    "answer": 1,
-   "explanation": "A chat full of wrong drafts and corrections keeps steering the output. A clean start with a corrected spec beats continued patching.",
+   "explanation": "Iterate rather than restart while the context is on task and converging. A fresh chat is the fix for polluted or drifting context, not a reflex at a turn count.",
    "distractors": [
-    "The accumulated context is the problem. More turns make it worse.",
+    "Eight on-task, converging turns aren't degradation. Restarting throws away agreed content for no gain.",
     null,
-    "Listing mistakes adds more polluted context and doesn't fix the specification.",
-    "Tone isn't the issue. The conversation history is still there."
+    "Incognito changes history and memory, not the drafts already in the chat. A new chat would lose them anyway.",
+    "Regenerating everything to fix one paragraph risks undoing parts already agreed."
    ]
   },
   {
@@ -513,18 +513,18 @@
    "scenario": "Claude drafted a job advert for a backend engineer role. It includes 'young, energetic team', 'digital native' and 'rockstar who works all hours'.",
    "question": "What should happen before it is published?",
    "options": [
-    "Publish it, since the wording is common in the industry and sounds enthusiastic",
-    "Run a bias and inclusive-language review, revise it, and get a named owner's approval",
-    "Ask Claude to make the advert longer, so that the problem phrases stand out less",
-    "Publish it on internal channels only, where the wording carries less risk to anyone"
+    "Ask Claude to rewrite it in a neutral tone, then publish the version it returns",
+    "Do a bias and inclusive-language review, revise, and get a named owner to sign off",
+    "Replace the three flagged phrases and publish, since those are the only problems",
+    "Publish it, and ask legal to review the wording only if a candidate complains"
    ],
    "answer": 1,
    "explanation": "Generated content needs bias checks. These phrases signal age bias and exclusion, and a named human owns the final wording.",
    "distractors": [
-    "Common wording can still be discriminatory, and AI-generated text gets no exemption.",
+    "A rewrite with no human review or owner can keep subtler bias, and nobody is accountable for the wording.",
     null,
-    "Diluting biased phrases doesn't remove them.",
-    "Internal candidates are also protected, so the bias still matters."
+    "Spotting three phrases isn't a review. The rest of the advert hasn't been checked for the same bias.",
+    "Reacting to complaints means the discriminatory advert has already been published."
    ]
   },
   {
@@ -668,22 +668,22 @@
   {
    "id": "MOCK-E07",
    "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "Claude generated fifteen CRUD controllers over a week. The most recent five return errors in a different JSON shape from the team's template, and the client's front end breaks on them.",
-   "question": "What prevents this drift?",
+   "difficulty": "stretch",
+   "scenario": "Claude reports that a 600-line LegacyTaxAdapter module is dead code: a repository-wide search finds no references to it. You're about to delete it in a cleanup PR.",
+   "question": "What should you check before deleting it?",
    "options": [
-    "Ask Claude to remember the error format, and trust it to apply it in future",
-    "Send the template and a reference controller with each request; diff against them",
-    "Fix the front end so it accepts both error shapes, and keep generating as before",
-    "Generate all future controllers in a single prompt, so they share one format"
+    "Nothing more, since a repository-wide search is complete evidence that nothing calls it",
+    "Runtime references a text search misses: reflection, DI config, jobs, and call telemetry",
+    "Ask Claude to repeat the search with a broader pattern, then delete if it still finds none",
+    "Nothing; keep it forever instead, since legacy code may always be used somewhere unseen"
    ],
    "answer": 1,
-   "explanation": "Generated boilerplate stays consistent when every request carries the template and a reference, and the output is checked against them.",
+   "explanation": "'No references found' is an inference from a text search. Legacy code is reached through hidden coupling: reflection, configuration, dependency-injection registration, scheduled jobs or other repositories. Check those and production telemetry before deleting.",
    "distractors": [
-    "Relying on recall across sessions is exactly how the drift happened.",
+    "Text search can't see dynamic dispatch, config-driven loading or callers in other repositories.",
     null,
-    "Accommodating inconsistency spreads it, and the contract is left ambiguous.",
-    "One huge prompt doesn't scale, and nothing checks the output against the template."
+    "A broader pattern still searches text in one repository, so it shares the same blind spots.",
+    "Keeping all dead code forever grows the debt. The answer is evidence, then a decision."
    ],
    "elective": true,
    "block": "D5"
@@ -715,21 +715,21 @@
    "id": "MOCK-E09",
    "module": "M5.5",
    "difficulty": "core",
-   "scenario": "For an API-heavy product, a QA lead plans 400 browser-based end-to-end tests generated by Claude, one for each business rule.",
-   "question": "What strategy is better?",
+   "scenario": "Repository tests run against an in-memory SQLite substitute; production runs PostgreSQL. A query using a Postgres-specific JSONB operator passed every test and then failed in staging.",
+   "question": "What should change in the test strategy?",
    "options": [
-    "Proceed, since end-to-end tests exercise the real system and so give the most confidence",
-    "Test most rules at unit and API level, and keep a few E2E tests for key journeys",
-    "Skip automation and run the business rules manually before each release instead",
-    "Generate the 400 tests but run them only once a month to keep CI times down"
+    "Add more SQLite unit tests that cover the JSONB query path with extra edge cases",
+    "Run repository tests on real PostgreSQL in a test container, with seeded fixtures",
+    "Mock the repository in every test, so the database dialect no longer affects results",
+    "Rely on the staging environment as the integration test for all database queries"
    ],
    "answer": 1,
-   "explanation": "Test pyramid: business rules are cheaper, faster and less flaky to test at lower levels. End-to-end tests cover critical user journeys.",
+   "explanation": "Integration tests need the real dependency. A throwaway PostgreSQL container with fixtures tests the actual dialect and operators, while staying fast and repeatable.",
    "distractors": [
-    "400 UI tests are slow, flaky and costly to maintain, and confidence drops as flakiness rises.",
+    "SQLite doesn't implement Postgres JSONB operators, so more tests on the substitute keep testing the wrong engine.",
     null,
-    "Manual testing doesn't scale and misses regressions between releases.",
-    "Monthly runs find regressions too late to be useful."
+    "Mocking the repository removes the database from the test entirely, which is where this bug lives.",
+    "Staging finds dialect bugs late and slowly, after the change has merged."
    ],
    "elective": true,
    "block": "D5"
@@ -737,22 +737,22 @@
   {
    "id": "MOCK-E10",
    "module": "M5.5",
-   "difficulty": "core",
-   "scenario": "A generated unit test for calculate_discount() patches calculate_discount itself with a mock that returns 10, then asserts that the result equals 10. Coverage tools count the module as covered.",
-   "question": "What is wrong, and what is the fix?",
+   "difficulty": "stretch",
+   "scenario": "Claude drafts a defect report from a crash screenshot and 2,000 log lines. It states 'Root cause: null session token in AuthMiddleware line 88' and lists reproduction steps that nobody has run.",
+   "question": "How should the report be fixed before filing?",
    "options": [
-    "Nothing; mocking makes the test fast and isolated, which is good practice",
-    "It proves nothing; mock only external boundaries and assert on the real function",
-    "The assertion is too strict; check only that some value is returned instead",
-    "Coverage should be turned off for this module, since mocks distort the numbers"
+    "File it as written, since a specific root cause makes the report more actionable for developers",
+    "Split observed facts, with log excerpts, from the suspected cause; list only steps run",
+    "Remove the logs and the screenshot, so the report is shorter and quicker for the team to triage",
+    "Ask Claude to reread the logs carefully and raise its confidence in the cause before you file it"
    ],
    "answer": 1,
-   "explanation": "A test that mocks the unit under test verifies the mock, not the code. Mock dependencies at the boundaries, and assert on real behaviour.",
+   "explanation": "A defect report is evidence. Observed behaviour with excerpts, a hypothesis labelled as such, and reproduction steps that were actually executed let developers trust it and confirm the cause.",
    "distractors": [
-    "Isolation means isolating dependencies, not replacing the thing being tested.",
+    "An unconfirmed root cause stated as fact sends developers down the wrong path if it's wrong.",
     null,
-    "A weaker assertion makes a meaningless test even weaker.",
-    "Hiding coverage doesn't fix the test. The point is that coverage doesn't measure assertion quality."
+    "The logs and screenshot are the evidence that make the report checkable.",
+    "Rereading in the same context doesn't turn a hypothesis into evidence; running the steps does."
    ],
    "elective": true,
    "block": "D5"
@@ -783,7 +783,7 @@
   {
    "id": "MOCK-E12",
    "module": "M6.2",
-   "difficulty": "core",
+   "difficulty": "stretch",
    "scenario": "During a session, Claude ran a database migration against the shared development database and edited three files. The approach turns out to be wrong, so you rewind to the checkpoint before it.",
    "question": "What state are you in after the rewind?",
    "options": [
@@ -807,21 +807,21 @@
    "id": "MOCK-E13",
    "module": "M6.3",
    "difficulty": "core",
-   "scenario": "A regression appeared after a three-day agent-assisted feature. Fortunately the work landed as 30 small commits, each with passing tests and a message explaining why.",
-   "question": "What is the fastest reliable way to find the cause?",
+   "scenario": "Three worktree branches are ready to merge: a change to the shared logging utility, a feature that depends on the new utility API, and an unrelated documentation fix.",
+   "question": "In what order should you merge them?",
    "options": [
-    "Read all 30 diffs carefully, from the first commit onwards, until something looks wrong",
-    "Use git bisect with a reproduction test over the commits to find the first bad change",
-    "Revert all 30 commits and re-implement the feature in a single new pull request",
-    "Ask Claude which of its commits most likely caused the regression, and revert that one"
+    "Feature first, since it is the largest and most valuable of the three changes",
+    "Utility first, then rebase the feature on it, rerun its tests and merge it",
+    "All three at once in one combined pull request, to save on review time",
+    "In the order the sessions finished, so the history matches how work ran"
    ],
    "answer": 1,
-   "explanation": "Small, tested commits exist so you can bisect. A reproduction test plus bisect finds the culprit in about log2(30) steps, from evidence.",
+   "explanation": "Merge order follows dependencies: land the shared change, rebase what builds on it, and re-verify before merging. The independent doc fix can go any time.",
    "distractors": [
-    "Reading every diff is slow, and subtle interactions are easy to miss.",
+    "The feature depends on the new utility, so merging it first breaks the build or merges untested code.",
     null,
-    "Reverting everything throws away good work to avoid a diagnosis.",
-    "A guess about likelihood isn't evidence, and reverting the wrong commit wastes time."
+    "A combined PR hides which change broke what and makes review and rollback harder.",
+    "Finish order says nothing about dependencies, so a dependent change can land before what it needs."
    ],
    "elective": true,
    "block": "D6"
@@ -829,22 +829,22 @@
   {
    "id": "MOCK-E14",
    "module": "M6.3",
-   "difficulty": "core",
-   "scenario": "You plan to run five worktrees in parallel for a release. One task renames a core database column that every other task's code reads.",
-   "question": "How should you organise the work?",
+   "difficulty": "stretch",
+   "scenario": "Claude's commit messages on your branch list exactly what changed in each file, for example 'Change timeout from 30 to 45 in client.py'. A reviewer still says the history is not useful.",
+   "question": "What is the commit message missing?",
    "options": [
-    "Run all five in parallel anyway, and resolve the merge conflicts at the end",
-    "Land the shared schema change first as one change, then parallelise the rest",
-    "Give the schema change to all five sessions, so each one adapts its own code",
-    "Use a single worktree for all five tasks, so the sessions see each other's changes"
+    "Nothing; a precise list of each change per file is what a good commit message holds",
+    "Why the change was made, the problem or constraint, since the diff shows the what",
+    "Only the ticket number, since the tracker holds every detail the reviewer could need",
+    "More detail on each changed line, so reviewers don't need to open the diff at all"
    ],
    "answer": 1,
-   "explanation": "Parallelism stops paying when work needs one coherent decision. Land the shared change first, then branch the independent tasks from it.",
+   "explanation": "The diff records what changed. A commit message earns its place by recording why, which is what a reviewer or a future bisect needs.",
    "distractors": [
-    "Every task will conflict on the same column, so the merge becomes the hard part.",
+    "Restating the diff duplicates information git already holds and leaves out the reason.",
     null,
-    "Five agents renaming the same column create five divergent versions of the change.",
-    "Sessions sharing one checkout fight over the working tree."
+    "A bare ticket number breaks when trackers move, and the reason isn't in the history.",
+    "More line-level detail is still 'what', not 'why'."
    ],
    "elective": true,
    "block": "D6"
@@ -967,7 +967,7 @@
   {
    "id": "MOCK-E20",
    "module": "M7.2",
-   "difficulty": "core",
+   "difficulty": "stretch",
    "scenario": "An invoice extractor uses structured outputs with a strict JSON schema. Every response parses, but in about 2% of invoices the extracted total doesn't equal the sum of the line items.",
    "question": "What should you add?",
    "options": [

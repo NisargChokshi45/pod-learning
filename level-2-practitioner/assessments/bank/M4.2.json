@@ -95,7 +95,7 @@
     "Give an example with a worked percentage so Claude copies the method"
    ],
    "answer": 1,
-   "explanation": "Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts that run in the sandbox and return the same answer every time.",
+   "explanation": "Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts. A script is executed (in the code-execution container in the app and API, on your own machine in Claude Code) and returns the same answer every time; only its output enters context.",
    "distractors": [
     "Exhortations don't turn estimation into computation.",
     null,
@@ -166,21 +166,21 @@
   {
    "id": "M4.2-09",
    "difficulty": "stretch",
-   "scenario": "In Claude Code you edit a Skill that was synced from your claude.ai account, adding a required 'customer impact' field. The next morning the field is missing and the Skill behaves as before.",
-   "question": "What explains this, and what should you do?",
+   "scenario": "In Claude Code you fix a wrong severity table in your local copy of the org's defect-report Skill, which reached you through account sync from the org library. The next day your fix is gone and colleagues still get the old table.",
+   "question": "What is the durable fix?",
    "options": [
-    "Claude Code caches Skills for a day; wait for the cache to expire and the local edit will come back",
-    "Synced Skills are overwritten from source; change it via the source Skill's owner and version it",
-    "Local edits require restarting Claude Code twice before they take effect",
-    "The edit was too long; shorten it so the Skill stays within its size limit"
+    "Re-apply the local edit each morning until the library owner notices the problem",
+    "Fix the source Skill through its owner, bump the version, and let the copies update",
+    "Copy the Skill into the repo's .claude/skills folder under a new name and edit that copy",
+    "Turn off Skill sync so your corrected local copy is never replaced again"
    ],
    "answer": 1,
-   "explanation": "Account Skill sync flows one way into Claude Code and overwrites local copies. The durable fix is in the source, owned and versioned, so every surface receives it.",
+   "explanation": "A distributed Skill has one source and many downstream copies, and the copies are replaced from the source. The fix that reaches everyone, and survives the next sync, is made once at the source by its owner and versioned. (Current Claude Code docs describe the account sync as download-only, overwriting local edits; the principle holds regardless of the mechanism.)",
    "distractors": [
-    "There's no day-long cache; the sync replaced the edited copy, so waiting won't bring the edit back.",
+    "The edit keeps being overwritten, and colleagues never get the fix.",
     null,
-    "Restarts don't preserve edits to a copy that the sync overwrites.",
-    "Length wasn't the problem; the edit was discarded by the sync, not truncated."
+    "A renamed fork fixes it for one repo only and drifts from the org version from then on.",
+    "Opting out freezes your copy, cuts you off from future fixes and leaves everyone else on the bug."
    ]
   },
   {
@@ -195,7 +195,7 @@
     "Keep the app version only and tell engineers to paste its steps into their prompts"
    ],
    "answer": 2,
-   "explanation": "The same SKILL.md format runs in the apps, in Claude Code and through the API. One owned, versioned source avoids the drift that multiple copies create.",
+   "explanation": "The same SKILL.md format runs in the apps, in Claude Code and through the API, but each surface holds its own copy (an app upload, an API upload, a folder in the repo). Keep one owned, versioned source and publish every copy from it, using only frontmatter fields every surface accepts, so the copies cannot drift.",
    "distractors": [
     "The format is shared across surfaces; three rewrites create three versions that drift.",
     "That throws away the Skill packaging and creates two divergent copies of the same procedure.",

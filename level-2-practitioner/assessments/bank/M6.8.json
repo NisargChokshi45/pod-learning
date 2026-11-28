@@ -9,7 +9,7 @@
    "scenario": "Eighteen months after a refund-rounding fix, an auditor asks why rounding happens after currency conversion. The commit message says only 'fix rounding'.",
    "question": "Which artefact should have captured the answer?",
    "options": [
-    "The project CLAUDE.md",
+    "A note about rounding in the project CLAUDE.md",
     "A worklog entry for that fix, linked from the commit",
     "Claude's auto memory on the original developer's laptop",
     "A MISTAKES.md entry written by Claude"
@@ -30,9 +30,9 @@
    "question": "What is the right response?",
    "options": [
     "Commit it; shared memory keeps everyone's sessions consistent across machines",
-    "Commit it but regenerate it weekly",
+    "Commit it, but have Claude regenerate it from scratch every week",
     "Don't commit it; promote true, useful notes into CLAUDE.md or rules",
-    "Copy it into the README instead"
+    "Paste its contents into the README so humans can read it too"
    ],
    "answer": 2,
    "explanation": "Auto memory is per-machine, unreviewed and self-contradicting. The right path is to promote reviewed, stable facts into committed instructions.",
@@ -109,7 +109,7 @@
    "scenario": "To be helpful, Claude has started adding entries to MISTAKES.md whenever it notices it made an error.",
    "question": "Why is this a problem?",
    "options": [
-    "Claude's entries are too long for the file",
+    "Claude should log its errors in auto memory instead",
     "Its value is human judgement; Claude can't log errors it didn't notice",
     "MISTAKES.md must be generated automatically by a hook, not written by Claude",
     "It's fine as long as a human reads the file weekly"
@@ -117,7 +117,7 @@
    "answer": 1,
    "explanation": "MISTAKES.md is human corrections only. Its value is a human's judgement that something was wrong, which by definition includes the errors Claude didn't notice.",
    "distractors": [
-    "Length isn't the issue; who judges the mistake is.",
+    "Moving the log doesn't fix the problem: self-noticed errors aren't the content, and auto memory is unreviewed and local.",
     null,
     "Hook-generated content is the anti-pattern this module warns against.",
     "Reading doesn't change that the entries reflect only Claude's self-detected errors."
@@ -129,7 +129,7 @@
    "scenario": "A repo has plan.md files from three features. In one, the implementation changed approach mid-way and plan.md was never updated.",
    "question": "What is the risk, and the fix?",
    "options": [
-    "No risk; plans are only drafts",
+    "No real risk; plan.md is a draft and the code is the truth",
     "Delete all plan.md files from the repository so they can never drift",
     "Leave it as is; the worklog entries will explain the difference eventually",
     "A stale plan misleads; update it in the same PR or record the deviation"
@@ -137,7 +137,7 @@
    "answer": 3,
    "explanation": "A plan.md that no longer matches the code is worse than none. Keep it honest in the same PR, or record the deviation in the worklog.",
    "distractors": [
-    "Committed plans are part of the audit trail readers trust.",
+    "Committed plans are part of the audit trail readers trust; a draft that looks authoritative misleads.",
     "Deleting them throws away the reasoning the trail exists to keep.",
     "An unlinked future note doesn't stop readers being misled by the plan now.",
     null
@@ -149,15 +149,15 @@
    "scenario": "A new teammate's PR includes CLAUDE.local.md with their personal paths and a .claude/settings.local.json they created by hand.",
    "question": "What should the repo do?",
    "options": [
-    "Accept both; they help Claude in CI",
+    "Accept both; Claude in CI then gets the same setup as the author",
     "Ignore both in the repo .gitignore and remove them from the PR",
     "Accept the settings file but ignore CLAUDE.local.md",
-    "Rename both to the shared filenames and commit"
+    "Rename both to CLAUDE.md and settings.json so the team shares them"
    ],
    "answer": 1,
    "explanation": "Both are personal, machine-local files. Add them to the repository .gitignore so every clone is protected, rather than relying on per-user global excludes.",
    "distractors": [
-    "Personal paths and local settings don't belong in a shared repo and may leak details.",
+    "Personal paths and local settings don't belong in a shared repo, may leak details, and won't match CI's environment anyway.",
     null,
     "settings.local.json is personal by design and shouldn't be committed either.",
     "Turning personal preferences into shared instructions bypasses review of what the team wants."
@@ -169,17 +169,17 @@
    "scenario": "After a team adds a hook that forces a worklog file on every commit, the repo has 900 entries in three months, most reading 'Symptom: n/a'.",
    "question": "What is the best correction?",
    "options": [
-    "Keep the hook and ask Claude to write longer entries",
-    "Require entries for judgement calls, checked in PR review; drop the per-commit hook",
-    "Delete docs/worklog/ entirely",
-    "Move the entries into CLAUDE.md, where Claude will read them at every session start"
+    "Keep the hook but have Claude write longer, more detailed entries",
+    "Drop the per-commit hook; require entries for judgement calls in PR review",
+    "Delete docs/worklog/ and rely on commit messages for the why",
+    "Move the entries into CLAUDE.md so Claude reads them every session"
    ],
    "answer": 1,
    "explanation": "Documentation generated because a hook required it is the named anti-pattern. Entries are for fixes and judgement calls, reviewed like code.",
    "distractors": [
     "Longer filler is still filler; volume without value.",
     null,
-    "Losing the worklog removes the record for the cases that matter.",
+    "Losing the worklog removes the record for the cases that matter; commit messages can't hold rejected options and uncertainty.",
     "That bloats CLAUDE.md with history, the failure mode the five-artefact split prevents."
    ]
   },
@@ -190,7 +190,7 @@
    "question": "Which evidence best answers them?",
    "options": [
     "Exported chat transcripts from developers' Claude sessions",
-    "Each developer's auto memory files",
+    "Each developer's auto memory files, exported at engagement end",
     "A signed statement from the tech lead that Claude Code was configured securely throughout",
     "Committed intent/spec/plan, reviewed diffs, and worklog entries naming reviewers"
    ],

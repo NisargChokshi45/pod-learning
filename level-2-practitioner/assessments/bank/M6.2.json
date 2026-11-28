@@ -72,10 +72,10 @@
     "Rely on the project file overriding your personal file",
     "Restate 'use npm' in every prompt for this project",
     "Turn off auto memory so the instructions stop conflicting",
-    "Remove the conflict so only one instruction applies to this project"
+    "Delete the yarn rule, or scope it so it can't apply here"
    ],
    "answer": 3,
-   "explanation": "CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically. Resolve them in the files.",
+   "explanation": "CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically (Claude may pick either). Resolve them in the files.",
    "distractors": [
     "Load order makes the more specific file later, but both remain in context; the inconsistent behaviour shows recency is not a guarantee.",
     "Per-prompt reminders add context and don't remove the standing contradiction.",
@@ -166,21 +166,21 @@
   {
    "id": "M6.2-09",
    "difficulty": "stretch",
-   "scenario": "You want to keep a week-long feature effort coherent across many sessions. Decisions made in chat keep getting lost after compaction.",
-   "question": "Which approach best preserves them?",
+   "scenario": "One teammate has set effort to max for everything, including bulk renames, and complains about slow, costly sessions. Another runs low effort while chasing an intermittent race condition and keeps getting shallow guesses.",
+   "question": "What guidance should you give the team?",
    "options": [
-    "Disable auto-compact so nothing is ever summarised",
-    "Ask Claude to remember decisions in auto memory",
-    "Re-paste the whole previous transcript at the start of each session",
-    "Keep the plan and decision log in a committed file, read at each start"
+    "Match effort to the task: raise it for the race, lower it for renames",
+    "Standardise everyone on max so results are consistent across the team",
+    "Standardise everyone on low and rely on plan mode for the hard thinking",
+    "Leave effort alone and switch to a larger model for difficult bugs"
    ],
-   "answer": 3,
-   "explanation": "Compaction is lossy summarisation of chat turns; files survive it and can be reviewed. A committed plan/decision file (M6.8) is the durable carrier.",
+   "answer": 0,
+   "explanation": "Effort trades tokens and latency for reasoning depth. Mechanical edits gain nothing from it; hard debugging and design do. Set it per task rather than as a team-wide constant.",
    "distractors": [
-    "Without compaction the window fills and quality degrades or the session fails; it doesn't preserve decisions durably.",
-    "Auto memory is unreviewed, machine-local and can contradict itself.",
-    "Re-pasting transcripts floods the window with noise and repeats the original problem.",
-    null
+    null,
+    "Max on mechanical work is slow and expensive with no quality gain; consistency of setting isn't consistency of results.",
+    "Plan mode structures the work but doesn't supply the reasoning depth a hard race-condition hunt needs.",
+    "Model choice and effort are separate levers; leaving effort at low still starves the hard task of reasoning."
    ]
   },
   {
@@ -189,15 +189,15 @@
    "scenario": "In a monorepo, billing has strict money-handling rules that are irrelevant to the other 30 packages. Putting them in the root CLAUDE.md bloats every session.",
    "question": "Where should those rules live?",
    "options": [
-    "In the root CLAUDE.md, since only one file is ever read",
+    "In the root CLAUDE.md, under a clear 'Billing only' heading",
     "In each developer's personal ~/.claude/CLAUDE.md",
-    "In a billing-scoped place: a nested CLAUDE.md or a path-scoped rule",
+    "In a nested billing/CLAUDE.md or a path-scoped rule",
     "In auto memory, which loads only when billing is touched"
    ],
    "answer": 2,
    "explanation": "Nested directory CLAUDE.md files and path-scoped rules load only when Claude works on matching files, keeping the context small elsewhere while the rules are committed and reviewed.",
    "distractors": [
-    "Multiple CLAUDE.md files are supported and nested ones load on demand.",
+    "A heading doesn't stop the root file loading in every session; the rules still cost context in all 30 other packages.",
     "Personal files aren't shared, so teammates and CI never get the rules.",
     null,
     "Auto memory isn't scoped by path and isn't a reviewed instruction source."

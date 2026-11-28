@@ -73,13 +73,13 @@ window.QUIZ_BANK = {
      "scenario": "You support two clients in the same week on one seat with memory on. In a Fabrikam draft, Claude refers to 'the cut-over plan we discussed', which was a Contoso conversation.",
      "question": "Which setup prevents this?",
      "options": [
-      "One Project per client, account memory off in each, client work kept inside it",
-      "Telling Claude at the start of each chat which client you're working on today",
-      "Adding 'never mix up clients or their details' to your account-wide Instructions",
-      "Deleting yesterday's chats from the sidebar before starting the next client"
+      "Keep each client's work inside its own Project, where memory stays separate",
+      "Tell Claude at the start of each chat which client you're working on today",
+      "Add 'never mix up clients or their details' to your account-wide Instructions",
+      "Delete yesterday's chats from the sidebar before you start on the next client"
      ],
      "answer": 0,
-     "explanation": "Memory follows the user, not the engagement. Scoping each client to its own Project with account memory off keeps one client's facts out of the other's context.",
+     "explanation": "Memory follows the user, not the engagement. Each Project keeps its own memory space, so scoping each client's work to its own Project (and pausing memory or using incognito outside them) keeps one client's facts out of the other's context.",
      "distractors": [
       null,
       "Memory and past-chat search still pull in the other client's facts; a reminder doesn't remove them from context.",
@@ -130,21 +130,21 @@ window.QUIZ_BANK = {
     {
      "id": "M1.3-07",
      "difficulty": "core",
-     "scenario": "A new hire asks why their teammate's Claude 'just searched the web' unprompted, while their own Team-plan chats never search, even when asked.",
-     "question": "What is the most likely explanation to check first?",
+     "scenario": "You've built a migration cost model with Claude for a client. Next week finance will load it into their own forecasting workbook and adjust the rates there.",
+     "question": "Where should this output land?",
      "options": [
-      "Search needs enabling at org level, and the experience differs by app version",
-      "Web search is a model feature that only the most expensive model has access to",
-      "Their prompts don't say 'please', so the model declines tools",
-      "Searching is only available in the mobile app, not on desktop or the web"
+      "As a downloadable XLSX file that finance opens and edits in their own tools",
+      "In the chat reply, as a Markdown table that finance can copy into a sheet",
+      "As an artifact in Claude, so finance can comment on it before they use it",
+      "Pasted into the body of an email, so finance has the figures in their inbox"
      ],
      "answer": 0,
-     "explanation": "On Team and Enterprise an owner enables web search for the organisation. In the newer experience Claude searches on its own when helpful. Settings and experience differences explain the gap, not prompts.",
+     "explanation": "Who edits the output next decides where it lands. Finance will work on it outside Claude, in their own spreadsheet tooling, so a downloadable file that keeps structure and formulas is the right destination.",
      "distractors": [
       null,
-      "Search availability is a setting, not a property of one model.",
-      "Politeness doesn't gate tools; an organisation setting does.",
-      "Web search isn't mobile-only."
+      "Copying a Markdown table loses formulas and structure and invites transcription errors.",
+      "An artifact suits iteration and comment inside Claude; finance's next edit happens in their own workbook.",
+      "Pasted email figures are static text with no formulas, the same problem as the chat reply."
      ]
     },
     {
@@ -620,10 +620,10 @@ window.QUIZ_BANK = {
       "Delete your personal preference so that only the Project's length rule applies",
       "Raise the effort level so the model resolves the conflict more consistently each time",
       "Run each prompt three times and keep whichever version you like the best",
-      "Add a tie-break rule to the Project: completeness beats length, and flag the overrun"
+      "Add a tie-break rule to the Project that names which rule wins and flags overruns"
      ],
      "answer": 3,
-     "explanation": "Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which wins, so the behaviour is deterministic and visible.",
+     "explanation": "Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which rule wins (for example, completeness beats length, with the overrun flagged), so the behaviour is predictable and visible.",
      "distractors": [
       "This may remove useful defaults for other Projects and doesn't encode the intended priority here.",
       "More reasoning doesn't decide a priority you haven't stated.",
@@ -670,7 +670,7 @@ window.QUIZ_BANK = {
       "As unusable, so the screenshot should be retyped by hand without using Claude at all"
      ],
      "answer": 1,
-     "explanation": "Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it enters the model.",
+     "explanation": "Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it goes into the cost comparison.",
      "distractors": [
       "Images are downscaled before the model reasons over them; small text and dense cells are predicted, not read exactly.",
       null,
@@ -975,21 +975,21 @@ window.QUIZ_BANK = {
      "id": "M3.4-07",
      "module": "M3.4",
      "difficulty": "core",
-     "scenario": "A CTO asks for help deciding whether to migrate to a new cloud region and says, 'Just tell me what to do.'",
-     "question": "Which deliverable best fits this module?",
+     "scenario": "Your vendor research for the CTO is a three-page narrative: background first, inline links throughout, and the recommendation in the last paragraph. A reviewer says it isn't decision-ready.",
+     "question": "Which restructure best meets the standard for a research deliverable?",
      "options": [
-      "A one-line verdict with a short justification, since that is exactly what the CTO asked for",
-      "A recommendation plus the trade-offs and what would have to be true for each option",
-      "A complete list of every source found, so the CTO can weigh the evidence directly",
-      "A pre-mortem of each option only, since the risks are what matter most here"
+      "Keep the narrative order, but move every inline link into numbered footnotes",
+      "Summary first, then an evidence table, open questions with owners, and sources",
+      "Lead with the recommendation, then attach the full Research report as an appendix",
+      "Cut it to one paragraph with the recommendation, so the CTO can read it quickly"
      ],
      "answer": 1,
-     "explanation": "Decision support presents trade-offs and conditions next to any recommendation, so the accountable human can judge them. A verdict alone hides what would change the answer.",
+     "explanation": "Summary first because decision-makers read the top; an evidence table because reviewers check claims there; open questions with owners make the uncertainty explicit; and a sources list lets the reader check the work.",
      "distractors": [
-      "A bare verdict hides its assumptions and conditions.",
+      "Footnotes tidy the links but leave the answer buried and the claims unchecked in one place.",
       null,
-      "Raw sources without synthesis are not decision support.",
-      "A pre-mortem is one input, not the whole deliverable."
+      "An appended report gives the reader unchecked prose to wade through instead of a checkable evidence table.",
+      "Brevity without evidence or open questions hides what the recommendation rests on."
      ]
     },
     {
@@ -1171,20 +1171,20 @@ window.QUIZ_BANK = {
      "id": "M8.2-06",
      "module": "M8.2",
      "difficulty": "core",
-     "scenario": "You're sending a two-line email to a client that quotes the renewal price Claude extracted from the contract. It seems too small to be worth formally verifying.",
-     "question": "How should you treat it?",
+     "scenario": "You ask Claude to review a pull request and mention that you think the new caching change is safe. It agrees. A teammate then comments that the change has a race condition; you paste the comment in, and Claude now agrees with the teammate.",
+     "question": "Which failure mode is this, and what is the right response?",
      "options": [
-      "Skip review, because short messages carry little risk",
-      "Spot-check it by asking Claude to repeat the figure in a new message and compare",
-      "Add 'subject to change' to the email so the figure doesn't matter",
-      "Full review against the contract, because it's external and financial"
+      "Fabrication; ask Claude to cite the documentation behind each of its review comments",
+      "Stale knowledge; rerun the review with web search on so it uses current library docs",
+      "Instruction drift; restate the review checklist at the top and ask for a fresh review",
+      "Sycophancy; settle it with a test that tries to reproduce the race on the changed path"
      ],
      "answer": 3,
-     "explanation": "Proportional verification is driven by consequence, not length. External and financial are both full-review triggers, so check the figure against the source document.",
+     "explanation": "The model is leaning towards whoever framed the question last, so its agreement carries no evidence either way. Settle it externally: a test or reproduction that exercises the concurrent path decides, not the model's opinion.",
      "distractors": [
-      "Length doesn't set risk; a wrong price quoted to a client is costly however short the email.",
-      "Repetition from the same model isn't an independent check against the contract.",
-      "A disclaimer doesn't fix a wrong figure and can still damage trust or create a dispute.",
+      "Nothing was invented; the answers track whoever spoke last. Citations wouldn't show whether the race is real.",
+      "The code is in the conversation, not missing from training; search won't settle a race in your diff.",
+      "The checklist wasn't forgotten; the model followed the latest framing. Re-asking invites the same lean.",
       null
      ]
     },
@@ -1213,21 +1213,21 @@ window.QUIZ_BANK = {
      "id": "M8.2-08",
      "module": "M8.2",
      "difficulty": "core",
-     "scenario": "Claude recommends migrating to a managed queue service and lists its benefits. The recommendation reads well, but it rests on assumptions about message volume and team skills.",
-     "question": "Which validation fits a recommendation like this?",
+     "scenario": "Before sending an executive summary of an RCA, you ask Claude in the same chat to check it against a 12-point rubric. It reports that all 12 pass, including 'every figure matches the RCA'.",
+     "question": "How much assurance does that self-check give you?",
      "options": [
-      "List what would have to be true for it to be right, then check those conditions",
-      "Check the grammar and structure of the recommendation document",
-      "Ask Claude for a second recommendation and pick whichever one sounds more convincing",
-      "Accept it if the listed benefits match the vendor's marketing page"
+      "Some: it's a filter for slips, so still trace each figure to the RCA yourself",
+      "Full: the rubric explicitly covered the figures, so they have now been checked",
+      "None: self-checks never catch anything, so drop the rubric and review by hand",
+      "Enough, as long as you run the same self-check a second time and both runs pass"
      ],
      "answer": 0,
-     "explanation": "Decisions are validated by surfacing the conditions they depend on (volume, skills, cost) and checking each one, which turns a persuasive narrative into testable claims.",
+     "explanation": "A self-check is a filter, not a guarantee. The checker is the same model with the same beliefs, so it catches slips but not errors it believes are right. Use it to narrow where you look, then do the external check against the RCA.",
      "distractors": [
       null,
-      "Presentation quality says nothing about whether the decision is right.",
-      "Choosing by persuasiveness repeats the tone-over-substance mistake.",
-      "Vendor marketing is a secondary, interested source; it doesn't test your conditions."
+      "The model can 'confirm' a figure it misread in the first place; covering an item isn't checking it.",
+      "Over-correction: self-checks reliably catch slips such as dropped requirements; they just aren't the verification.",
+      "Repeating the same check with the same model repeats the same blind spots."
      ]
     },
     {
@@ -1451,7 +1451,7 @@ window.QUIZ_BANK = {
       "The executed figure should be trusted over the code, so remove the code from the report"
      ],
      "answer": 1,
-     "explanation": "Code execution makes the computed figure reliable, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.",
+     "explanation": "Executed code makes the printed figure reproducible, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.",
      "distractors": [
       "9.8 versus 'about 8' is not rounding; it's a misquote.",
       null,
@@ -1536,7 +1536,7 @@ window.QUIZ_BANK = {
      "question": "What is the main problem?",
      "options": [
       "Projects cannot hold more than one signed SOW, so the second upload would be rejected",
-      "Both clients' files share one retrieval pool, so one client's data can leak into the other's work",
+      "One shared retrieval pool means client A's material can surface in drafts for client B",
       "Retrieval mode becomes noticeably slower when knowledge comes from two different clients",
       "Project instructions can describe only one audience, so the outputs would get the tone wrong"
      ],
@@ -1596,12 +1596,12 @@ window.QUIZ_BANK = {
      "module": "M3.3",
      "difficulty": "core",
      "scenario": "A client emails a change request to add a second hosting region. Your PM asks Claude in the engagement Project for the impact.",
-     "question": "Which request best fits this module?",
+     "question": "Which request should the PM make first?",
      "options": [
       "Ask for a revised estimate in person-days so you can reply to the client with a number today",
       "Ask Claude to accept the change and update the plan and SOW files in the Project automatically",
       "Ask for a summary of the client's email to forward to the steering committee for a decision",
-      "Ask what requirements, deliverables, dates and risks change, citing the SOW, then verify with the tech lead"
+      "List affected requirements, deliverables, dates and risks with SOW citations; the tech lead confirms each"
      ],
      "answer": 3,
      "explanation": "Change-impact analysis lists what changes and cites where, and a human confirms it because Claude cannot see undocumented dependencies. Estimates need a human owner (M5.1).",
@@ -1641,7 +1641,7 @@ window.QUIZ_BANK = {
      "question": "How should you use that result?",
      "options": [
       "Paste the summary into the audit response, since it was generated from company sources",
-      "Use it to locate the thread, ticket and document, then cite those sources",
+      "Use it to locate the thread, ticket and document, then cite those primary sources",
       "Ask Claude to rewrite the summary in a formal register suitable for the auditor",
       "Discard it, because enterprise search results can't be trusted for audit purposes"
      ],
@@ -1684,7 +1684,7 @@ window.QUIZ_BANK = {
      "options": [
       "One of them is getting results from an outdated cached copy of the index",
       "Enterprise search randomises the order of results to reduce answer bias",
-      "Each query runs live against only the sources that person can access",
+      "Each query runs live against only the sources that particular person can access",
       "One engineer has memory turned on, which overrides the search results"
      ],
      "answer": 2,
@@ -1795,7 +1795,7 @@ window.QUIZ_BANK = {
       "Give an example with a worked percentage so Claude copies the method"
      ],
      "answer": 2,
-     "explanation": "Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts that run in the sandbox and return the same answer every time.",
+     "explanation": "Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts. A script is executed (in the code-execution container in the app and API, on your own machine in Claude Code) and returns the same answer every time; only its output enters context.",
      "distractors": [
       "Exhortations don't turn estimation into computation.",
       "More reasoning can reduce errors but still produces prose estimates rather than executed code.",
@@ -1866,21 +1866,21 @@ window.QUIZ_BANK = {
     {
      "id": "M4.2-09",
      "difficulty": "stretch",
-     "scenario": "In Claude Code you edit a Skill that was synced from your claude.ai account, adding a required 'customer impact' field. The next morning the field is missing and the Skill behaves as before.",
-     "question": "What explains this, and what should you do?",
+     "scenario": "In Claude Code you fix a wrong severity table in your local copy of the org's defect-report Skill, which reached you through account sync from the org library. The next day your fix is gone and colleagues still get the old table.",
+     "question": "What is the durable fix?",
      "options": [
-      "Claude Code caches Skills for a day; wait for the cache to expire and the local edit will come back",
-      "Synced Skills are overwritten from source; change it via the source Skill's owner and version it",
-      "Local edits require restarting Claude Code twice before they take effect",
-      "The edit was too long; shorten it so the Skill stays within its size limit"
+      "Re-apply the local edit each morning until the library owner notices the problem",
+      "Fix the source Skill through its owner, bump the version, and let the copies update",
+      "Copy the Skill into the repo's .claude/skills folder under a new name and edit that copy",
+      "Turn off Skill sync so your corrected local copy is never replaced again"
      ],
      "answer": 1,
-     "explanation": "Account Skill sync flows one way into Claude Code and overwrites local copies. The durable fix is in the source, owned and versioned, so every surface receives it.",
+     "explanation": "A distributed Skill has one source and many downstream copies, and the copies are replaced from the source. The fix that reaches everyone, and survives the next sync, is made once at the source by its owner and versioned. (Current Claude Code docs describe the account sync as download-only, overwriting local edits; the principle holds regardless of the mechanism.)",
      "distractors": [
-      "There's no day-long cache; the sync replaced the edited copy, so waiting won't bring the edit back.",
+      "The edit keeps being overwritten, and colleagues never get the fix.",
       null,
-      "Restarts don't preserve edits to a copy that the sync overwrites.",
-      "Length wasn't the problem; the edit was discarded by the sync, not truncated."
+      "A renamed fork fixes it for one repo only and drifts from the org version from then on.",
+      "Opting out freezes your copy, cuts you off from future fixes and leaves everyone else on the bug."
      ]
     },
     {
@@ -1895,7 +1895,7 @@ window.QUIZ_BANK = {
       "Keep the app version only and tell engineers to paste its steps into their prompts"
      ],
      "answer": 2,
-     "explanation": "The same SKILL.md format runs in the apps, in Claude Code and through the API. One owned, versioned source avoids the drift that multiple copies create.",
+     "explanation": "The same SKILL.md format runs in the apps, in Claude Code and through the API, but each surface holds its own copy (an app upload, an API upload, a folder in the repo). Keep one owned, versioned source and publish every copy from it, using only frontmatter fields every surface accepts, so the copies cannot drift.",
      "distractors": [
       "The format is shared across surfaces; three rewrites create three versions that drift.",
       "That throws away the Skill packaging and creates two divergent copies of the same procedure.",
@@ -2040,21 +2040,21 @@ window.QUIZ_BANK = {
      "id": "M8.3-07",
      "module": "M8.3",
      "difficulty": "core",
-     "scenario": "A generated dependency list contains a package whose registry entry shows no licence field, and the repository has no LICENSE file.",
-     "question": "How should the audit classify it?",
+     "scenario": "Claude generates 20 synthetic user personas for a client's banking-app research. Every 'senior engineer' persona is male, and every 'struggles with technology' persona is over 65.",
+     "question": "What should happen before the personas go into the client deliverable?",
      "options": [
-      "Allowed, since public code with no stated licence is effectively public domain",
-      "Blocked until legal clears it, because no licence means no permission",
-      "Allowed for internal tools only, since nobody will enforce it",
-      "Review only if it has fewer than 100 GitHub stars"
+      "Ship them, since synthetic personas are fictional and cannot harm any real person",
+      "Run an attribute-swap check, fix the skewed patterns, and have a named human review them",
+      "Add a footnote saying the personas were AI-generated and may contain some bias",
+      "Regenerate once with 'avoid stereotypes' in the prompt and ship whatever comes back"
      ],
      "answer": 1,
-     "explanation": "Copyright applies by default. Without a licence you have no permission to use, modify or distribute the code.",
+     "explanation": "Generated content can encode stereotypes, and personas shape design decisions for real users. A cheap bias check (swap the attribute, compare, read who is always cast in which role), a fix, and review by the accountable human are what responsible client work requires.",
      "distractors": [
-      "Public visibility isn't a grant of rights. Public domain requires an explicit dedication.",
+      "Personas drive design decisions and reach the client under your name; encoded bias harms real users and the brand.",
       null,
-      "The legal position doesn't depend on whether anyone enforces it.",
-      "Popularity has nothing to do with the licence."
+      "A disclaimer shifts the problem to the reader instead of fixing content you are accountable for.",
+      "A prompt instruction is not a check; the regenerated set is still unreviewed."
      ]
     },
     {
@@ -2106,17 +2106,17 @@ window.QUIZ_BANK = {
      "scenario": "You are designing scope limits for a scheduled agent that cleans up stale cloud resources in a client's staging account every night.",
      "question": "Which design best meets the agentic responsibilities in this module?",
      "options": [
-      "Admin credentials so it never fails, plus a summary email of what it reports deleting",
-      "Read-write credentials for every environment so it can also clean up production resources whenever someone asks it to",
-      "Least-privilege credentials and no logging, since staging resources are not important",
-      "Staging-scoped least-privilege credentials, a dry-run list a named owner approves, full logging and a stop procedure"
+      "Staging-only least-privilege credentials and full logging, with deletions running unattended each night",
+      "Staging-only credentials and a dry-run list a named owner approves, with the agent's nightly summary as the log",
+      "Admin credentials across all environments so it never fails, with approval needed for production deletions only",
+      "Staging-only least-privilege credentials, a dry-run list a named owner approves, full logs, a stop procedure"
      ],
      "answer": 3,
-     "explanation": "The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log, and a known way to stop it.",
+     "explanation": "The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log that records what it actually did, and a known way to stop it.",
      "distractors": [
-      "Admin credentials maximise the blast radius, and a self-reported summary isn't evidence.",
-      "Scope creep into production removes the boundary entirely.",
-      "Without logs you can't reconstruct or defend what the agent did.",
+      "Deletion is irreversible; with no human gate a bad selection destroys resources before anyone looks.",
+      "A self-reported summary is a claim, not a log, and there is no way to stop a run that goes wrong.",
+      "Cross-environment admin credentials put production inside the blast radius of a staging job.",
       null
      ]
     }
@@ -2401,21 +2401,21 @@ window.QUIZ_BANK = {
      "id": "M5.1-04",
      "module": "M5.1",
      "difficulty": "core",
-     "scenario": "Claude's acceptance criteria for a CSV export cover only the case of a user exporting a few invoices successfully.",
-     "question": "What is the most useful next prompt?",
+     "scenario": "Your invoice export API is at v1 and used by external integrators. A new story makes the optional 'from' date in ExportRequest required, and Claude's change summary labels this 'additive: tightens validation'.",
+     "question": "How should you classify and ship this change?",
      "options": [
-      "'For each edge-case category (empty, limits, permissions, concurrency, failure, time zone), write Given-When-Then.'",
-      "'Make the acceptance criteria more detailed, and make sure they cover the whole export feature properly.'",
-      "'Rewrite every criterion in formal, unambiguous English, using MUST and SHALL throughout the list.'",
-      "'Add a criterion that the export should be fast and reliable for all users.'"
+      "Breaking: requests omitting 'from' now fail, so ship it in a new version with a deprecation window",
+      "Additive, since no field is removed or renamed and the response shape is unchanged",
+      "Additive, as long as the changelog announces the new rule well before the next scheduled release",
+      "Not a contract change at all, because validation rules sit outside the OpenAPI schema itself"
      ],
      "answer": 0,
-     "explanation": "Claude's default is the happy path. Naming the edge-case categories gets systematic coverage in a testable form.",
+     "explanation": "Tightening validation (optional to required, narrower enums, shorter limits) rejects requests that worked yesterday, so it is breaking. Classify against your written versioning rules, verify Claude's label rather than trusting it, and ship breaking changes under a new version with a deprecation window.",
      "distractors": [
       null,
-      "'More detailed' gives no direction, so you get more happy-path words.",
-      "Register isn't the problem. Coverage is.",
-      "'Fast' isn't testable. It needs a measurable threshold."
+      "Removal and renaming aren't the only breaking changes. Clients that omit the field start getting errors.",
+      "A changelog informs clients but doesn't stop their existing requests failing on the day you ship.",
+      "The 'required' list and constraints are part of the OpenAPI schema. Changing them changes what clients must send."
      ]
     },
     {
@@ -2530,10 +2530,10 @@ window.QUIZ_BANK = {
      "scenario": "Mid-sprint, the client changes 'export within 1 minute' to 'export available in under 5 seconds'. You have requirement IDs, stories, an OpenAPI contract, an ADR and tests linked by references.",
      "question": "How should you assess the change's impact?",
      "options": [
-      "Regenerate all the artefacts from scratch with the new requirement included from the start",
+      "Regenerate all the artefacts from scratch so the new requirement is reflected everywhere at once",
       "Update only the requirement text, since the downstream artefacts will catch up in review",
       "Ask Claude whether the change is small or large, then plan the follow-up work from that",
-      "Trace forward from the changed NFR to every story, contract operation, ADR and test, and list each"
+      "Trace forward from the changed NFR to each story, contract operation, ADR and test that cites it"
      ],
      "answer": 3,
      "explanation": "Traceability makes impact analysis mechanical. Follow the references from the changed requirement to everything built on it, here including the async-queue ADR.",
@@ -2558,9 +2558,9 @@ window.QUIZ_BANK = {
      "scenario": "You ask Claude to 'write a SubscriptionService' for a Spring Boot codebase. The result uses field injection and RuntimeException, while your codebase uses constructor injection and a typed Result pattern. Review stalls on style.",
      "question": "What change to the prompt would most reliably fix this next time?",
      "options": [
-      "Add 'follow best practices for Spring Boot' to the prompt",
+      "Add 'follow Spring Boot best practices and clean-code principles' to the prompt",
       "Switch to a higher effort level so it reasons more carefully about house style",
-      "Ask for the code in smaller pieces, one method per prompt",
+      "Ask for the code in smaller pieces, one method per prompt, reviewing each",
       "Supply the conventions, lint rules and sibling OrderService.java as a sample"
      ],
      "answer": 3,
@@ -2601,7 +2601,7 @@ window.QUIZ_BANK = {
      "question": "What should you do before quoting it?",
      "options": [
       "Ask for strings that should match and fail, then run them against the regex",
-      "Ask Claude to confirm its explanation is correct",
+      "Ask Claude to re-read the regex carefully and confirm its explanation",
       "Ask a second model to explain the same regex and compare the two explanations",
       "Quote it in the doc with a clear note that the explanation was AI-generated"
      ],
@@ -2664,9 +2664,9 @@ window.QUIZ_BANK = {
      "question": "Which area of the conversion most needs a human decision and a test here?",
      "options": [
       "The str/bytes boundary where files are read and decoded",
-      "Replacing print statements with print() calls",
-      "Changing except X, e syntax to except X as e",
-      "Replacing dict.iteritems() with dict.items()"
+      "Replacing print statements with print() function calls",
+      "Rewriting each except X, e clause as except X as e",
+      "Replacing dict.iteritems() with dict.items() in loops"
      ],
      "answer": 0,
      "explanation": "str/bytes handling is the Python 2→3 change that can't be converted mechanically: encodings must be decided where bytes enter the system, and only data like the client's will expose it.",
@@ -2706,16 +2706,16 @@ window.QUIZ_BANK = {
      "question": "What is the defect?",
      "options": [
       "sendEmail must be wrapped in a try/catch so failures are logged instead of swallowed",
-      "console.log should be replaced with a structured logger",
-      "The function should be declared async at the top level",
+      "console.log runs before the logger flushes and should be a structured logger",
+      "The enclosing function must be declared async so the inner awaits can run",
       "forEach doesn't await async callbacks, so the job ends before the sends complete"
      ],
      "answer": 3,
      "explanation": "Array.forEach ignores returned promises. Use for…of with await, or Promise.all with a concurrency limit, so the job waits.",
      "distractors": [
       "Error handling matters but doesn't explain why sends are cut off.",
-      "The logger doesn't affect whether promises are awaited.",
-      "Making the outer function async doesn't make forEach await its callbacks.",
+      "Swapping the logger doesn't change whether the email promises are awaited.",
+      "Making the outer function async doesn't make forEach await its callbacks; forEach still discards the promises.",
       null
      ]
     },
@@ -2726,10 +2726,10 @@ window.QUIZ_BANK = {
      "scenario": "Migrating a reporting database from SQL Server to PostgreSQL, Claude converts TOP to LIMIT, ISNULL to COALESCE and GETDATE() to now(). All queries run. Finance later finds a customer search that used to match 'ACME' and 'acme' now misses one.",
      "question": "What should the conversion checklist have flagged?",
      "options": [
-      "That COALESCE evaluates arguments differently from ISNULL",
+      "COALESCE evaluating its arguments differently from ISNULL",
       "Collation and case-sensitivity differences between the two databases",
-      "That LIMIT must always be paired with ORDER BY",
-      "Timezone handling differences in now()"
+      "LIMIT needing an ORDER BY to return the same rows each time",
+      "now() returning a timezone-aware value where GETDATE() did not"
      ],
      "answer": 1,
      "explanation": "Default SQL Server collations are typically case-insensitive while PostgreSQL comparisons are case-sensitive by default — a semantic difference no syntax rewrite catches. It belongs on the 'cannot convert mechanically' list.",
@@ -2737,7 +2737,7 @@ window.QUIZ_BANK = {
       "ISNULL/COALESCE differences exist (typing) but don't explain case-sensitive matching.",
       null,
       "ORDER BY with LIMIT matters for determinism, not for case matching.",
-      "Timezones don't affect matching 'ACME' against 'acme'."
+      "The timestamp type does differ, but it doesn't affect matching 'ACME' against 'acme'."
      ]
     },
     {
@@ -2748,7 +2748,7 @@ window.QUIZ_BANK = {
      "question": "What is the right response?",
      "options": [
       "Merge it, but run Claude over it once more to tidy the code and fix the conventions",
-      "Merge it behind a feature flag so it can be switched off",
+      "Merge it behind a feature flag so it can be switched off if problems appear",
       "Merge only the UI components, since they are lower risk than the backend code",
       "Treat it as a prototype: rebuild it or bring it in through normal review and tests"
      ],
@@ -2776,7 +2776,7 @@ window.QUIZ_BANK = {
      "question": "What is the most effective first prompt?",
      "options": [
       "'Here is the error and the stack trace. What is the bug, and how do I fix it quickly?'",
-      "Evidence in tags; rank up to five hypotheses with evidence and a cheap test for each; no fix yet",
+      "'Using the evidence below, rank up to five hypotheses, each with a cheap test. No fix yet.'",
       "'Rewrite the retry worker so it is fully thread-safe, then explain what you changed.'",
       "'Explain what DuplicateKeyException means in JPA and list its common causes in services.'"
      ],
@@ -2797,9 +2797,9 @@ window.QUIZ_BANK = {
      "question": "What should you do before implementing the suggested lock?",
      "options": [
       "Implement it, since the explanation names a well-known bug class that matches the logs",
-      "Ask Claude how confident it is and proceed if it says high",
+      "Ask Claude to rate its confidence and implement only if it says high",
       "Reproduce it under a stress test, or add instrumentation that would confirm the race",
-      "Ask Claude to explain the race in more detail"
+      "Ask Claude to explain the race in more detail, with a timeline of both threads"
      ],
      "answer": 2,
      "explanation": "A fluent diagnosis isn't evidence. Concurrency bugs need a reproduction or targeted instrumentation (thread IDs, correlation IDs) before you act on a story.",
@@ -2807,7 +2807,7 @@ window.QUIZ_BANK = {
       "Naming a famous bug class is exactly what makes a wrong story sound right.",
       "Self-reported confidence carries no information about correctness.",
       null,
-      "More detail makes the story more convincing, not more verified."
+      "More detail makes the story more convincing, not more verified. Only a reproduction or measurement adds evidence."
      ]
     },
     {
@@ -2840,8 +2840,8 @@ window.QUIZ_BANK = {
      "options": [
       "Write characterisation tests that capture current outputs by running the code",
       "Ask Claude to add comments throughout so the refactor is easier for reviewers to follow",
-      "Ask for the refactor at maximum effort to minimise mistakes",
-      "Split the function into two files so the diff is smaller"
+      "Ask for the refactor at maximum effort so the one-shot rewrite has fewer mistakes",
+      "Split the function across two files first so the eventual diff is smaller"
      ],
      "answer": 0,
      "explanation": "Behaviour-preserving refactoring needs tests that pin current behaviour. Characterisation tests, with outputs captured by running the code, make each small step checkable.",
@@ -2859,9 +2859,9 @@ window.QUIZ_BANK = {
      "scenario": "While writing characterisation tests for an invoice rounding function, Claude fills in the expected values for twenty inputs.",
      "question": "What is the problem with this?",
      "options": [
-      "Twenty inputs are too many for a characterisation test",
+      "Twenty inputs are too many; a characterisation test should pin only a few cases",
       "Expected values should come from running the existing code, not from Claude's prediction",
-      "Characterisation tests should use random inputs, not fixed ones",
+      "Characterisation tests should use freshly random inputs on each run, not fixed ones",
       "Rounding functions shouldn't get characterisation tests, because their rules change often"
      ],
      "answer": 1,
@@ -2869,7 +2869,7 @@ window.QUIZ_BANK = {
      "distractors": [
       "Coverage of branches and boundaries matters more than a small count.",
       null,
-      "Fixed, captured inputs are what make the test a stable reference.",
+      "Fresh random inputs make the pin unstable; fixed inputs with captured outputs are what make it a reference.",
       "Code that changes often is exactly where a behaviour pin helps."
      ]
     },
@@ -2880,8 +2880,8 @@ window.QUIZ_BANK = {
      "scenario": "Claude reviews a slow endpoint and says: 'Replacing this list lookup with a dictionary should make the endpoint about 40% faster.'",
      "question": "How should you treat that number?",
      "options": [
-      "As a reasonable estimate to put in the PR description",
-      "As a lower bound, since Claude tends to be conservative",
+      "As a reasonable estimate to quote in the PR description as the expected gain",
+      "As a lower bound, since Claude tends to be conservative about performance gains",
       "As a prediction: profile first, then measure before and after on the same data",
       "As accurate, provided Claude used extended thinking at a high effort to produce it"
      ],
@@ -2902,8 +2902,8 @@ window.QUIZ_BANK = {
      "question": "What is the right fix and proof?",
      "options": [
       "Add a response cache in front of the endpoint and report the cache hit rate after a day",
-      "Add a database index on customer.id and report the new p95",
-      "Paginate to 20 orders per page and report the reduced query count",
+      "Add an index on customer.id and report the new p95 after the next deploy",
+      "Paginate to 20 orders per page and report the reduced query count per request",
       "Eager-load the customer relation and report query count and p95 before and after"
      ],
      "answer": 3,
@@ -2923,8 +2923,8 @@ window.QUIZ_BANK = {
      "question": "What is the best next move?",
      "options": [
       "Move the task to Claude Code, which can read the repo and run the tests itself",
-      "Start a fresh chat and paste all twelve files at once",
-      "Ask Claude to guess which other files might be involved",
+      "Start a fresh chat and paste all twelve files at once to give full context",
+      "Ask Claude to infer which other files are probably involved and keep pasting",
       "Raise the effort level so it keeps track of all twelve files and their imports better"
      ],
      "answer": 0,
@@ -2967,7 +2967,7 @@ window.QUIZ_BANK = {
       "Update the test's expected value to match the new output so the suite goes green again quickly",
       "Revert step 3 and redo it in smaller steps, keeping refactor and behaviour change apart",
       "Continue with steps 4 and 5, then fix all the failing tests together at the very end",
-      "Ask Claude to explain why the test is wrong"
+      "Ask Claude to explain why the test is wrong, then update it if the reason holds"
      ],
      "answer": 1,
      "explanation": "Red during a refactor means behaviour changed. Revert, don't debug forward; a refactor and a behaviour change never share a commit.",
@@ -3151,10 +3151,10 @@ window.QUIZ_BANK = {
      "scenario": "You run a mutation tool on a well-covered module. It reports a 68% mutation score. Most survivors flip comparison operators in the late-fee calculation, and a few are changes that cannot alter behaviour.",
      "question": "What is the most useful next step?",
      "options": [
-      "Raise line coverage to 100%, which will also raise the mutation score",
-      "Disable the comparison-operator mutators, since they generate noise",
+      "Raise line coverage to 100% first, which will also raise the mutation score",
+      "Disable the comparison-operator mutators, since they mostly generate noise",
       "Treat 68% as acceptable, because mutation scores above 60% are an industry norm",
-      "Add boundary-value tests for late-fee thresholds, and accept equivalent mutants as unkillable"
+      "Add boundary tests at the late-fee thresholds; accept equivalent mutants as unkillable"
      ],
      "answer": 3,
      "explanation": "Surviving comparison mutants mean no test pins the boundary (for example `>` vs `>=`). Boundary-value tests kill them. Equivalent mutants change code without changing behaviour, so no test can kill them, and chasing 100% is wasted effort.",
@@ -3258,13 +3258,13 @@ window.QUIZ_BANK = {
      "scenario": "Your ~/.claude/CLAUDE.md says 'always use yarn'; the project CLAUDE.md says 'use npm ci'. Claude uses yarn in some sessions and npm in others.",
      "question": "What is the best fix?",
      "options": [
-      "Remove the conflict so only one instruction applies to this project",
+      "Delete the yarn rule, or scope it so it can't apply here",
       "Rely on the project file overriding your personal file",
       "Restate 'use npm' in every prompt for this project",
       "Turn off auto memory so the instructions stop conflicting"
      ],
      "answer": 0,
-     "explanation": "CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically. Resolve them in the files.",
+     "explanation": "CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically (Claude may pick either). Resolve them in the files.",
      "distractors": [
       null,
       "Load order makes the more specific file later, but both remain in context; the inconsistent behaviour shows recency is not a guarantee.",
@@ -3355,21 +3355,21 @@ window.QUIZ_BANK = {
     {
      "id": "M6.2-09",
      "difficulty": "stretch",
-     "scenario": "You want to keep a week-long feature effort coherent across many sessions. Decisions made in chat keep getting lost after compaction.",
-     "question": "Which approach best preserves them?",
+     "scenario": "One teammate has set effort to max for everything, including bulk renames, and complains about slow, costly sessions. Another runs low effort while chasing an intermittent race condition and keeps getting shallow guesses.",
+     "question": "What guidance should you give the team?",
      "options": [
-      "Disable auto-compact so nothing is ever summarised",
-      "Ask Claude to remember decisions in auto memory",
-      "Keep the plan and decision log in a committed file, read at each start",
-      "Re-paste the whole previous transcript at the start of each session"
+      "Standardise everyone on max so results are consistent across the team",
+      "Standardise everyone on low and rely on plan mode for the hard thinking",
+      "Match effort to the task: raise it for the race, lower it for renames",
+      "Leave effort alone and switch to a larger model for difficult bugs"
      ],
      "answer": 2,
-     "explanation": "Compaction is lossy summarisation of chat turns; files survive it and can be reviewed. A committed plan/decision file (M6.8) is the durable carrier.",
+     "explanation": "Effort trades tokens and latency for reasoning depth. Mechanical edits gain nothing from it; hard debugging and design do. Set it per task rather than as a team-wide constant.",
      "distractors": [
-      "Without compaction the window fills and quality degrades or the session fails; it doesn't preserve decisions durably.",
-      "Auto memory is unreviewed, machine-local and can contradict itself.",
+      "Max on mechanical work is slow and expensive with no quality gain; consistency of setting isn't consistency of results.",
+      "Plan mode structures the work but doesn't supply the reasoning depth a hard race-condition hunt needs.",
       null,
-      "Re-pasting transcripts floods the window with noise and repeats the original problem."
+      "Model choice and effort are separate levers; leaving effort at low still starves the hard task of reasoning."
      ]
     },
     {
@@ -3378,15 +3378,15 @@ window.QUIZ_BANK = {
      "scenario": "In a monorepo, billing has strict money-handling rules that are irrelevant to the other 30 packages. Putting them in the root CLAUDE.md bloats every session.",
      "question": "Where should those rules live?",
      "options": [
-      "In the root CLAUDE.md, since only one file is ever read",
+      "In the root CLAUDE.md, under a clear 'Billing only' heading",
       "In each developer's personal ~/.claude/CLAUDE.md",
       "In auto memory, which loads only when billing is touched",
-      "In a billing-scoped place: a nested CLAUDE.md or a path-scoped rule"
+      "In a nested billing/CLAUDE.md or a path-scoped rule"
      ],
      "answer": 3,
      "explanation": "Nested directory CLAUDE.md files and path-scoped rules load only when Claude works on matching files, keeping the context small elsewhere while the rules are committed and reviewed.",
      "distractors": [
-      "Multiple CLAUDE.md files are supported and nested ones load on demand.",
+      "A heading doesn't stop the root file loading in every session; the rules still cost context in all 30 other packages.",
       "Personal files aren't shared, so teammates and CI never get the rules.",
       "Auto memory isn't scoped by path and isn't a reviewed instruction source.",
       null
@@ -3446,9 +3446,9 @@ window.QUIZ_BANK = {
      "question": "Which prompt pattern would have closed this loophole?",
      "options": [
       "'Write failing tests first, then implement; don't edit agreed tests.'",
-      "'Make all tests pass before you finish.'",
+      "'Make sure every test passes before you report the task as done.'",
       "'Implement the fix, then write tests for it so nothing is left untested.'",
-      "'Use maximum effort and be careful.'"
+      "'Think hard, use maximum effort, and double-check your changes.'"
      ],
      "answer": 0,
      "explanation": "Test-first pins the target before implementation, and forbidding edits to agreed tests stops the 'edit tests to go green' path.",
@@ -3508,7 +3508,7 @@ window.QUIZ_BANK = {
       "Ask Claude to guess the fix from the error message and push it",
       "Give the full log, get ranked hypotheses, and reproduce it first",
       "Disable the failing test so the release isn't blocked, then fix it after",
-      "Re-run CI until it passes"
+      "Re-run the CI job a few times to see whether it's just flaky"
      ],
      "answer": 1,
      "explanation": "Debugging with evidence: the full log, ranked hypotheses, and a reproduction that fails reliably. The reproduction then becomes the regression test.",
@@ -3516,7 +3516,7 @@ window.QUIZ_BANK = {
       "A guessed fix without a reproduction can't be shown to work.",
       null,
       "Disabling the test hides the defect.",
-      "Re-running treats a real failure as noise and proves nothing."
+      "Re-running can hide a real intermittent defect and gives no evidence of the cause; it postpones the diagnosis."
      ]
     },
     {
@@ -3526,8 +3526,8 @@ window.QUIZ_BANK = {
      "question": "How should the conflict be resolved?",
      "options": [
       "Resolve by intent, keeping both behaviours, with a test for each",
-      "Take whichever branch merged first",
-      "Take the branch with more passing tests",
+      "Keep the side that merged first and drop the other's hunk",
+      "Keep the side whose branch has more passing tests",
       "Ask Claude to pick one side so the merge stays quick and the diff stays small"
      ],
      "answer": 0,
@@ -3546,9 +3546,9 @@ window.QUIZ_BANK = {
      "question": "What is the right position?",
      "options": [
       "Accept; an AI review is more thorough than a human one",
-      "Accept only for small PRs under 50 lines",
+      "Accept for PRs under 50 lines; keep human approval for larger ones",
       "AI review is an input; a named human still approves every PR",
-      "Reject AI review entirely as unreliable"
+      "Reject AI review entirely; it adds noise reviewers learn to ignore"
      ],
      "answer": 2,
      "explanation": "Automated review helps the reviewer, but accountability needs a named human approver for every change (M8.3).",
@@ -3556,7 +3556,7 @@ window.QUIZ_BANK = {
       "Thoroughness doesn't create accountability, and AI review can miss context-dependent defects.",
       "Size doesn't remove the need for an accountable approver.",
       null,
-      "AI review is useful as a first pass; the issue is replacing the human, not using it."
+      "AI review is a useful first pass for the human reviewer; the problem is replacing the human, not using the tool."
      ]
     },
     {
@@ -3567,7 +3567,7 @@ window.QUIZ_BANK = {
      "options": [
       "Move the key to a repo secret and grant only the permissions needed",
       "Rename the trigger phrase so fewer people can invoke the action by accident",
-      "Run the action only on weekdays",
+      "Add --max-turns and a job timeout so runaway runs stop early",
       "Pin Claude to a cheaper model to control cost"
      ],
      "answer": 0,
@@ -3575,28 +3575,28 @@ window.QUIZ_BANK = {
      "distractors": [
       null,
       "A trigger phrase is not an access control.",
-      "Scheduling doesn't reduce privilege or protect the key.",
+      "Turn and time caps control cost, but the key is still in the YAML and the token can still write everywhere.",
       "Cost control doesn't address the exposed key or broad permissions."
      ]
     },
     {
      "id": "M6.3-10",
      "difficulty": "stretch",
-     "scenario": "Running four parallel sessions, you notice two of them are now editing the same module as part of 'cleanup'. Merges keep conflicting on every hunk.",
-     "question": "What is the best adjustment?",
+     "scenario": "Claude finishes a checkout-page change and reports: 212 unit tests pass, lint is clean, and coverage rose to 85%. Nobody has run the app since the change.",
+     "question": "What verification is still missing before you call it done?",
      "options": [
-      "Add a fifth session whose only job is resolving conflicts continuously",
-      "Force-push the session with the cleaner diff",
-      "Scope tasks so no two sessions own the same module",
-      "Turn off tests until all sessions finish"
+      "Raise the coverage target to 95% and have Claude add tests to reach it",
+      "Ask Claude to write more unit tests for the components it changed",
+      "Run the app and walk the checkout flow end to end, observing the result",
+      "Re-run the same suite in CI to confirm the local result holds there"
      ],
      "answer": 2,
-     "explanation": "Overlapping refactors are where parallelism stops paying. Scope each session to disjoint files, or sequence the overlapping work.",
+     "explanation": "Tests and coverage measure what ran, not whether the feature works for a user. Building and running the app and observing the behaviour (what the bundled verify skill automates) closes the gap.",
      "distractors": [
-      "Another session adds coordination cost without removing the overlap.",
-      "Force-pushing destroys work and breaks the hard rule.",
+      "Coverage measures executed lines, not checked behaviour; a higher number still never exercised the real flow.",
+      "More unit tests of the same kind leave the integrated, running behaviour unobserved.",
       null,
-      "Disabling tests removes the check that catches broken merges."
+      "The same suite in another environment repeats the same blind spot."
      ]
     }
    ]
@@ -3612,7 +3612,7 @@ window.QUIZ_BANK = {
      "scenario": "Eighteen months after a refund-rounding fix, an auditor asks why rounding happens after currency conversion. The commit message says only 'fix rounding'.",
      "question": "Which artefact should have captured the answer?",
      "options": [
-      "The project CLAUDE.md",
+      "A note about rounding in the project CLAUDE.md",
       "A worklog entry for that fix, linked from the commit",
       "Claude's auto memory on the original developer's laptop",
       "A MISTAKES.md entry written by Claude"
@@ -3633,9 +3633,9 @@ window.QUIZ_BANK = {
      "question": "What is the right response?",
      "options": [
       "Commit it; shared memory keeps everyone's sessions consistent across machines",
-      "Commit it but regenerate it weekly",
+      "Commit it, but have Claude regenerate it from scratch every week",
       "Don't commit it; promote true, useful notes into CLAUDE.md or rules",
-      "Copy it into the README instead"
+      "Paste its contents into the README so humans can read it too"
      ],
      "answer": 2,
      "explanation": "Auto memory is per-machine, unreviewed and self-contradicting. The right path is to promote reviewed, stable facts into committed instructions.",
@@ -3712,7 +3712,7 @@ window.QUIZ_BANK = {
      "scenario": "To be helpful, Claude has started adding entries to MISTAKES.md whenever it notices it made an error.",
      "question": "Why is this a problem?",
      "options": [
-      "Claude's entries are too long for the file",
+      "Claude should log its errors in auto memory instead",
       "Its value is human judgement; Claude can't log errors it didn't notice",
       "MISTAKES.md must be generated automatically by a hook, not written by Claude",
       "It's fine as long as a human reads the file weekly"
@@ -3720,7 +3720,7 @@ window.QUIZ_BANK = {
      "answer": 1,
      "explanation": "MISTAKES.md is human corrections only. Its value is a human's judgement that something was wrong, which by definition includes the errors Claude didn't notice.",
      "distractors": [
-      "Length isn't the issue; who judges the mistake is.",
+      "Moving the log doesn't fix the problem: self-noticed errors aren't the content, and auto memory is unreviewed and local.",
       null,
       "Hook-generated content is the anti-pattern this module warns against.",
       "Reading doesn't change that the entries reflect only Claude's self-detected errors."
@@ -3732,7 +3732,7 @@ window.QUIZ_BANK = {
      "scenario": "A repo has plan.md files from three features. In one, the implementation changed approach mid-way and plan.md was never updated.",
      "question": "What is the risk, and the fix?",
      "options": [
-      "No risk; plans are only drafts",
+      "No real risk; plan.md is a draft and the code is the truth",
       "Delete all plan.md files from the repository so they can never drift",
       "A stale plan misleads; update it in the same PR or record the deviation",
       "Leave it as is; the worklog entries will explain the difference eventually"
@@ -3740,7 +3740,7 @@ window.QUIZ_BANK = {
      "answer": 2,
      "explanation": "A plan.md that no longer matches the code is worse than none. Keep it honest in the same PR, or record the deviation in the worklog.",
      "distractors": [
-      "Committed plans are part of the audit trail readers trust.",
+      "Committed plans are part of the audit trail readers trust; a draft that looks authoritative misleads.",
       "Deleting them throws away the reasoning the trail exists to keep.",
       null,
       "An unlinked future note doesn't stop readers being misled by the plan now."
@@ -3752,15 +3752,15 @@ window.QUIZ_BANK = {
      "scenario": "A new teammate's PR includes CLAUDE.local.md with their personal paths and a .claude/settings.local.json they created by hand.",
      "question": "What should the repo do?",
      "options": [
-      "Accept both; they help Claude in CI",
+      "Accept both; Claude in CI then gets the same setup as the author",
       "Accept the settings file but ignore CLAUDE.local.md",
-      "Rename both to the shared filenames and commit",
+      "Rename both to CLAUDE.md and settings.json so the team shares them",
       "Ignore both in the repo .gitignore and remove them from the PR"
      ],
      "answer": 3,
      "explanation": "Both are personal, machine-local files. Add them to the repository .gitignore so every clone is protected, rather than relying on per-user global excludes.",
      "distractors": [
-      "Personal paths and local settings don't belong in a shared repo and may leak details.",
+      "Personal paths and local settings don't belong in a shared repo, may leak details, and won't match CI's environment anyway.",
       "settings.local.json is personal by design and shouldn't be committed either.",
       "Turning personal preferences into shared instructions bypasses review of what the team wants.",
       null
@@ -3772,17 +3772,17 @@ window.QUIZ_BANK = {
      "scenario": "After a team adds a hook that forces a worklog file on every commit, the repo has 900 entries in three months, most reading 'Symptom: n/a'.",
      "question": "What is the best correction?",
      "options": [
-      "Keep the hook and ask Claude to write longer entries",
-      "Require entries for judgement calls, checked in PR review; drop the per-commit hook",
-      "Delete docs/worklog/ entirely",
-      "Move the entries into CLAUDE.md, where Claude will read them at every session start"
+      "Keep the hook but have Claude write longer, more detailed entries",
+      "Drop the per-commit hook; require entries for judgement calls in PR review",
+      "Delete docs/worklog/ and rely on commit messages for the why",
+      "Move the entries into CLAUDE.md so Claude reads them every session"
      ],
      "answer": 1,
      "explanation": "Documentation generated because a hook required it is the named anti-pattern. Entries are for fixes and judgement calls, reviewed like code.",
      "distractors": [
       "Longer filler is still filler; volume without value.",
       null,
-      "Losing the worklog removes the record for the cases that matter.",
+      "Losing the worklog removes the record for the cases that matter; commit messages can't hold rejected options and uncertainty.",
       "That bloats CLAUDE.md with history, the failure mode the five-artefact split prevents."
      ]
     },
@@ -3793,7 +3793,7 @@ window.QUIZ_BANK = {
      "question": "Which evidence best answers them?",
      "options": [
       "Exported chat transcripts from developers' Claude sessions",
-      "Each developer's auto memory files",
+      "Each developer's auto memory files, exported at engagement end",
       "A signed statement from the tech lead that Claude Code was configured securely throughout",
       "Committed intent/spec/plan, reviewed diffs, and worklog entries naming reviewers"
      ],
@@ -3845,7 +3845,7 @@ window.QUIZ_BANK = {
       "Add 'never exceed the length limit' to the system prompt so the model learns to self-truncate neatly"
      ],
      "answer": 0,
-     "explanation": "stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. Handle it explicitly.",
+     "explanation": "stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. The same rule covers refusal (HTTP 200, declined) and the other non-end_turn values: branch on stop_reason before reading content.",
      "distractors": [
       null,
       "Silently skipping hides data loss: the job reports success while dropping tickets.",
@@ -3916,21 +3916,21 @@ window.QUIZ_BANK = {
     {
      "id": "M7.1-06",
      "difficulty": "core",
-     "scenario": "A product manager wants to know whether a 1,200-page technical archive will fit a request, and reaches for a popular open-source tokenizer from another vendor to count it.",
-     "question": "What should you recommend?",
+     "scenario": "Your multi-tenant contract-analysis product uploads each customer's PDFs once through the Files API into one shared workspace. The browser client sends the file_id back with every question so the backend can reference the document.",
+     "question": "What is the most important change before launch?",
      "options": [
-      "Use the other vendor's tokenizer, since all modern tokenizers agree to within about one percent",
-      "Call the token-counting endpoint for that exact model, since only Claude's tokenizer counts its tokens",
-      "Estimate at four characters per token, which is close enough for a capacity decision like this",
-      "Send the full request anyway and read the error message back if it turns out to be too large"
+      "Rely on the API to reject another customer's file_id, because each upload is scoped to its uploader",
+      "Keep file_ids server-side, mapped to each tenant, and resolve them from your own document IDs",
+      "Download each file back from the Files API before every question to confirm it's the expected one",
+      "Send every PDF inline as base64 instead, because a file_id can't reference a PDF document block"
      ],
      "answer": 1,
-     "explanation": "Token counts depend on the model's tokenizer. The count_tokens endpoint gives the real figure before you spend anything.",
+     "explanation": "Uploaded files are scoped to the workspace, not to your end users. A file_id accepted from the client lets one tenant reference another tenant's document. Map your own document IDs to file_ids on the server and authorise every lookup.",
      "distractors": [
-      "Different tokenizers can differ a lot on the same text, so counts don't carry over between vendors.",
+      "The API has no idea who your tenants are: any valid file_id in the workspace resolves, whoever sends it.",
       null,
-      "A rule of thumb is fine for a first guess, but this is a capacity decision. Use the exact count.",
-      "Trial and error costs money and time, and a request that fits can still be close enough to the limit to break later."
+      "Files you upload can't be downloaded back (only Skill and code-execution outputs can), and checking contents doesn't fix the authorisation gap.",
+      "PDFs can be referenced by file_id in a document block. Inlining them wastes bandwidth and still leaves authorisation to you."
      ]
     },
     {
@@ -3996,21 +3996,21 @@ window.QUIZ_BANK = {
     {
      "id": "M7.1-10",
      "difficulty": "stretch",
-     "scenario": "A request to a current model returns HTTP 200 with stop_reason 'refusal'. The calling service reads content as normal and posts it to a customer-facing channel.",
-     "question": "What should the service do instead?",
+     "scenario": "An incident-analysis service is moving to a current model. Its code sends thinking type 'enabled' with budget_tokens 16000, and the new model returns HTTP 400. The team also wants cheaper runs on simple tickets.",
+     "question": "What is the right change?",
      "options": [
-      "Retry the identical request immediately until it succeeds, because refusals are usually transient",
-      "Branch on stop_reason before reading content: log the refusal, then fall back or return a handled message",
-      "Treat any HTTP 200 as success, because genuine errors always come back with a 4xx or 5xx status",
-      "Increase max_tokens, because refusals happen when the model runs out of room to finish its answer"
+      "Keep budget_tokens but make sure it sits below max_tokens, so the request passes validation again",
+      "Switch to adaptive thinking and set output_config effort per route, tuned on real ticket samples",
+      "Disable thinking on every request and add 'think step by step' to the prompt to recover quality",
+      "Stay on the older model indefinitely, because a fixed thinking budget is the only reliable cost cap"
      ],
      "answer": 1,
-     "explanation": "A refusal comes back with HTTP 200, so status codes alone aren't enough. Check stop_reason first and handle refusal explicitly: log it, use a fallback path, or show a clear message.",
+     "explanation": "Manual thinking budgets are deprecated and rejected on current models. With adaptive thinking the model decides how much to reason, and effort is the control for depth and spend. Tune it per route on real samples and judge cost per completed task.",
      "distractors": [
-      "Re-sending the same request usually produces the same refusal, and blind retries waste spend.",
+      "The budget form is rejected outright on these models, whatever its value relative to max_tokens.",
       null,
-      "Refusals arrive with HTTP 200 by design, so trusting the status code alone posts declined output as an answer.",
-      "Refusals come from safety classifiers, not the token limit. A higher max_tokens changes nothing."
+      "Several current models reject disabled thinking, and a prompt phrase is no substitute. Lower effort is the supported cost lever.",
+      "Older models retire, so this only postpones the migration. Effort already gives per-route cost control on current models."
      ]
     }
    ]
@@ -4089,7 +4089,7 @@ window.QUIZ_BANK = {
       "Switch tool_choice to 'any', so the model is still required to call some tool on every turn",
       "Downgrade permanently to an older model that still accepts forced tool use, and pin it there",
       "Remove the tools entirely and describe the tool in plain text, so the model replies in that format",
-      "Use tool_choice auto, name the tool in the prompt, use strict schemas and verify the call"
+      "Use tool_choice auto, name the tool in the prompt, keep strict schemas, and check the call ran"
      ],
      "answer": 3,
      "explanation": "Current models reject forced tool choice. Steer with auto plus a clear instruction, keep arguments valid with strict, and verify the call happened. If you only wanted JSON, use structured outputs.",
@@ -4143,20 +4143,20 @@ window.QUIZ_BANK = {
     {
      "id": "M7.2-07",
      "difficulty": "core",
-     "scenario": "A strict schema guarantees that a delete_record tool receives a well-formed record_id. A user in tenant A asks the assistant to delete a record that belongs to tenant B.",
-     "question": "Where must the protection live?",
+     "scenario": "Finance wants a service that produces a monthly branded Excel and PowerPoint pack. Your team already maintains a brand-template Skill (a SKILL.md plus template files) that engineers use in Claude Code.",
+     "question": "What is the best way to build the service on the API?",
      "options": [
-      "In the strict schema, which already ensures that only valid, well-formed record IDs reach the tool",
-      "In the system prompt, by instructing Claude never to delete any record owned by another tenant",
-      "In the model's own judgement, since current models already refuse obviously harmful requests",
-      "In the tool's own code, which checks that the caller may act on that record before deleting it"
+      "Paste the SKILL.md text into the system prompt, because the API can't load Skill folders at all",
+      "Attach the Skills to a plain request with no tools, since Skills execute inside the model itself",
+      "Ask for markdown tables and convert them into xlsx and pptx files with a script on your own server",
+      "Upload it with the Skills API and attach it, plus xlsx and pptx, to a code-execution container"
      ],
      "answer": 3,
-     "explanation": "A strict schema guarantees the shape of the arguments, not that the caller may use them. Authorisation belongs in your code, at the point of action, because model arguments are untrusted input.",
+     "explanation": "A Skill is the same SKILL.md format on every surface. Through the API, custom Skills (uploaded via the Skills endpoint) and the built-in xlsx, pptx, docx and pdf Skills are attached to a code-execution container, which runs their scripts and returns generated files by file ID.",
      "distractors": [
-      "A valid-shaped ID can still belong to another tenant. Schema validity isn't authorisation.",
-      "Prompt rules can be bypassed by injection or mistakes, so they can't enforce tenant isolation.",
-      "Relying on model judgement for access control is unsafe: authorisation must be deterministic.",
+      "The Skills endpoint loads Skill folders. Flattening one into a prompt loses its scripts and templates, and costs tokens on every call.",
+      "Skills run as files and scripts in the code-execution container. Without the code-execution tool there is nothing to run them.",
+      "Converting markdown yourself throws away the brand templates and the built-in Skills' file handling you already have.",
       null
      ]
     },
@@ -4230,22 +4230,22 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-01",
     "module": "M2.2",
-    "difficulty": "core",
-    "scenario": "You ask Claude for a Black Friday capacity plan that must meet a 99.9% availability target, stay under a fixed cloud budget, and use no new vendors. The draft quietly exceeds the budget to hit the target and never says so.",
-    "question": "What change to the prompt fixes this most reliably?",
+    "difficulty": "stretch",
+    "scenario": "You need a rollback strategy for a schema change on a 2 TB orders table with a 15-minute maintenance window. Claude's single proposal looks reasonable, but you have no idea what else was possible or what it traded away.",
+    "question": "Which follow-up prompt adds the most decision value?",
     "options": [
-     "Repeat 'all three constraints are mandatory' in capitals at the start and the end of the prompt",
-     "State the priority order and a tie-break, and require it to name any relaxed constraint",
-     "Switch to a more capable model so it can satisfy every constraint at once without trade-offs",
-     "Drop the budget constraint for now and add it back in a follow-up once the plan looks right"
+     "Ask it to redo the same proposal at Max effort, so the reasoning behind its choice is deeper and fuller",
+     "Ask for three materially different strategies, then score each against the window and rollback criteria",
+     "Ask it to rate its confidence in the proposal from 1 to 10, and explain any score lower than eight",
+     "Ask it to list every rollback strategy known for relational databases, with pros and cons for each"
     ],
     "answer": 1,
-    "explanation": "When constraints conflict, Claude has to pick one. Stating priorities and a tie-break rule, and requiring it to name any relaxed constraint, makes the trade-off explicit and reviewable.",
+    "explanation": "Generate-then-select: forcing materially different options and scoring them against your stated criteria exposes the trade-offs a single proposal hides, and the selection step is checkable.",
     "distractors": [
-     "Shouting doesn't resolve a real conflict between constraints. Current models may also over-apply emphatic rules.",
+     "More effort deepens one framing. It doesn't make Claude explore the alternatives it never considered.",
      null,
-     "No model can satisfy constraints that conflict. The trade-off needs a rule, not more capability.",
-     "Removing a hard constraint produces a plan that is invalid, and the follow-up then has to fight the first draft."
+     "Self-rated confidence isn't calibrated, and a score says nothing about the options that were never generated.",
+     "An exhaustive generic list isn't tied to your window or rollback criteria, so you still have no selection."
     ]
    },
    {
@@ -4273,42 +4273,42 @@ window.QUIZ_BANK = {
     "id": "MOCK-03",
     "module": "M2.2",
     "difficulty": "core",
-    "scenario": "During a long root-cause session, you float two contradictory hypotheses ten turns apart: first a DNS failure, then certificate expiry. Claude agrees enthusiastically with each, citing the same log lines as support.",
+    "scenario": "Claude drafts a postmortem from the timeline you pasted. It states the outage began at 14:32 UTC and affected 12,400 users. Neither figure appears in your timeline, and both read naturally.",
     "question": "Which failure mode is this, and what is the counter?",
     "options": [
-     "Instruction drift, so restate the full original instructions every five turns from now on",
-     "Verbosity, so set a strict word limit so that the two hypotheses are easier to compare",
-     "Sycophancy, so ask for evidence for and against each one without giving your view",
-     "Over-confidence, so raise the effort level to Max so it reasons harder about the logs"
+     "Over-confidence; ask it to attach a confidence rating to each figure in the postmortem draft",
+     "Instruction drift; restate the original instructions at the top of each new turn you send",
+     "Invented specifics; require every figure to come from the timeline and mark gaps [UNKNOWN]",
+     "Verbosity; cap the length of the draft so there is less room for unrequested detail"
     ],
     "answer": 2,
-    "explanation": "Claude adopting whatever framing you supply is sycophancy. Ask neutrally for evidence on both sides, ideally in a fresh context, so the logs decide rather than your phrasing.",
+    "explanation": "Plausible numbers and times that aren't in the source are invented specifics. The counter is grounding: figures only from the supplied material, with an explicit placeholder where the material is silent, then a check against the timeline.",
     "distractors": [
-     "The instructions weren't forgotten. The model is following your framing, and restating instructions doesn't remove that bias.",
-     "Length isn't the problem. A shorter answer would agree with you just as readily.",
+     "A confidence rating sits on top of an invented number; it doesn't remove it or trace it to a source.",
+     "Nothing was forgotten. The model filled a gap with plausible detail, which restating instructions doesn't prevent.",
      null,
-     "More effort spent inside a biased framing still follows the framing. Remove the leading question instead."
+     "A shorter draft can still contain an invented figure. Length isn't the mechanism."
     ]
    },
    {
     "id": "MOCK-04",
     "module": "M2.3",
     "difficulty": "core",
-    "scenario": "Your engagement Project's instructions say 'British English'. Your personal preferences say 'American English'. Outputs alternate between the two, and a client noticed. A teammate says the hierarchy is documented, so there's nothing to test.",
-    "question": "What should you do?",
+    "scenario": "You must find every indemnity and liability-cap clause across 14 supplier contracts. Together they are far larger than you can usefully put in one chat, and the answer goes into a legal risk register.",
+    "question": "What is the most reliable way to structure the work?",
     "options": [
-     "Run a short test prompt to see which applies, then remove the conflict at the right level",
-     "Assume your personal preferences win, because they are the setting most specific to you alone",
-     "Assume the Project instructions always win and leave both settings exactly as they are",
-     "Delete both settings and state the spelling convention in every message you send instead"
+     "Go contract by contract: extract clauses with quotes and pages to a table, then query it",
+     "Upload all 14 at once in one chat and ask for every clause, so it sees everything together",
+     "Ask Research mode to find the clauses, since it is built to handle large volumes of documents",
+     "Ask for a summary of each contract first, then answer the clause question from the summaries"
     ],
     "answer": 0,
-    "explanation": "Precedence should be tested, not assumed. Once you see the behaviour, remove the contradiction: the team rule belongs in the Project, so align or remove the personal setting.",
+    "explanation": "Chunk, extract, then ask: per-contract extraction with verbatim quotes and page numbers keeps each step inside the window and checkable, and the cross-contract question runs on a compact, verified table.",
     "distractors": [
      null,
-     "Assuming precedence is the mistake. Personal preferences aren't guaranteed to win, and the conflict still causes drift.",
-     "Leaving a live conflict in place keeps the output unpredictable, whichever rule wins on paper.",
-     "Per-message instructions are fragile and get forgotten. Fix the shared setting once instead."
+     "Past the window's useful size, material gets dropped or skimmed, and you can't tell which clauses were missed.",
+     "Research is for web and connected sources. It isn't a method for exhaustive extraction from your own contracts.",
+     "Generic summaries lose the exact clause wording and limits the register needs, so the answer can't be checked."
     ]
    },
    {
@@ -4444,17 +4444,17 @@ window.QUIZ_BANK = {
     "scenario": "The team is enthusiastic about committing to a three-year contract with a new data platform. Everyone agrees it is the right call, and the decision meeting is tomorrow.",
     "question": "Which technique best surfaces the risks the group is not seeing?",
     "options": [
-     "Ask Claude to write a persuasive summary of the benefits for the decision meeting tomorrow",
-     "Run a quick poll of the team so that the strength of agreement is recorded in writing",
-     "Ask Claude for a single confident verdict, so the meeting can move on more quickly",
+     "A balanced pros-and-cons list of the platform, to circulate before the meeting tomorrow",
+     "Three reference customers from the vendor, to confirm the platform works as promised",
+     "A sensitivity table on price and usage growth, to show how the three-year cost could move",
      "A pre-mortem: assume it failed badly in 18 months and list the most likely reasons why"
     ],
     "answer": 3,
     "explanation": "A pre-mortem breaks group optimism by making failure the premise. It produces concrete risks for an assumption and risk register.",
     "distractors": [
-     "A persuasive benefits summary reinforces the bias you're trying to counter.",
-     "A poll measures consensus, not risk. Strong agreement is exactly when blind spots grow.",
-     "A single verdict hides trade-offs and assumptions. Decision support should expose them.",
+     "A pros-and-cons list written inside the group's framing tends to mirror its optimism. It doesn't make failure the premise.",
+     "Vendor-chosen references are selected to be positive, so they confirm the bias rather than test it.",
+     "Sensitivity on cost is useful, but it covers one dimension and won't surface operational, people or lock-in risks.",
      null
     ]
    },
@@ -4503,21 +4503,21 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-14",
     "module": "M8.2",
-    "difficulty": "core",
-    "scenario": "Claude's capacity forecast concludes you won't need new database nodes until Q4. It assumes 20% quarter-on-quarter growth. Last quarter's actual growth isn't mentioned anywhere.",
-    "question": "How do you validate this analysis?",
+    "difficulty": "stretch",
+    "scenario": "You have 45 minutes before a 12-page Claude-drafted migration assessment goes to the client. It contains cost figures, product version numbers, two named client stakeholders and several pages of background prose.",
+    "question": "How do you spend the review time?",
     "options": [
-     "Re-run the same forecast at higher effort and accept it if the conclusion stays the same",
-     "Accept it, since the arithmetic in the forecast table adds up correctly on inspection",
-     "Ask a colleague whether the Q4 date feels roughly right based on their past experience",
-     "Check the growth rate against actuals and find the rate that would change the answer"
+     "Check a random 10% of all sentences, since sampling is the proportional approach",
+     "Ask Claude in the same chat to self-check against a rubric, and send if it passes",
+     "Read the whole draft end to end once for flow, since a careful read catches errors",
+     "Fully check the figures, versions and names, and sample the background prose"
     ],
     "answer": 3,
-    "explanation": "For analysis, validation means challenging the assumptions. Check the key input against actuals, and find the breakpoint where the conclusion flips.",
+    "explanation": "Proportional verification is risk-tiered, not uniform. It is external, so the high-risk content types (numbers, versions, people) get full checks against sources; low-risk prose can be sampled.",
     "distractors": [
-     "Re-running with the same assumption reproduces the same answer. Consistency isn't correctness.",
-     "Correct arithmetic on a wrong assumption gives a wrong conclusion.",
-     "Intuition isn't a check. The growth rate can be compared with real data.",
+     "Sampling suits low-risk bulk work. A uniform 10% sample will miss most of the high-risk items in an external deliverable.",
+     "A self-check is a filter, not a guarantee. It can't certify facts the model already believes.",
+     "A read for flow doesn't check numbers or versions against any source, and fluent text hides errors.",
      null
     ]
    },
@@ -4571,17 +4571,17 @@ window.QUIZ_BANK = {
     "question": "Which input will give the most useful agenda?",
     "options": [
      "Last meeting's minutes, open actions with owners, and pending decisions",
-     "The project's original kickoff deck, so the agenda reflects the initial goals",
-     "A list of everyone attending, so the agenda can give each person equal time",
-     "A generic agenda template downloaded from the web, adapted by changing the title"
+     "The full transcripts of the last three meetings, so that nothing is missed",
+     "The project plan's milestone list, so the agenda follows the schedule",
+     "A request for a standard agenda with fixed time boxes per workstream"
     ],
     "answer": 0,
     "explanation": "An outcome-driven agenda comes from the open state: pending decisions, actions with named owners, and what changed since the last meeting.",
     "distractors": [
      null,
-     "The kickoff deck is out of date. It doesn't show what is open now.",
-     "Equal airtime isn't the goal. The agenda should be built around the decisions needed.",
-     "A generic template has none of the project's actual open items."
+     "Raw transcripts bury the open state in discussion, and the agenda still won't be built around decisions.",
+     "Milestones show the schedule, not which decisions or actions are open right now.",
+     "Fixed time boxes per workstream produce a status round, which is the discussion you want to avoid."
     ]
    },
    {
@@ -4608,7 +4608,7 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-19",
     "module": "M3.5",
-    "difficulty": "core",
+    "difficulty": "stretch",
     "scenario": "In a shared forecast workbook, a VLOOKUP returns the wrong customer tier for about 5% of rows. Claude offers to 'fix the formula' across the whole column.",
     "question": "What is the right way to proceed?",
     "options": [
@@ -4692,22 +4692,22 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-23",
     "module": "M1.3",
-    "difficulty": "core",
-    "scenario": "Thirty-five turns into revising a design document, each fix Claude makes breaks something agreed earlier, and the chat is now mostly your corrections.",
+    "difficulty": "stretch",
+    "scenario": "Eight turns into refining a client status update, each Claude draft is closer than the last. The only remaining issue is the tone of one paragraph. A colleague says long chats always degrade and you should start fresh.",
     "question": "What should you do?",
     "options": [
-     "Keep correcting in the same chat, since Claude now has the most context about the whole work",
-     "Ask Claude to apologise and list its mistakes, so it pays more attention afterwards",
-     "Start a fresh chat with a complete prompt that includes everything you've learned so far",
-     "Switch to a different Style in the same chat, so the tone of the replies resets"
+     "Start a fresh chat now and paste the brief again, since chats this long always degrade",
+     "Open an incognito chat, so that the earlier drafts stop influencing the next reply you get",
+     "Stay in this chat and ask for a targeted change to that paragraph, naming the tone you want",
+     "Switch the Style to Formal and regenerate the whole update from the beginning in this chat"
     ],
     "answer": 2,
-    "explanation": "A chat full of wrong drafts and corrections keeps steering the output. A clean start with a corrected spec beats continued patching.",
+    "explanation": "Iterate rather than restart while the context is on task and converging. A fresh chat is the fix for polluted or drifting context, not a reflex at a turn count.",
     "distractors": [
-     "The accumulated context is the problem. More turns make it worse.",
-     "Listing mistakes adds more polluted context and doesn't fix the specification.",
+     "Eight on-task, converging turns aren't degradation. Restarting throws away agreed content for no gain.",
+     "Incognito changes history and memory, not the drafts already in the chat. A new chat would lose them anyway.",
      null,
-     "Tone isn't the issue. The conversation history is still there."
+     "Regenerating everything to fix one paragraph risks undoing parts already agreed."
     ]
    },
    {
@@ -4738,18 +4738,18 @@ window.QUIZ_BANK = {
     "scenario": "Claude drafted a job advert for a backend engineer role. It includes 'young, energetic team', 'digital native' and 'rockstar who works all hours'.",
     "question": "What should happen before it is published?",
     "options": [
-     "Run a bias and inclusive-language review, revise it, and get a named owner's approval",
-     "Publish it, since the wording is common in the industry and sounds enthusiastic",
-     "Ask Claude to make the advert longer, so that the problem phrases stand out less",
-     "Publish it on internal channels only, where the wording carries less risk to anyone"
+     "Do a bias and inclusive-language review, revise, and get a named owner to sign off",
+     "Ask Claude to rewrite it in a neutral tone, then publish the version it returns",
+     "Replace the three flagged phrases and publish, since those are the only problems",
+     "Publish it, and ask legal to review the wording only if a candidate complains"
     ],
     "answer": 0,
     "explanation": "Generated content needs bias checks. These phrases signal age bias and exclusion, and a named human owns the final wording.",
     "distractors": [
      null,
-     "Common wording can still be discriminatory, and AI-generated text gets no exemption.",
-     "Diluting biased phrases doesn't remove them.",
-     "Internal candidates are also protected, so the bias still matters."
+     "A rewrite with no human review or owner can keep subtler bias, and nobody is accountable for the wording.",
+     "Spotting three phrases isn't a review. The rest of the advert hasn't been checked for the same bias.",
+     "Reacting to complaints means the discriminatory advert has already been published."
     ]
    },
    {
@@ -4893,22 +4893,22 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-E07",
     "module": "M5.2",
-    "difficulty": "core",
-    "scenario": "Claude generated fifteen CRUD controllers over a week. The most recent five return errors in a different JSON shape from the team's template, and the client's front end breaks on them.",
-    "question": "What prevents this drift?",
+    "difficulty": "stretch",
+    "scenario": "Claude reports that a 600-line LegacyTaxAdapter module is dead code: a repository-wide search finds no references to it. You're about to delete it in a cleanup PR.",
+    "question": "What should you check before deleting it?",
     "options": [
-     "Send the template and a reference controller with each request; diff against them",
-     "Ask Claude to remember the error format, and trust it to apply it in future",
-     "Fix the front end so it accepts both error shapes, and keep generating as before",
-     "Generate all future controllers in a single prompt, so they share one format"
+     "Runtime references a text search misses: reflection, DI config, jobs, and call telemetry",
+     "Nothing more, since a repository-wide search is complete evidence that nothing calls it",
+     "Ask Claude to repeat the search with a broader pattern, then delete if it still finds none",
+     "Nothing; keep it forever instead, since legacy code may always be used somewhere unseen"
     ],
     "answer": 0,
-    "explanation": "Generated boilerplate stays consistent when every request carries the template and a reference, and the output is checked against them.",
+    "explanation": "'No references found' is an inference from a text search. Legacy code is reached through hidden coupling: reflection, configuration, dependency-injection registration, scheduled jobs or other repositories. Check those and production telemetry before deleting.",
     "distractors": [
      null,
-     "Relying on recall across sessions is exactly how the drift happened.",
-     "Accommodating inconsistency spreads it, and the contract is left ambiguous.",
-     "One huge prompt doesn't scale, and nothing checks the output against the template."
+     "Text search can't see dynamic dispatch, config-driven loading or callers in other repositories.",
+     "A broader pattern still searches text in one repository, so it shares the same blind spots.",
+     "Keeping all dead code forever grows the debt. The answer is evidence, then a decision."
     ],
     "elective": true,
     "block": "D5"
@@ -4940,21 +4940,21 @@ window.QUIZ_BANK = {
     "id": "MOCK-E09",
     "module": "M5.5",
     "difficulty": "core",
-    "scenario": "For an API-heavy product, a QA lead plans 400 browser-based end-to-end tests generated by Claude, one for each business rule.",
-    "question": "What strategy is better?",
+    "scenario": "Repository tests run against an in-memory SQLite substitute; production runs PostgreSQL. A query using a Postgres-specific JSONB operator passed every test and then failed in staging.",
+    "question": "What should change in the test strategy?",
     "options": [
-     "Proceed, since end-to-end tests exercise the real system and so give the most confidence",
-     "Skip automation and run the business rules manually before each release instead",
-     "Test most rules at unit and API level, and keep a few E2E tests for key journeys",
-     "Generate the 400 tests but run them only once a month to keep CI times down"
+     "Add more SQLite unit tests that cover the JSONB query path with extra edge cases",
+     "Mock the repository in every test, so the database dialect no longer affects results",
+     "Run repository tests on real PostgreSQL in a test container, with seeded fixtures",
+     "Rely on the staging environment as the integration test for all database queries"
     ],
     "answer": 2,
-    "explanation": "Test pyramid: business rules are cheaper, faster and less flaky to test at lower levels. End-to-end tests cover critical user journeys.",
+    "explanation": "Integration tests need the real dependency. A throwaway PostgreSQL container with fixtures tests the actual dialect and operators, while staying fast and repeatable.",
     "distractors": [
-     "400 UI tests are slow, flaky and costly to maintain, and confidence drops as flakiness rises.",
-     "Manual testing doesn't scale and misses regressions between releases.",
+     "SQLite doesn't implement Postgres JSONB operators, so more tests on the substitute keep testing the wrong engine.",
+     "Mocking the repository removes the database from the test entirely, which is where this bug lives.",
      null,
-     "Monthly runs find regressions too late to be useful."
+     "Staging finds dialect bugs late and slowly, after the change has merged."
     ],
     "elective": true,
     "block": "D5"
@@ -4962,22 +4962,22 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-E10",
     "module": "M5.5",
-    "difficulty": "core",
-    "scenario": "A generated unit test for calculate_discount() patches calculate_discount itself with a mock that returns 10, then asserts that the result equals 10. Coverage tools count the module as covered.",
-    "question": "What is wrong, and what is the fix?",
+    "difficulty": "stretch",
+    "scenario": "Claude drafts a defect report from a crash screenshot and 2,000 log lines. It states 'Root cause: null session token in AuthMiddleware line 88' and lists reproduction steps that nobody has run.",
+    "question": "How should the report be fixed before filing?",
     "options": [
-     "It proves nothing; mock only external boundaries and assert on the real function",
-     "Nothing; mocking makes the test fast and isolated, which is good practice",
-     "The assertion is too strict; check only that some value is returned instead",
-     "Coverage should be turned off for this module, since mocks distort the numbers"
+     "Split observed facts, with log excerpts, from the suspected cause; list only steps run",
+     "File it as written, since a specific root cause makes the report more actionable for developers",
+     "Remove the logs and the screenshot, so the report is shorter and quicker for the team to triage",
+     "Ask Claude to reread the logs carefully and raise its confidence in the cause before you file it"
     ],
     "answer": 0,
-    "explanation": "A test that mocks the unit under test verifies the mock, not the code. Mock dependencies at the boundaries, and assert on real behaviour.",
+    "explanation": "A defect report is evidence. Observed behaviour with excerpts, a hypothesis labelled as such, and reproduction steps that were actually executed let developers trust it and confirm the cause.",
     "distractors": [
      null,
-     "Isolation means isolating dependencies, not replacing the thing being tested.",
-     "A weaker assertion makes a meaningless test even weaker.",
-     "Hiding coverage doesn't fix the test. The point is that coverage doesn't measure assertion quality."
+     "An unconfirmed root cause stated as fact sends developers down the wrong path if it's wrong.",
+     "The logs and screenshot are the evidence that make the report checkable.",
+     "Rereading in the same context doesn't turn a hypothesis into evidence; running the steps does."
     ],
     "elective": true,
     "block": "D5"
@@ -5008,7 +5008,7 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-E12",
     "module": "M6.2",
-    "difficulty": "core",
+    "difficulty": "stretch",
     "scenario": "During a session, Claude ran a database migration against the shared development database and edited three files. The approach turns out to be wrong, so you rewind to the checkpoint before it.",
     "question": "What state are you in after the rewind?",
     "options": [
@@ -5032,21 +5032,21 @@ window.QUIZ_BANK = {
     "id": "MOCK-E13",
     "module": "M6.3",
     "difficulty": "core",
-    "scenario": "A regression appeared after a three-day agent-assisted feature. Fortunately the work landed as 30 small commits, each with passing tests and a message explaining why.",
-    "question": "What is the fastest reliable way to find the cause?",
+    "scenario": "Three worktree branches are ready to merge: a change to the shared logging utility, a feature that depends on the new utility API, and an unrelated documentation fix.",
+    "question": "In what order should you merge them?",
     "options": [
-     "Read all 30 diffs carefully, from the first commit onwards, until something looks wrong",
-     "Revert all 30 commits and re-implement the feature in a single new pull request",
-     "Use git bisect with a reproduction test over the commits to find the first bad change",
-     "Ask Claude which of its commits most likely caused the regression, and revert that one"
+     "Feature first, since it is the largest and most valuable of the three changes",
+     "All three at once in one combined pull request, to save on review time",
+     "Utility first, then rebase the feature on it, rerun its tests and merge it",
+     "In the order the sessions finished, so the history matches how work ran"
     ],
     "answer": 2,
-    "explanation": "Small, tested commits exist so you can bisect. A reproduction test plus bisect finds the culprit in about log2(30) steps, from evidence.",
+    "explanation": "Merge order follows dependencies: land the shared change, rebase what builds on it, and re-verify before merging. The independent doc fix can go any time.",
     "distractors": [
-     "Reading every diff is slow, and subtle interactions are easy to miss.",
-     "Reverting everything throws away good work to avoid a diagnosis.",
+     "The feature depends on the new utility, so merging it first breaks the build or merges untested code.",
+     "A combined PR hides which change broke what and makes review and rollback harder.",
      null,
-     "A guess about likelihood isn't evidence, and reverting the wrong commit wastes time."
+     "Finish order says nothing about dependencies, so a dependent change can land before what it needs."
     ],
     "elective": true,
     "block": "D6"
@@ -5054,22 +5054,22 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-E14",
     "module": "M6.3",
-    "difficulty": "core",
-    "scenario": "You plan to run five worktrees in parallel for a release. One task renames a core database column that every other task's code reads.",
-    "question": "How should you organise the work?",
+    "difficulty": "stretch",
+    "scenario": "Claude's commit messages on your branch list exactly what changed in each file, for example 'Change timeout from 30 to 45 in client.py'. A reviewer still says the history is not useful.",
+    "question": "What is the commit message missing?",
     "options": [
-     "Run all five in parallel anyway, and resolve the merge conflicts at the end",
-     "Land the shared schema change first as one change, then parallelise the rest",
-     "Give the schema change to all five sessions, so each one adapts its own code",
-     "Use a single worktree for all five tasks, so the sessions see each other's changes"
+     "Nothing; a precise list of each change per file is what a good commit message holds",
+     "Why the change was made, the problem or constraint, since the diff shows the what",
+     "Only the ticket number, since the tracker holds every detail the reviewer could need",
+     "More detail on each changed line, so reviewers don't need to open the diff at all"
     ],
     "answer": 1,
-    "explanation": "Parallelism stops paying when work needs one coherent decision. Land the shared change first, then branch the independent tasks from it.",
+    "explanation": "The diff records what changed. A commit message earns its place by recording why, which is what a reviewer or a future bisect needs.",
     "distractors": [
-     "Every task will conflict on the same column, so the merge becomes the hard part.",
+     "Restating the diff duplicates information git already holds and leaves out the reason.",
      null,
-     "Five agents renaming the same column create five divergent versions of the change.",
-     "Sessions sharing one checkout fight over the working tree."
+     "A bare ticket number breaks when trackers move, and the reason isn't in the history.",
+     "More line-level detail is still 'what', not 'why'."
     ],
     "elective": true,
     "block": "D6"
@@ -5192,7 +5192,7 @@ window.QUIZ_BANK = {
    {
     "id": "MOCK-E20",
     "module": "M7.2",
-    "difficulty": "core",
+    "difficulty": "stretch",
     "scenario": "An invoice extractor uses structured outputs with a strict JSON schema. Every response parses, but in about 2% of invoices the extracted total doesn't equal the sum of the line items.",
     "question": "What should you add?",
     "options": [

@@ -64,12 +64,12 @@ Answer distribution: A:3 B:3 C:2 D:2
 
 **Q:** Which setup prevents this?
 
-- **A.** One Project per client, account memory off in each, client work kept inside it ✅
-- **B.** Telling Claude at the start of each chat which client you're working on today
-- **C.** Adding 'never mix up clients or their details' to your account-wide Instructions
-- **D.** Deleting yesterday's chats from the sidebar before starting the next client
+- **A.** Keep each client's work inside its own Project, where memory stays separate ✅
+- **B.** Tell Claude at the start of each chat which client you're working on today
+- **C.** Add 'never mix up clients or their details' to your account-wide Instructions
+- **D.** Delete yesterday's chats from the sidebar before you start on the next client
 
-**Answer: A** — Memory follows the user, not the engagement. Scoping each client to its own Project with account memory off keeps one client's facts out of the other's context.
+**Answer: A** — Memory follows the user, not the engagement. Each Project keeps its own memory space, so scoping each client's work to its own Project (and pausing memory or using incognito outside them) keeps one client's facts out of the other's context.
 
 - *B is wrong:* Memory and past-chat search still pull in the other client's facts; a reminder doesn't remove them from context.
 - *C is wrong:* An instruction can't stop retrieved memory from being in context; the facts are still there.
@@ -111,20 +111,20 @@ Answer distribution: A:3 B:3 C:2 D:2
 
 ### M1.3-07 — core
 
-**Scenario:** A new hire asks why their teammate's Claude 'just searched the web' unprompted, while their own Team-plan chats never search, even when asked.
+**Scenario:** You've built a migration cost model with Claude for a client. Next week finance will load it into their own forecasting workbook and adjust the rates there.
 
-**Q:** What is the most likely explanation to check first?
+**Q:** Where should this output land?
 
-- **A.** Search needs enabling at org level, and the experience differs by app version ✅
-- **B.** Web search is a model feature that only the most expensive model has access to
-- **C.** Their prompts don't say 'please', so the model declines tools
-- **D.** Searching is only available in the mobile app, not on desktop or the web
+- **A.** As a downloadable XLSX file that finance opens and edits in their own tools ✅
+- **B.** In the chat reply, as a Markdown table that finance can copy into a sheet
+- **C.** As an artifact in Claude, so finance can comment on it before they use it
+- **D.** Pasted into the body of an email, so finance has the figures in their inbox
 
-**Answer: A** — On Team and Enterprise an owner enables web search for the organisation. In the newer experience Claude searches on its own when helpful. Settings and experience differences explain the gap, not prompts.
+**Answer: A** — Who edits the output next decides where it lands. Finance will work on it outside Claude, in their own spreadsheet tooling, so a downloadable file that keeps structure and formulas is the right destination.
 
-- *B is wrong:* Search availability is a setting, not a property of one model.
-- *C is wrong:* Politeness doesn't gate tools; an organisation setting does.
-- *D is wrong:* Web search isn't mobile-only.
+- *B is wrong:* Copying a Markdown table loses formulas and structure and invites transcription errors.
+- *C is wrong:* An artifact suits iteration and comment inside Claude; finance's next edit happens in their own workbook.
+- *D is wrong:* Pasted email figures are static text with no formulas, the same problem as the chat reply.
 
 ### M1.3-08 — core
 
@@ -517,9 +517,9 @@ Answer distribution: A:3 B:2 C:2 D:3
 - **A.** Delete your personal preference so that only the Project's length rule applies
 - **B.** Raise the effort level so the model resolves the conflict more consistently each time
 - **C.** Run each prompt three times and keep whichever version you like the best
-- **D.** Add a tie-break rule to the Project: completeness beats length, and flag the overrun ✅
+- **D.** Add a tie-break rule to the Project that names which rule wins and flags overruns ✅
 
-**Answer: D** — Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which wins, so the behaviour is deterministic and visible.
+**Answer: D** — Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which rule wins (for example, completeness beats length, with the overrun flagged), so the behaviour is predictable and visible.
 
 - *A is wrong:* This may remove useful defaults for other Projects and doesn't encode the intended priority here.
 - *B is wrong:* More reasoning doesn't decide a priority you haven't stated.
@@ -557,7 +557,7 @@ Answer distribution: A:3 B:3 C:2 D:2
 - **C.** As exact for the large numbers, and only approximate for the footnotes
 - **D.** As unusable, so the screenshot should be retyped by hand without using Claude at all
 
-**Answer: B** — Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it enters the model.
+**Answer: B** — Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it goes into the cost comparison.
 
 - *A is wrong:* Images are downscaled before the model reasons over them; small text and dense cells are predicted, not read exactly.
 - *C is wrong:* Misreads can hit any cell in a dense table, not just footnotes; price figures still need checking.
@@ -807,20 +807,20 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 ### M3.4-07 — core
 
-**Scenario:** A CTO asks for help deciding whether to migrate to a new cloud region and says, 'Just tell me what to do.'
+**Scenario:** Your vendor research for the CTO is a three-page narrative: background first, inline links throughout, and the recommendation in the last paragraph. A reviewer says it isn't decision-ready.
 
-**Q:** Which deliverable best fits this module?
+**Q:** Which restructure best meets the standard for a research deliverable?
 
-- **A.** A one-line verdict with a short justification, since that is exactly what the CTO asked for
-- **B.** A recommendation plus the trade-offs and what would have to be true for each option ✅
-- **C.** A complete list of every source found, so the CTO can weigh the evidence directly
-- **D.** A pre-mortem of each option only, since the risks are what matter most here
+- **A.** Keep the narrative order, but move every inline link into numbered footnotes
+- **B.** Summary first, then an evidence table, open questions with owners, and sources ✅
+- **C.** Lead with the recommendation, then attach the full Research report as an appendix
+- **D.** Cut it to one paragraph with the recommendation, so the CTO can read it quickly
 
-**Answer: B** — Decision support presents trade-offs and conditions next to any recommendation, so the accountable human can judge them. A verdict alone hides what would change the answer.
+**Answer: B** — Summary first because decision-makers read the top; an evidence table because reviewers check claims there; open questions with owners make the uncertainty explicit; and a sources list lets the reader check the work.
 
-- *A is wrong:* A bare verdict hides its assumptions and conditions.
-- *C is wrong:* Raw sources without synthesis are not decision support.
-- *D is wrong:* A pre-mortem is one input, not the whole deliverable.
+- *A is wrong:* Footnotes tidy the links but leave the answer buried and the claims unchecked in one place.
+- *C is wrong:* An appended report gives the reader unchecked prose to wade through instead of a checkable evidence table.
+- *D is wrong:* Brevity without evidence or open questions hides what the recommendation rests on.
 
 ### M3.4-08 — core
 
@@ -964,20 +964,20 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 ### M8.2-06 — core
 
-**Scenario:** You're sending a two-line email to a client that quotes the renewal price Claude extracted from the contract. It seems too small to be worth formally verifying.
+**Scenario:** You ask Claude to review a pull request and mention that you think the new caching change is safe. It agrees. A teammate then comments that the change has a race condition; you paste the comment in, and Claude now agrees with the teammate.
 
-**Q:** How should you treat it?
+**Q:** Which failure mode is this, and what is the right response?
 
-- **A.** Skip review, because short messages carry little risk
-- **B.** Spot-check it by asking Claude to repeat the figure in a new message and compare
-- **C.** Add 'subject to change' to the email so the figure doesn't matter
-- **D.** Full review against the contract, because it's external and financial ✅
+- **A.** Fabrication; ask Claude to cite the documentation behind each of its review comments
+- **B.** Stale knowledge; rerun the review with web search on so it uses current library docs
+- **C.** Instruction drift; restate the review checklist at the top and ask for a fresh review
+- **D.** Sycophancy; settle it with a test that tries to reproduce the race on the changed path ✅
 
-**Answer: D** — Proportional verification is driven by consequence, not length. External and financial are both full-review triggers, so check the figure against the source document.
+**Answer: D** — The model is leaning towards whoever framed the question last, so its agreement carries no evidence either way. Settle it externally: a test or reproduction that exercises the concurrent path decides, not the model's opinion.
 
-- *A is wrong:* Length doesn't set risk; a wrong price quoted to a client is costly however short the email.
-- *B is wrong:* Repetition from the same model isn't an independent check against the contract.
-- *C is wrong:* A disclaimer doesn't fix a wrong figure and can still damage trust or create a dispute.
+- *A is wrong:* Nothing was invented; the answers track whoever spoke last. Citations wouldn't show whether the race is real.
+- *B is wrong:* The code is in the conversation, not missing from training; search won't settle a race in your diff.
+- *C is wrong:* The checklist wasn't forgotten; the model followed the latest framing. Re-asking invites the same lean.
 
 ### M8.2-07 — core
 
@@ -998,20 +998,20 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 ### M8.2-08 — core
 
-**Scenario:** Claude recommends migrating to a managed queue service and lists its benefits. The recommendation reads well, but it rests on assumptions about message volume and team skills.
+**Scenario:** Before sending an executive summary of an RCA, you ask Claude in the same chat to check it against a 12-point rubric. It reports that all 12 pass, including 'every figure matches the RCA'.
 
-**Q:** Which validation fits a recommendation like this?
+**Q:** How much assurance does that self-check give you?
 
-- **A.** List what would have to be true for it to be right, then check those conditions ✅
-- **B.** Check the grammar and structure of the recommendation document
-- **C.** Ask Claude for a second recommendation and pick whichever one sounds more convincing
-- **D.** Accept it if the listed benefits match the vendor's marketing page
+- **A.** Some: it's a filter for slips, so still trace each figure to the RCA yourself ✅
+- **B.** Full: the rubric explicitly covered the figures, so they have now been checked
+- **C.** None: self-checks never catch anything, so drop the rubric and review by hand
+- **D.** Enough, as long as you run the same self-check a second time and both runs pass
 
-**Answer: A** — Decisions are validated by surfacing the conditions they depend on (volume, skills, cost) and checking each one, which turns a persuasive narrative into testable claims.
+**Answer: A** — A self-check is a filter, not a guarantee. The checker is the same model with the same beliefs, so it catches slips but not errors it believes are right. Use it to narrow where you look, then do the external check against the RCA.
 
-- *B is wrong:* Presentation quality says nothing about whether the decision is right.
-- *C is wrong:* Choosing by persuasiveness repeats the tone-over-substance mistake.
-- *D is wrong:* Vendor marketing is a secondary, interested source; it doesn't test your conditions.
+- *B is wrong:* The model can 'confirm' a figure it misread in the first place; covering an item isn't checking it.
+- *C is wrong:* Over-correction: self-checks reliably catch slips such as dropped requirements; they just aren't the verification.
+- *D is wrong:* Repeating the same check with the same model repeats the same blind spots.
 
 ### M8.2-09 — stretch
 
@@ -1198,7 +1198,7 @@ Answer distribution: A:3 B:3 C:2 D:2
 - **C.** The code must be wrong, so rerun the analysis from scratch
 - **D.** The executed figure should be trusted over the code, so remove the code from the report
 
-**Answer: B** — Code execution makes the computed figure reliable, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.
+**Answer: B** — Executed code makes the printed figure reproducible, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.
 
 - *A is wrong:* 9.8 versus 'about 8' is not rounding; it's a misquote.
 - *C is wrong:* The executed output is consistent; the drift is in the prose written afterwards.
@@ -1266,7 +1266,7 @@ Answer distribution: A:2 B:3 C:3 D:2
 **Q:** What is the main problem?
 
 - **A.** Projects cannot hold more than one signed SOW, so the second upload would be rejected
-- **B.** Both clients' files share one retrieval pool, so one client's data can leak into the other's work ✅
+- **B.** One shared retrieval pool means client A's material can surface in drafts for client B ✅
 - **C.** Retrieval mode becomes noticeably slower when knowledge comes from two different clients
 - **D.** Project instructions can describe only one audience, so the outputs would get the tone wrong
 
@@ -1314,12 +1314,12 @@ Answer distribution: A:2 B:3 C:3 D:2
 
 **Scenario:** A client emails a change request to add a second hosting region. Your PM asks Claude in the engagement Project for the impact.
 
-**Q:** Which request best fits this module?
+**Q:** Which request should the PM make first?
 
 - **A.** Ask for a revised estimate in person-days so you can reply to the client with a number today
 - **B.** Ask Claude to accept the change and update the plan and SOW files in the Project automatically
 - **C.** Ask for a summary of the client's email to forward to the steering committee for a decision
-- **D.** Ask what requirements, deliverables, dates and risks change, citing the SOW, then verify with the tech lead ✅
+- **D.** List affected requirements, deliverables, dates and risks with SOW citations; the tech lead confirms each ✅
 
 **Answer: D** — Change-impact analysis lists what changes and cites where, and a human confirms it because Claude cannot see undocumented dependencies. Estimates need a human owner (M5.1).
 
@@ -1351,7 +1351,7 @@ Answer distribution: A:2 B:3 C:3 D:2
 **Q:** How should you use that result?
 
 - **A.** Paste the summary into the audit response, since it was generated from company sources
-- **B.** Use it to locate the thread, ticket and document, then cite those sources ✅
+- **B.** Use it to locate the thread, ticket and document, then cite those primary sources ✅
 - **C.** Ask Claude to rewrite the summary in a formal register suitable for the auditor
 - **D.** Discard it, because enterprise search results can't be trusted for audit purposes
 
@@ -1386,7 +1386,7 @@ Answer distribution: A:2 B:3 C:3 D:2
 
 - **A.** One of them is getting results from an outdated cached copy of the index
 - **B.** Enterprise search randomises the order of results to reduce answer bias
-- **C.** Each query runs live against only the sources that person can access ✅
+- **C.** Each query runs live against only the sources that particular person can access ✅
 - **D.** One engineer has memory turned on, which overrides the search results
 
 **Answer: C** — There is no shared index. Each query runs live against the sources the asking user can access, so permissions shape the answer.
@@ -1478,7 +1478,7 @@ Answer distribution: A:2 B:3 C:3 D:2
 - **C.** Move the calculation into a script in the Skill so it is executed, not estimated ✅
 - **D.** Give an example with a worked percentage so Claude copies the method
 
-**Answer: C** — Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts that run in the sandbox and return the same answer every time.
+**Answer: C** — Judgement belongs in SKILL.md; arithmetic and formatting belong in scripts. A script is executed (in the code-execution container in the app and API, on your own machine in Claude Code) and returns the same answer every time; only its output enters context.
 
 - *A is wrong:* Exhortations don't turn estimation into computation.
 - *B is wrong:* More reasoning can reduce errors but still produces prose estimates rather than executed code.
@@ -1537,20 +1537,20 @@ Answer distribution: A:2 B:3 C:3 D:2
 
 ### M4.2-09 — stretch
 
-**Scenario:** In Claude Code you edit a Skill that was synced from your claude.ai account, adding a required 'customer impact' field. The next morning the field is missing and the Skill behaves as before.
+**Scenario:** In Claude Code you fix a wrong severity table in your local copy of the org's defect-report Skill, which reached you through account sync from the org library. The next day your fix is gone and colleagues still get the old table.
 
-**Q:** What explains this, and what should you do?
+**Q:** What is the durable fix?
 
-- **A.** Claude Code caches Skills for a day; wait for the cache to expire and the local edit will come back
-- **B.** Synced Skills are overwritten from source; change it via the source Skill's owner and version it ✅
-- **C.** Local edits require restarting Claude Code twice before they take effect
-- **D.** The edit was too long; shorten it so the Skill stays within its size limit
+- **A.** Re-apply the local edit each morning until the library owner notices the problem
+- **B.** Fix the source Skill through its owner, bump the version, and let the copies update ✅
+- **C.** Copy the Skill into the repo's .claude/skills folder under a new name and edit that copy
+- **D.** Turn off Skill sync so your corrected local copy is never replaced again
 
-**Answer: B** — Account Skill sync flows one way into Claude Code and overwrites local copies. The durable fix is in the source, owned and versioned, so every surface receives it.
+**Answer: B** — A distributed Skill has one source and many downstream copies, and the copies are replaced from the source. The fix that reaches everyone, and survives the next sync, is made once at the source by its owner and versioned. (Current Claude Code docs describe the account sync as download-only, overwriting local edits; the principle holds regardless of the mechanism.)
 
-- *A is wrong:* There's no day-long cache; the sync replaced the edited copy, so waiting won't bring the edit back.
-- *C is wrong:* Restarts don't preserve edits to a copy that the sync overwrites.
-- *D is wrong:* Length wasn't the problem; the edit was discarded by the sync, not truncated.
+- *A is wrong:* The edit keeps being overwritten, and colleagues never get the fix.
+- *C is wrong:* A renamed fork fixes it for one repo only and drifts from the org version from then on.
+- *D is wrong:* Opting out freezes your copy, cuts you off from future fixes and leaves everyone else on the bug.
 
 ### M4.2-10 — stretch
 
@@ -1563,7 +1563,7 @@ Answer distribution: A:2 B:3 C:3 D:2
 - **C.** Keep one SKILL.md folder under version control as the source and use it on every surface ✅
 - **D.** Keep the app version only and tell engineers to paste its steps into their prompts
 
-**Answer: C** — The same SKILL.md format runs in the apps, in Claude Code and through the API. One owned, versioned source avoids the drift that multiple copies create.
+**Answer: C** — The same SKILL.md format runs in the apps, in Claude Code and through the API, but each surface holds its own copy (an app upload, an API upload, a folder in the repo). Keep one owned, versioned source and publish every copy from it, using only frontmatter fields every surface accepts, so the copies cannot drift.
 
 - *A is wrong:* The format is shared across surfaces; three rewrites create three versions that drift.
 - *B is wrong:* That throws away the Skill packaging and creates two divergent copies of the same procedure.
@@ -1677,20 +1677,20 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 ### M8.3-07 — core
 
-**Scenario:** A generated dependency list contains a package whose registry entry shows no licence field, and the repository has no LICENSE file.
+**Scenario:** Claude generates 20 synthetic user personas for a client's banking-app research. Every 'senior engineer' persona is male, and every 'struggles with technology' persona is over 65.
 
-**Q:** How should the audit classify it?
+**Q:** What should happen before the personas go into the client deliverable?
 
-- **A.** Allowed, since public code with no stated licence is effectively public domain
-- **B.** Blocked until legal clears it, because no licence means no permission ✅
-- **C.** Allowed for internal tools only, since nobody will enforce it
-- **D.** Review only if it has fewer than 100 GitHub stars
+- **A.** Ship them, since synthetic personas are fictional and cannot harm any real person
+- **B.** Run an attribute-swap check, fix the skewed patterns, and have a named human review them ✅
+- **C.** Add a footnote saying the personas were AI-generated and may contain some bias
+- **D.** Regenerate once with 'avoid stereotypes' in the prompt and ship whatever comes back
 
-**Answer: B** — Copyright applies by default. Without a licence you have no permission to use, modify or distribute the code.
+**Answer: B** — Generated content can encode stereotypes, and personas shape design decisions for real users. A cheap bias check (swap the attribute, compare, read who is always cast in which role), a fix, and review by the accountable human are what responsible client work requires.
 
-- *A is wrong:* Public visibility isn't a grant of rights. Public domain requires an explicit dedication.
-- *C is wrong:* The legal position doesn't depend on whether anyone enforces it.
-- *D is wrong:* Popularity has nothing to do with the licence.
+- *A is wrong:* Personas drive design decisions and reach the client under your name; encoded bias harms real users and the brand.
+- *C is wrong:* A disclaimer shifts the problem to the reader instead of fixing content you are accountable for.
+- *D is wrong:* A prompt instruction is not a check; the regenerated set is still unreviewed.
 
 ### M8.3-08 — core
 
@@ -1732,16 +1732,16 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 **Q:** Which design best meets the agentic responsibilities in this module?
 
-- **A.** Admin credentials so it never fails, plus a summary email of what it reports deleting
-- **B.** Read-write credentials for every environment so it can also clean up production resources whenever someone asks it to
-- **C.** Least-privilege credentials and no logging, since staging resources are not important
-- **D.** Staging-scoped least-privilege credentials, a dry-run list a named owner approves, full logging and a stop procedure ✅
+- **A.** Staging-only least-privilege credentials and full logging, with deletions running unattended each night
+- **B.** Staging-only credentials and a dry-run list a named owner approves, with the agent's nightly summary as the log
+- **C.** Admin credentials across all environments so it never fails, with approval needed for production deletions only
+- **D.** Staging-only least-privilege credentials, a dry-run list a named owner approves, full logs, a stop procedure ✅
 
-**Answer: D** — The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log, and a known way to stop it.
+**Answer: D** — The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log that records what it actually did, and a known way to stop it.
 
-- *A is wrong:* Admin credentials maximise the blast radius, and a self-reported summary isn't evidence.
-- *B is wrong:* Scope creep into production removes the boundary entirely.
-- *C is wrong:* Without logs you can't reconstruct or defend what the agent did.
+- *A is wrong:* Deletion is irreversible; with no human gate a bad selection destroys resources before anyone looks.
+- *B is wrong:* A self-reported summary is a claim, not a log, and there is no way to stop a run that goes wrong.
+- *C is wrong:* Cross-environment admin credentials put production inside the blast radius of a staging job.
 
 ## M3.6 — Design, prototyping and handoff with Claude Design
 
@@ -1974,20 +1974,20 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 ### M5.1-04 — core
 
-**Scenario:** Claude's acceptance criteria for a CSV export cover only the case of a user exporting a few invoices successfully.
+**Scenario:** Your invoice export API is at v1 and used by external integrators. A new story makes the optional 'from' date in ExportRequest required, and Claude's change summary labels this 'additive: tightens validation'.
 
-**Q:** What is the most useful next prompt?
+**Q:** How should you classify and ship this change?
 
-- **A.** 'For each edge-case category (empty, limits, permissions, concurrency, failure, time zone), write Given-When-Then.' ✅
-- **B.** 'Make the acceptance criteria more detailed, and make sure they cover the whole export feature properly.'
-- **C.** 'Rewrite every criterion in formal, unambiguous English, using MUST and SHALL throughout the list.'
-- **D.** 'Add a criterion that the export should be fast and reliable for all users.'
+- **A.** Breaking: requests omitting 'from' now fail, so ship it in a new version with a deprecation window ✅
+- **B.** Additive, since no field is removed or renamed and the response shape is unchanged
+- **C.** Additive, as long as the changelog announces the new rule well before the next scheduled release
+- **D.** Not a contract change at all, because validation rules sit outside the OpenAPI schema itself
 
-**Answer: A** — Claude's default is the happy path. Naming the edge-case categories gets systematic coverage in a testable form.
+**Answer: A** — Tightening validation (optional to required, narrower enums, shorter limits) rejects requests that worked yesterday, so it is breaking. Classify against your written versioning rules, verify Claude's label rather than trusting it, and ship breaking changes under a new version with a deprecation window.
 
-- *B is wrong:* 'More detailed' gives no direction, so you get more happy-path words.
-- *C is wrong:* Register isn't the problem. Coverage is.
-- *D is wrong:* 'Fast' isn't testable. It needs a measurable threshold.
+- *B is wrong:* Removal and renaming aren't the only breaking changes. Clients that omit the field start getting errors.
+- *C is wrong:* A changelog informs clients but doesn't stop their existing requests failing on the day you ship.
+- *D is wrong:* The 'required' list and constraints are part of the OpenAPI schema. Changing them changes what clients must send.
 
 ### M5.1-05 — core
 
@@ -2080,10 +2080,10 @@ Answer distribution: A:3 B:2 C:2 D:3
 
 **Q:** How should you assess the change's impact?
 
-- **A.** Regenerate all the artefacts from scratch with the new requirement included from the start
+- **A.** Regenerate all the artefacts from scratch so the new requirement is reflected everywhere at once
 - **B.** Update only the requirement text, since the downstream artefacts will catch up in review
 - **C.** Ask Claude whether the change is small or large, then plan the follow-up work from that
-- **D.** Trace forward from the changed NFR to every story, contract operation, ADR and test, and list each ✅
+- **D.** Trace forward from the changed NFR to each story, contract operation, ADR and test that cites it ✅
 
 **Answer: D** — Traceability makes impact analysis mechanical. Follow the references from the changed requirement to everything built on it, here including the async-queue ADR.
 
@@ -2101,9 +2101,9 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What change to the prompt would most reliably fix this next time?
 
-- **A.** Add 'follow best practices for Spring Boot' to the prompt
+- **A.** Add 'follow Spring Boot best practices and clean-code principles' to the prompt
 - **B.** Switch to a higher effort level so it reasons more carefully about house style
-- **C.** Ask for the code in smaller pieces, one method per prompt
+- **C.** Ask for the code in smaller pieces, one method per prompt, reviewing each
 - **D.** Supply the conventions, lint rules and sibling OrderService.java as a sample ✅
 
 **Answer: D** — Generated code fits the codebase only when the codebase is in the context. A sibling file plus written conventions and lint rules transfers the house style; Claude otherwise defaults to the average of public code.
@@ -2136,7 +2136,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What should you do before quoting it?
 
 - **A.** Ask for strings that should match and fail, then run them against the regex ✅
-- **B.** Ask Claude to confirm its explanation is correct
+- **B.** Ask Claude to re-read the regex carefully and confirm its explanation
 - **C.** Ask a second model to explain the same regex and compare the two explanations
 - **D.** Quote it in the doc with a clear note that the explanation was AI-generated
 
@@ -2187,9 +2187,9 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** Which area of the conversion most needs a human decision and a test here?
 
 - **A.** The str/bytes boundary where files are read and decoded ✅
-- **B.** Replacing print statements with print() calls
-- **C.** Changing except X, e syntax to except X as e
-- **D.** Replacing dict.iteritems() with dict.items()
+- **B.** Replacing print statements with print() function calls
+- **C.** Rewriting each except X, e clause as except X as e
+- **D.** Replacing dict.iteritems() with dict.items() in loops
 
 **Answer: A** — str/bytes handling is the Python 2→3 change that can't be converted mechanically: encodings must be decided where bytes enter the system, and only data like the client's will expose it.
 
@@ -2221,15 +2221,15 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the defect?
 
 - **A.** sendEmail must be wrapped in a try/catch so failures are logged instead of swallowed
-- **B.** console.log should be replaced with a structured logger
-- **C.** The function should be declared async at the top level
+- **B.** console.log runs before the logger flushes and should be a structured logger
+- **C.** The enclosing function must be declared async so the inner awaits can run
 - **D.** forEach doesn't await async callbacks, so the job ends before the sends complete ✅
 
 **Answer: D** — Array.forEach ignores returned promises. Use for…of with await, or Promise.all with a concurrency limit, so the job waits.
 
 - *A is wrong:* Error handling matters but doesn't explain why sends are cut off.
-- *B is wrong:* The logger doesn't affect whether promises are awaited.
-- *C is wrong:* Making the outer function async doesn't make forEach await its callbacks.
+- *B is wrong:* Swapping the logger doesn't change whether the email promises are awaited.
+- *C is wrong:* Making the outer function async doesn't make forEach await its callbacks; forEach still discards the promises.
 
 ### M5.2-09 — stretch
 
@@ -2237,16 +2237,16 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What should the conversion checklist have flagged?
 
-- **A.** That COALESCE evaluates arguments differently from ISNULL
+- **A.** COALESCE evaluating its arguments differently from ISNULL
 - **B.** Collation and case-sensitivity differences between the two databases ✅
-- **C.** That LIMIT must always be paired with ORDER BY
-- **D.** Timezone handling differences in now()
+- **C.** LIMIT needing an ORDER BY to return the same rows each time
+- **D.** now() returning a timezone-aware value where GETDATE() did not
 
 **Answer: B** — Default SQL Server collations are typically case-insensitive while PostgreSQL comparisons are case-sensitive by default — a semantic difference no syntax rewrite catches. It belongs on the 'cannot convert mechanically' list.
 
 - *A is wrong:* ISNULL/COALESCE differences exist (typing) but don't explain case-sensitive matching.
 - *C is wrong:* ORDER BY with LIMIT matters for determinism, not for case matching.
-- *D is wrong:* Timezones don't affect matching 'ACME' against 'acme'.
+- *D is wrong:* The timestamp type does differ, but it doesn't affect matching 'ACME' against 'acme'.
 
 ### M5.2-10 — stretch
 
@@ -2255,7 +2255,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the right response?
 
 - **A.** Merge it, but run Claude over it once more to tidy the code and fix the conventions
-- **B.** Merge it behind a feature flag so it can be switched off
+- **B.** Merge it behind a feature flag so it can be switched off if problems appear
 - **C.** Merge only the UI components, since they are lower risk than the backend code
 - **D.** Treat it as a prototype: rebuild it or bring it in through normal review and tests ✅
 
@@ -2276,7 +2276,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the most effective first prompt?
 
 - **A.** 'Here is the error and the stack trace. What is the bug, and how do I fix it quickly?'
-- **B.** Evidence in tags; rank up to five hypotheses with evidence and a cheap test for each; no fix yet ✅
+- **B.** 'Using the evidence below, rank up to five hypotheses, each with a cheap test. No fix yet.' ✅
 - **C.** 'Rewrite the retry worker so it is fully thread-safe, then explain what you changed.'
 - **D.** 'Explain what DuplicateKeyException means in JPA and list its common causes in services.'
 
@@ -2293,15 +2293,15 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What should you do before implementing the suggested lock?
 
 - **A.** Implement it, since the explanation names a well-known bug class that matches the logs
-- **B.** Ask Claude how confident it is and proceed if it says high
+- **B.** Ask Claude to rate its confidence and implement only if it says high
 - **C.** Reproduce it under a stress test, or add instrumentation that would confirm the race ✅
-- **D.** Ask Claude to explain the race in more detail
+- **D.** Ask Claude to explain the race in more detail, with a timeline of both threads
 
 **Answer: C** — A fluent diagnosis isn't evidence. Concurrency bugs need a reproduction or targeted instrumentation (thread IDs, correlation IDs) before you act on a story.
 
 - *A is wrong:* Naming a famous bug class is exactly what makes a wrong story sound right.
 - *B is wrong:* Self-reported confidence carries no information about correctness.
-- *D is wrong:* More detail makes the story more convincing, not more verified.
+- *D is wrong:* More detail makes the story more convincing, not more verified. Only a reproduction or measurement adds evidence.
 
 ### M5.3-03 — core
 
@@ -2328,8 +2328,8 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 - **A.** Write characterisation tests that capture current outputs by running the code ✅
 - **B.** Ask Claude to add comments throughout so the refactor is easier for reviewers to follow
-- **C.** Ask for the refactor at maximum effort to minimise mistakes
-- **D.** Split the function into two files so the diff is smaller
+- **C.** Ask for the refactor at maximum effort so the one-shot rewrite has fewer mistakes
+- **D.** Split the function across two files first so the eventual diff is smaller
 
 **Answer: A** — Behaviour-preserving refactoring needs tests that pin current behaviour. Characterisation tests, with outputs captured by running the code, make each small step checkable.
 
@@ -2343,15 +2343,15 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What is the problem with this?
 
-- **A.** Twenty inputs are too many for a characterisation test
+- **A.** Twenty inputs are too many; a characterisation test should pin only a few cases
 - **B.** Expected values should come from running the existing code, not from Claude's prediction ✅
-- **C.** Characterisation tests should use random inputs, not fixed ones
+- **C.** Characterisation tests should use freshly random inputs on each run, not fixed ones
 - **D.** Rounding functions shouldn't get characterisation tests, because their rules change often
 
 **Answer: B** — A characterisation test pins what the code does now. A predicted value is a guess about behaviour; a captured value is a fact — including quirks callers may depend on.
 
 - *A is wrong:* Coverage of branches and boundaries matters more than a small count.
-- *C is wrong:* Fixed, captured inputs are what make the test a stable reference.
+- *C is wrong:* Fresh random inputs make the pin unstable; fixed inputs with captured outputs are what make it a reference.
 - *D is wrong:* Code that changes often is exactly where a behaviour pin helps.
 
 ### M5.3-06 — core
@@ -2360,8 +2360,8 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** How should you treat that number?
 
-- **A.** As a reasonable estimate to put in the PR description
-- **B.** As a lower bound, since Claude tends to be conservative
+- **A.** As a reasonable estimate to quote in the PR description as the expected gain
+- **B.** As a lower bound, since Claude tends to be conservative about performance gains
 - **C.** As a prediction: profile first, then measure before and after on the same data ✅
 - **D.** As accurate, provided Claude used extended thinking at a high effort to produce it
 
@@ -2378,8 +2378,8 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the right fix and proof?
 
 - **A.** Add a response cache in front of the endpoint and report the cache hit rate after a day
-- **B.** Add a database index on customer.id and report the new p95
-- **C.** Paginate to 20 orders per page and report the reduced query count
+- **B.** Add an index on customer.id and report the new p95 after the next deploy
+- **C.** Paginate to 20 orders per page and report the reduced query count per request
 - **D.** Eager-load the customer relation and report query count and p95 before and after ✅
 
 **Answer: D** — This is an N+1. Eager loading (select_related / include / JOIN FETCH) removes it; the proof is measured query counts and latency on the same dataset.
@@ -2395,8 +2395,8 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the best next move?
 
 - **A.** Move the task to Claude Code, which can read the repo and run the tests itself ✅
-- **B.** Start a fresh chat and paste all twelve files at once
-- **C.** Ask Claude to guess which other files might be involved
+- **B.** Start a fresh chat and paste all twelve files at once to give full context
+- **C.** Ask Claude to infer which other files are probably involved and keep pasting
 - **D.** Raise the effort level so it keeps track of all twelve files and their imports better
 
 **Answer: A** — Repeated pasting and a need to run tests are the signals that chat is the wrong tool. Claude Code reads the repository and runs commands itself.
@@ -2431,7 +2431,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 - **A.** Update the test's expected value to match the new output so the suite goes green again quickly
 - **B.** Revert step 3 and redo it in smaller steps, keeping refactor and behaviour change apart ✅
 - **C.** Continue with steps 4 and 5, then fix all the failing tests together at the very end
-- **D.** Ask Claude to explain why the test is wrong
+- **D.** Ask Claude to explain why the test is wrong, then update it if the reason holds
 
 **Answer: B** — Red during a refactor means behaviour changed. Revert, don't debug forward; a refactor and a behaviour change never share a commit.
 
@@ -2585,10 +2585,10 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What is the most useful next step?
 
-- **A.** Raise line coverage to 100%, which will also raise the mutation score
-- **B.** Disable the comparison-operator mutators, since they generate noise
+- **A.** Raise line coverage to 100% first, which will also raise the mutation score
+- **B.** Disable the comparison-operator mutators, since they mostly generate noise
 - **C.** Treat 68% as acceptable, because mutation scores above 60% are an industry norm
-- **D.** Add boundary-value tests for late-fee thresholds, and accept equivalent mutants as unkillable ✅
+- **D.** Add boundary tests at the late-fee thresholds; accept equivalent mutants as unkillable ✅
 
 **Answer: D** — Surviving comparison mutants mean no test pins the boundary (for example `>` vs `>=`). Boundary-value tests kill them. Equivalent mutants change code without changing behaviour, so no test can kill them, and chasing 100% is wasted effort.
 
@@ -2674,12 +2674,12 @@ Answer distribution: A:2 B:2 C:3 D:3
 
 **Q:** What is the best fix?
 
-- **A.** Remove the conflict so only one instruction applies to this project ✅
+- **A.** Delete the yarn rule, or scope it so it can't apply here ✅
 - **B.** Rely on the project file overriding your personal file
 - **C.** Restate 'use npm' in every prompt for this project
 - **D.** Turn off auto memory so the instructions stop conflicting
 
-**Answer: A** — CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically. Resolve them in the files.
+**Answer: A** — CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically (Claude may pick either). Resolve them in the files.
 
 - *B is wrong:* Load order makes the more specific file later, but both remain in context; the inconsistent behaviour shows recency is not a guarantee.
 - *C is wrong:* Per-prompt reminders add context and don't remove the standing contradiction.
@@ -2755,20 +2755,20 @@ Answer distribution: A:2 B:2 C:3 D:3
 
 ### M6.2-09 — stretch
 
-**Scenario:** You want to keep a week-long feature effort coherent across many sessions. Decisions made in chat keep getting lost after compaction.
+**Scenario:** One teammate has set effort to max for everything, including bulk renames, and complains about slow, costly sessions. Another runs low effort while chasing an intermittent race condition and keeps getting shallow guesses.
 
-**Q:** Which approach best preserves them?
+**Q:** What guidance should you give the team?
 
-- **A.** Disable auto-compact so nothing is ever summarised
-- **B.** Ask Claude to remember decisions in auto memory
-- **C.** Keep the plan and decision log in a committed file, read at each start ✅
-- **D.** Re-paste the whole previous transcript at the start of each session
+- **A.** Standardise everyone on max so results are consistent across the team
+- **B.** Standardise everyone on low and rely on plan mode for the hard thinking
+- **C.** Match effort to the task: raise it for the race, lower it for renames ✅
+- **D.** Leave effort alone and switch to a larger model for difficult bugs
 
-**Answer: C** — Compaction is lossy summarisation of chat turns; files survive it and can be reviewed. A committed plan/decision file (M6.8) is the durable carrier.
+**Answer: C** — Effort trades tokens and latency for reasoning depth. Mechanical edits gain nothing from it; hard debugging and design do. Set it per task rather than as a team-wide constant.
 
-- *A is wrong:* Without compaction the window fills and quality degrades or the session fails; it doesn't preserve decisions durably.
-- *B is wrong:* Auto memory is unreviewed, machine-local and can contradict itself.
-- *D is wrong:* Re-pasting transcripts floods the window with noise and repeats the original problem.
+- *A is wrong:* Max on mechanical work is slow and expensive with no quality gain; consistency of setting isn't consistency of results.
+- *B is wrong:* Plan mode structures the work but doesn't supply the reasoning depth a hard race-condition hunt needs.
+- *D is wrong:* Model choice and effort are separate levers; leaving effort at low still starves the hard task of reasoning.
 
 ### M6.2-10 — stretch
 
@@ -2776,14 +2776,14 @@ Answer distribution: A:2 B:2 C:3 D:3
 
 **Q:** Where should those rules live?
 
-- **A.** In the root CLAUDE.md, since only one file is ever read
+- **A.** In the root CLAUDE.md, under a clear 'Billing only' heading
 - **B.** In each developer's personal ~/.claude/CLAUDE.md
 - **C.** In auto memory, which loads only when billing is touched
-- **D.** In a billing-scoped place: a nested CLAUDE.md or a path-scoped rule ✅
+- **D.** In a nested billing/CLAUDE.md or a path-scoped rule ✅
 
 **Answer: D** — Nested directory CLAUDE.md files and path-scoped rules load only when Claude works on matching files, keeping the context small elsewhere while the rules are committed and reviewed.
 
-- *A is wrong:* Multiple CLAUDE.md files are supported and nested ones load on demand.
+- *A is wrong:* A heading doesn't stop the root file loading in every session; the rules still cost context in all 30 other packages.
 - *B is wrong:* Personal files aren't shared, so teammates and CI never get the rules.
 - *C is wrong:* Auto memory isn't scoped by path and isn't a reviewed instruction source.
 
@@ -2832,9 +2832,9 @@ Answer distribution: A:3 B:2 C:3 D:2
 **Q:** Which prompt pattern would have closed this loophole?
 
 - **A.** 'Write failing tests first, then implement; don't edit agreed tests.' ✅
-- **B.** 'Make all tests pass before you finish.'
+- **B.** 'Make sure every test passes before you report the task as done.'
 - **C.** 'Implement the fix, then write tests for it so nothing is left untested.'
-- **D.** 'Use maximum effort and be careful.'
+- **D.** 'Think hard, use maximum effort, and double-check your changes.'
 
 **Answer: A** — Test-first pins the target before implementation, and forbidding edits to agreed tests stops the 'edit tests to go green' path.
 
@@ -2885,13 +2885,13 @@ Answer distribution: A:3 B:2 C:3 D:2
 - **A.** Ask Claude to guess the fix from the error message and push it
 - **B.** Give the full log, get ranked hypotheses, and reproduce it first ✅
 - **C.** Disable the failing test so the release isn't blocked, then fix it after
-- **D.** Re-run CI until it passes
+- **D.** Re-run the CI job a few times to see whether it's just flaky
 
 **Answer: B** — Debugging with evidence: the full log, ranked hypotheses, and a reproduction that fails reliably. The reproduction then becomes the regression test.
 
 - *A is wrong:* A guessed fix without a reproduction can't be shown to work.
 - *C is wrong:* Disabling the test hides the defect.
-- *D is wrong:* Re-running treats a real failure as noise and proves nothing.
+- *D is wrong:* Re-running can hide a real intermittent defect and gives no evidence of the cause; it postpones the diagnosis.
 
 ### M6.3-07 — core
 
@@ -2900,8 +2900,8 @@ Answer distribution: A:3 B:2 C:3 D:2
 **Q:** How should the conflict be resolved?
 
 - **A.** Resolve by intent, keeping both behaviours, with a test for each ✅
-- **B.** Take whichever branch merged first
-- **C.** Take the branch with more passing tests
+- **B.** Keep the side that merged first and drop the other's hunk
+- **C.** Keep the side whose branch has more passing tests
 - **D.** Ask Claude to pick one side so the merge stays quick and the diff stays small
 
 **Answer: A** — Resolve conflicts by reading both sides' intent (plans, commit messages), produce a version satisfying both, and prove both behaviours with tests; re-run the suite after the merge.
@@ -2917,15 +2917,15 @@ Answer distribution: A:3 B:2 C:3 D:2
 **Q:** What is the right position?
 
 - **A.** Accept; an AI review is more thorough than a human one
-- **B.** Accept only for small PRs under 50 lines
+- **B.** Accept for PRs under 50 lines; keep human approval for larger ones
 - **C.** AI review is an input; a named human still approves every PR ✅
-- **D.** Reject AI review entirely as unreliable
+- **D.** Reject AI review entirely; it adds noise reviewers learn to ignore
 
 **Answer: C** — Automated review helps the reviewer, but accountability needs a named human approver for every change (M8.3).
 
 - *A is wrong:* Thoroughness doesn't create accountability, and AI review can miss context-dependent defects.
 - *B is wrong:* Size doesn't remove the need for an accountable approver.
-- *D is wrong:* AI review is useful as a first pass; the issue is replacing the human, not using it.
+- *D is wrong:* AI review is a useful first pass for the human reviewer; the problem is replacing the human, not using the tool.
 
 ### M6.3-09 — stretch
 
@@ -2935,31 +2935,31 @@ Answer distribution: A:3 B:2 C:3 D:2
 
 - **A.** Move the key to a repo secret and grant only the permissions needed ✅
 - **B.** Rename the trigger phrase so fewer people can invoke the action by accident
-- **C.** Run the action only on weekdays
+- **C.** Add --max-turns and a job timeout so runaway runs stop early
 - **D.** Pin Claude to a cheaper model to control cost
 
 **Answer: A** — The agent's reach in CI equals the workflow token's permissions and the credentials it holds. Secrets belong in the secret store, and least privilege limits damage.
 
 - *B is wrong:* A trigger phrase is not an access control.
-- *C is wrong:* Scheduling doesn't reduce privilege or protect the key.
+- *C is wrong:* Turn and time caps control cost, but the key is still in the YAML and the token can still write everywhere.
 - *D is wrong:* Cost control doesn't address the exposed key or broad permissions.
 
 ### M6.3-10 — stretch
 
-**Scenario:** Running four parallel sessions, you notice two of them are now editing the same module as part of 'cleanup'. Merges keep conflicting on every hunk.
+**Scenario:** Claude finishes a checkout-page change and reports: 212 unit tests pass, lint is clean, and coverage rose to 85%. Nobody has run the app since the change.
 
-**Q:** What is the best adjustment?
+**Q:** What verification is still missing before you call it done?
 
-- **A.** Add a fifth session whose only job is resolving conflicts continuously
-- **B.** Force-push the session with the cleaner diff
-- **C.** Scope tasks so no two sessions own the same module ✅
-- **D.** Turn off tests until all sessions finish
+- **A.** Raise the coverage target to 95% and have Claude add tests to reach it
+- **B.** Ask Claude to write more unit tests for the components it changed
+- **C.** Run the app and walk the checkout flow end to end, observing the result ✅
+- **D.** Re-run the same suite in CI to confirm the local result holds there
 
-**Answer: C** — Overlapping refactors are where parallelism stops paying. Scope each session to disjoint files, or sequence the overlapping work.
+**Answer: C** — Tests and coverage measure what ran, not whether the feature works for a user. Building and running the app and observing the behaviour (what the bundled verify skill automates) closes the gap.
 
-- *A is wrong:* Another session adds coordination cost without removing the overlap.
-- *B is wrong:* Force-pushing destroys work and breaks the hard rule.
-- *D is wrong:* Disabling tests removes the check that catches broken merges.
+- *A is wrong:* Coverage measures executed lines, not checked behaviour; a higher number still never exercised the real flow.
+- *B is wrong:* More unit tests of the same kind leave the integrated, running behaviour unobserved.
+- *D is wrong:* The same suite in another environment repeats the same blind spot.
 
 ## M6.8 — What Claude writes down in the repo
 
@@ -2971,7 +2971,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** Which artefact should have captured the answer?
 
-- **A.** The project CLAUDE.md
+- **A.** A note about rounding in the project CLAUDE.md
 - **B.** A worklog entry for that fix, linked from the commit ✅
 - **C.** Claude's auto memory on the original developer's laptop
 - **D.** A MISTAKES.md entry written by Claude
@@ -2989,9 +2989,9 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** What is the right response?
 
 - **A.** Commit it; shared memory keeps everyone's sessions consistent across machines
-- **B.** Commit it but regenerate it weekly
+- **B.** Commit it, but have Claude regenerate it from scratch every week
 - **C.** Don't commit it; promote true, useful notes into CLAUDE.md or rules ✅
-- **D.** Copy it into the README instead
+- **D.** Paste its contents into the README so humans can read it too
 
 **Answer: C** — Auto memory is per-machine, unreviewed and self-contradicting. The right path is to promote reviewed, stable facts into committed instructions.
 
@@ -3056,14 +3056,14 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** Why is this a problem?
 
-- **A.** Claude's entries are too long for the file
+- **A.** Claude should log its errors in auto memory instead
 - **B.** Its value is human judgement; Claude can't log errors it didn't notice ✅
 - **C.** MISTAKES.md must be generated automatically by a hook, not written by Claude
 - **D.** It's fine as long as a human reads the file weekly
 
 **Answer: B** — MISTAKES.md is human corrections only. Its value is a human's judgement that something was wrong, which by definition includes the errors Claude didn't notice.
 
-- *A is wrong:* Length isn't the issue; who judges the mistake is.
+- *A is wrong:* Moving the log doesn't fix the problem: self-noticed errors aren't the content, and auto memory is unreviewed and local.
 - *C is wrong:* Hook-generated content is the anti-pattern this module warns against.
 - *D is wrong:* Reading doesn't change that the entries reflect only Claude's self-detected errors.
 
@@ -3073,14 +3073,14 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What is the risk, and the fix?
 
-- **A.** No risk; plans are only drafts
+- **A.** No real risk; plan.md is a draft and the code is the truth
 - **B.** Delete all plan.md files from the repository so they can never drift
 - **C.** A stale plan misleads; update it in the same PR or record the deviation ✅
 - **D.** Leave it as is; the worklog entries will explain the difference eventually
 
 **Answer: C** — A plan.md that no longer matches the code is worse than none. Keep it honest in the same PR, or record the deviation in the worklog.
 
-- *A is wrong:* Committed plans are part of the audit trail readers trust.
+- *A is wrong:* Committed plans are part of the audit trail readers trust; a draft that looks authoritative misleads.
 - *B is wrong:* Deleting them throws away the reasoning the trail exists to keep.
 - *D is wrong:* An unlinked future note doesn't stop readers being misled by the plan now.
 
@@ -3090,14 +3090,14 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What should the repo do?
 
-- **A.** Accept both; they help Claude in CI
+- **A.** Accept both; Claude in CI then gets the same setup as the author
 - **B.** Accept the settings file but ignore CLAUDE.local.md
-- **C.** Rename both to the shared filenames and commit
+- **C.** Rename both to CLAUDE.md and settings.json so the team shares them
 - **D.** Ignore both in the repo .gitignore and remove them from the PR ✅
 
 **Answer: D** — Both are personal, machine-local files. Add them to the repository .gitignore so every clone is protected, rather than relying on per-user global excludes.
 
-- *A is wrong:* Personal paths and local settings don't belong in a shared repo and may leak details.
+- *A is wrong:* Personal paths and local settings don't belong in a shared repo, may leak details, and won't match CI's environment anyway.
 - *B is wrong:* settings.local.json is personal by design and shouldn't be committed either.
 - *C is wrong:* Turning personal preferences into shared instructions bypasses review of what the team wants.
 
@@ -3107,15 +3107,15 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 **Q:** What is the best correction?
 
-- **A.** Keep the hook and ask Claude to write longer entries
-- **B.** Require entries for judgement calls, checked in PR review; drop the per-commit hook ✅
-- **C.** Delete docs/worklog/ entirely
-- **D.** Move the entries into CLAUDE.md, where Claude will read them at every session start
+- **A.** Keep the hook but have Claude write longer, more detailed entries
+- **B.** Drop the per-commit hook; require entries for judgement calls in PR review ✅
+- **C.** Delete docs/worklog/ and rely on commit messages for the why
+- **D.** Move the entries into CLAUDE.md so Claude reads them every session
 
 **Answer: B** — Documentation generated because a hook required it is the named anti-pattern. Entries are for fixes and judgement calls, reviewed like code.
 
 - *A is wrong:* Longer filler is still filler; volume without value.
-- *C is wrong:* Losing the worklog removes the record for the cases that matter.
+- *C is wrong:* Losing the worklog removes the record for the cases that matter; commit messages can't hold rejected options and uncertainty.
 - *D is wrong:* That bloats CLAUDE.md with history, the failure mode the five-artefact split prevents.
 
 ### M6.8-10 — stretch
@@ -3125,7 +3125,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 **Q:** Which evidence best answers them?
 
 - **A.** Exported chat transcripts from developers' Claude sessions
-- **B.** Each developer's auto memory files
+- **B.** Each developer's auto memory files, exported at engagement end
 - **C.** A signed statement from the tech lead that Claude Code was configured securely throughout
 - **D.** Committed intent/spec/plan, reviewed diffs, and worklog entries naming reviewers ✅
 
@@ -3167,7 +3167,7 @@ Answer distribution: A:3 B:3 C:2 D:2
 - **C.** Lower the effort level so that responses come back shorter and fit comfortably inside the existing limit
 - **D.** Add 'never exceed the length limit' to the system prompt so the model learns to self-truncate neatly
 
-**Answer: A** — stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. Handle it explicitly.
+**Answer: A** — stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. The same rule covers refusal (HTTP 200, declined) and the other non-end_turn values: branch on stop_reason before reading content.
 
 - *B is wrong:* Silently skipping hides data loss: the job reports success while dropping tickets.
 - *C is wrong:* Effort changes reasoning depth, not a guaranteed output length, and doesn't fix the missing stop_reason check.
@@ -3226,20 +3226,20 @@ Answer distribution: A:3 B:3 C:2 D:2
 
 ### M7.1-06 — core
 
-**Scenario:** A product manager wants to know whether a 1,200-page technical archive will fit a request, and reaches for a popular open-source tokenizer from another vendor to count it.
+**Scenario:** Your multi-tenant contract-analysis product uploads each customer's PDFs once through the Files API into one shared workspace. The browser client sends the file_id back with every question so the backend can reference the document.
 
-**Q:** What should you recommend?
+**Q:** What is the most important change before launch?
 
-- **A.** Use the other vendor's tokenizer, since all modern tokenizers agree to within about one percent
-- **B.** Call the token-counting endpoint for that exact model, since only Claude's tokenizer counts its tokens ✅
-- **C.** Estimate at four characters per token, which is close enough for a capacity decision like this
-- **D.** Send the full request anyway and read the error message back if it turns out to be too large
+- **A.** Rely on the API to reject another customer's file_id, because each upload is scoped to its uploader
+- **B.** Keep file_ids server-side, mapped to each tenant, and resolve them from your own document IDs ✅
+- **C.** Download each file back from the Files API before every question to confirm it's the expected one
+- **D.** Send every PDF inline as base64 instead, because a file_id can't reference a PDF document block
 
-**Answer: B** — Token counts depend on the model's tokenizer. The count_tokens endpoint gives the real figure before you spend anything.
+**Answer: B** — Uploaded files are scoped to the workspace, not to your end users. A file_id accepted from the client lets one tenant reference another tenant's document. Map your own document IDs to file_ids on the server and authorise every lookup.
 
-- *A is wrong:* Different tokenizers can differ a lot on the same text, so counts don't carry over between vendors.
-- *C is wrong:* A rule of thumb is fine for a first guess, but this is a capacity decision. Use the exact count.
-- *D is wrong:* Trial and error costs money and time, and a request that fits can still be close enough to the limit to break later.
+- *A is wrong:* The API has no idea who your tenants are: any valid file_id in the workspace resolves, whoever sends it.
+- *C is wrong:* Files you upload can't be downloaded back (only Skill and code-execution outputs can), and checking contents doesn't fix the authorisation gap.
+- *D is wrong:* PDFs can be referenced by file_id in a document block. Inlining them wastes bandwidth and still leaves authorisation to you.
 
 ### M7.1-07 — core
 
@@ -3294,20 +3294,20 @@ Answer distribution: A:3 B:3 C:2 D:2
 
 ### M7.1-10 — stretch
 
-**Scenario:** A request to a current model returns HTTP 200 with stop_reason 'refusal'. The calling service reads content as normal and posts it to a customer-facing channel.
+**Scenario:** An incident-analysis service is moving to a current model. Its code sends thinking type 'enabled' with budget_tokens 16000, and the new model returns HTTP 400. The team also wants cheaper runs on simple tickets.
 
-**Q:** What should the service do instead?
+**Q:** What is the right change?
 
-- **A.** Retry the identical request immediately until it succeeds, because refusals are usually transient
-- **B.** Branch on stop_reason before reading content: log the refusal, then fall back or return a handled message ✅
-- **C.** Treat any HTTP 200 as success, because genuine errors always come back with a 4xx or 5xx status
-- **D.** Increase max_tokens, because refusals happen when the model runs out of room to finish its answer
+- **A.** Keep budget_tokens but make sure it sits below max_tokens, so the request passes validation again
+- **B.** Switch to adaptive thinking and set output_config effort per route, tuned on real ticket samples ✅
+- **C.** Disable thinking on every request and add 'think step by step' to the prompt to recover quality
+- **D.** Stay on the older model indefinitely, because a fixed thinking budget is the only reliable cost cap
 
-**Answer: B** — A refusal comes back with HTTP 200, so status codes alone aren't enough. Check stop_reason first and handle refusal explicitly: log it, use a fallback path, or show a clear message.
+**Answer: B** — Manual thinking budgets are deprecated and rejected on current models. With adaptive thinking the model decides how much to reason, and effort is the control for depth and spend. Tune it per route on real samples and judge cost per completed task.
 
-- *A is wrong:* Re-sending the same request usually produces the same refusal, and blind retries waste spend.
-- *C is wrong:* Refusals arrive with HTTP 200 by design, so trusting the status code alone posts declined output as an answer.
-- *D is wrong:* Refusals come from safety classifiers, not the token limit. A higher max_tokens changes nothing.
+- *A is wrong:* The budget form is rejected outright on these models, whatever its value relative to max_tokens.
+- *C is wrong:* Several current models reject disabled thinking, and a prompt phrase is no substitute. Lower effort is the supported cost lever.
+- *D is wrong:* Older models retire, so this only postpones the migration. Effort already gives per-route cost control on current models.
 
 ## M7.2 — Tool use, structured outputs and server-side tools
 
@@ -3373,7 +3373,7 @@ Answer distribution: A:2 B:3 C:2 D:3
 - **A.** Switch tool_choice to 'any', so the model is still required to call some tool on every turn
 - **B.** Downgrade permanently to an older model that still accepts forced tool use, and pin it there
 - **C.** Remove the tools entirely and describe the tool in plain text, so the model replies in that format
-- **D.** Use tool_choice auto, name the tool in the prompt, use strict schemas and verify the call ✅
+- **D.** Use tool_choice auto, name the tool in the prompt, keep strict schemas, and check the call ran ✅
 
 **Answer: D** — Current models reject forced tool choice. Steer with auto plus a clear instruction, keep arguments valid with strict, and verify the call happened. If you only wanted JSON, use structured outputs.
 
@@ -3417,20 +3417,20 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 ### M7.2-07 — core
 
-**Scenario:** A strict schema guarantees that a delete_record tool receives a well-formed record_id. A user in tenant A asks the assistant to delete a record that belongs to tenant B.
+**Scenario:** Finance wants a service that produces a monthly branded Excel and PowerPoint pack. Your team already maintains a brand-template Skill (a SKILL.md plus template files) that engineers use in Claude Code.
 
-**Q:** Where must the protection live?
+**Q:** What is the best way to build the service on the API?
 
-- **A.** In the strict schema, which already ensures that only valid, well-formed record IDs reach the tool
-- **B.** In the system prompt, by instructing Claude never to delete any record owned by another tenant
-- **C.** In the model's own judgement, since current models already refuse obviously harmful requests
-- **D.** In the tool's own code, which checks that the caller may act on that record before deleting it ✅
+- **A.** Paste the SKILL.md text into the system prompt, because the API can't load Skill folders at all
+- **B.** Attach the Skills to a plain request with no tools, since Skills execute inside the model itself
+- **C.** Ask for markdown tables and convert them into xlsx and pptx files with a script on your own server
+- **D.** Upload it with the Skills API and attach it, plus xlsx and pptx, to a code-execution container ✅
 
-**Answer: D** — A strict schema guarantees the shape of the arguments, not that the caller may use them. Authorisation belongs in your code, at the point of action, because model arguments are untrusted input.
+**Answer: D** — A Skill is the same SKILL.md format on every surface. Through the API, custom Skills (uploaded via the Skills endpoint) and the built-in xlsx, pptx, docx and pdf Skills are attached to a code-execution container, which runs their scripts and returns generated files by file ID.
 
-- *A is wrong:* A valid-shaped ID can still belong to another tenant. Schema validity isn't authorisation.
-- *B is wrong:* Prompt rules can be bypassed by injection or mistakes, so they can't enforce tenant isolation.
-- *C is wrong:* Relying on model judgement for access control is unsafe: authorisation must be deterministic.
+- *A is wrong:* The Skills endpoint loads Skill folders. Flattening one into a prompt loses its scripts and templates, and costs tokens on every call.
+- *B is wrong:* Skills run as files and scripts in the code-execution container. Without the code-execution tool there is nothing to run them.
+- *C is wrong:* Converting markdown yourself throws away the brand templates and the built-in Skills' file handling you already have.
 
 ### M7.2-08 — core
 
@@ -3487,22 +3487,22 @@ Answer distribution: A:2 B:3 C:2 D:3
 
 Answer distribution: A:7 B:6 C:6 D:6
 
-### MOCK-01 — core
+### MOCK-01 — stretch
 
-**Scenario:** You ask Claude for a Black Friday capacity plan that must meet a 99.9% availability target, stay under a fixed cloud budget, and use no new vendors. The draft quietly exceeds the budget to hit the target and never says so.
+**Scenario:** You need a rollback strategy for a schema change on a 2 TB orders table with a 15-minute maintenance window. Claude's single proposal looks reasonable, but you have no idea what else was possible or what it traded away.
 
-**Q:** What change to the prompt fixes this most reliably?
+**Q:** Which follow-up prompt adds the most decision value?
 
-- **A.** Repeat 'all three constraints are mandatory' in capitals at the start and the end of the prompt
-- **B.** State the priority order and a tie-break, and require it to name any relaxed constraint ✅
-- **C.** Switch to a more capable model so it can satisfy every constraint at once without trade-offs
-- **D.** Drop the budget constraint for now and add it back in a follow-up once the plan looks right
+- **A.** Ask it to redo the same proposal at Max effort, so the reasoning behind its choice is deeper and fuller
+- **B.** Ask for three materially different strategies, then score each against the window and rollback criteria ✅
+- **C.** Ask it to rate its confidence in the proposal from 1 to 10, and explain any score lower than eight
+- **D.** Ask it to list every rollback strategy known for relational databases, with pros and cons for each
 
-**Answer: B** — When constraints conflict, Claude has to pick one. Stating priorities and a tie-break rule, and requiring it to name any relaxed constraint, makes the trade-off explicit and reviewable.
+**Answer: B** — Generate-then-select: forcing materially different options and scoring them against your stated criteria exposes the trade-offs a single proposal hides, and the selection step is checkable.
 
-- *A is wrong:* Shouting doesn't resolve a real conflict between constraints. Current models may also over-apply emphatic rules.
-- *C is wrong:* No model can satisfy constraints that conflict. The trade-off needs a rule, not more capability.
-- *D is wrong:* Removing a hard constraint produces a plan that is invalid, and the follow-up then has to fight the first draft.
+- *A is wrong:* More effort deepens one framing. It doesn't make Claude explore the alternatives it never considered.
+- *C is wrong:* Self-rated confidence isn't calibrated, and a score says nothing about the options that were never generated.
+- *D is wrong:* An exhaustive generic list isn't tied to your window or rollback criteria, so you still have no selection.
 
 ### MOCK-02 — core
 
@@ -3523,37 +3523,37 @@ Answer distribution: A:7 B:6 C:6 D:6
 
 ### MOCK-03 — core
 
-**Scenario:** During a long root-cause session, you float two contradictory hypotheses ten turns apart: first a DNS failure, then certificate expiry. Claude agrees enthusiastically with each, citing the same log lines as support.
+**Scenario:** Claude drafts a postmortem from the timeline you pasted. It states the outage began at 14:32 UTC and affected 12,400 users. Neither figure appears in your timeline, and both read naturally.
 
 **Q:** Which failure mode is this, and what is the counter?
 
-- **A.** Instruction drift, so restate the full original instructions every five turns from now on
-- **B.** Verbosity, so set a strict word limit so that the two hypotheses are easier to compare
-- **C.** Sycophancy, so ask for evidence for and against each one without giving your view ✅
-- **D.** Over-confidence, so raise the effort level to Max so it reasons harder about the logs
+- **A.** Over-confidence; ask it to attach a confidence rating to each figure in the postmortem draft
+- **B.** Instruction drift; restate the original instructions at the top of each new turn you send
+- **C.** Invented specifics; require every figure to come from the timeline and mark gaps [UNKNOWN] ✅
+- **D.** Verbosity; cap the length of the draft so there is less room for unrequested detail
 
-**Answer: C** — Claude adopting whatever framing you supply is sycophancy. Ask neutrally for evidence on both sides, ideally in a fresh context, so the logs decide rather than your phrasing.
+**Answer: C** — Plausible numbers and times that aren't in the source are invented specifics. The counter is grounding: figures only from the supplied material, with an explicit placeholder where the material is silent, then a check against the timeline.
 
-- *A is wrong:* The instructions weren't forgotten. The model is following your framing, and restating instructions doesn't remove that bias.
-- *B is wrong:* Length isn't the problem. A shorter answer would agree with you just as readily.
-- *D is wrong:* More effort spent inside a biased framing still follows the framing. Remove the leading question instead.
+- *A is wrong:* A confidence rating sits on top of an invented number; it doesn't remove it or trace it to a source.
+- *B is wrong:* Nothing was forgotten. The model filled a gap with plausible detail, which restating instructions doesn't prevent.
+- *D is wrong:* A shorter draft can still contain an invented figure. Length isn't the mechanism.
 
 ### MOCK-04 — core
 
-**Scenario:** Your engagement Project's instructions say 'British English'. Your personal preferences say 'American English'. Outputs alternate between the two, and a client noticed. A teammate says the hierarchy is documented, so there's nothing to test.
+**Scenario:** You must find every indemnity and liability-cap clause across 14 supplier contracts. Together they are far larger than you can usefully put in one chat, and the answer goes into a legal risk register.
 
-**Q:** What should you do?
+**Q:** What is the most reliable way to structure the work?
 
-- **A.** Run a short test prompt to see which applies, then remove the conflict at the right level ✅
-- **B.** Assume your personal preferences win, because they are the setting most specific to you alone
-- **C.** Assume the Project instructions always win and leave both settings exactly as they are
-- **D.** Delete both settings and state the spelling convention in every message you send instead
+- **A.** Go contract by contract: extract clauses with quotes and pages to a table, then query it ✅
+- **B.** Upload all 14 at once in one chat and ask for every clause, so it sees everything together
+- **C.** Ask Research mode to find the clauses, since it is built to handle large volumes of documents
+- **D.** Ask for a summary of each contract first, then answer the clause question from the summaries
 
-**Answer: A** — Precedence should be tested, not assumed. Once you see the behaviour, remove the contradiction: the team rule belongs in the Project, so align or remove the personal setting.
+**Answer: A** — Chunk, extract, then ask: per-contract extraction with verbatim quotes and page numbers keeps each step inside the window and checkable, and the cross-contract question runs on a compact, verified table.
 
-- *B is wrong:* Assuming precedence is the mistake. Personal preferences aren't guaranteed to win, and the conflict still causes drift.
-- *C is wrong:* Leaving a live conflict in place keeps the output unpredictable, whichever rule wins on paper.
-- *D is wrong:* Per-message instructions are fragile and get forgotten. Fix the shared setting once instead.
+- *B is wrong:* Past the window's useful size, material gets dropped or skimmed, and you can't tell which clauses were missed.
+- *C is wrong:* Research is for web and connected sources. It isn't a method for exhaustive extraction from your own contracts.
+- *D is wrong:* Generic summaries lose the exact clause wording and limits the register needs, so the answer can't be checked.
 
 ### MOCK-05 — core
 
@@ -3663,16 +3663,16 @@ Answer distribution: A:7 B:6 C:6 D:6
 
 **Q:** Which technique best surfaces the risks the group is not seeing?
 
-- **A.** Ask Claude to write a persuasive summary of the benefits for the decision meeting tomorrow
-- **B.** Run a quick poll of the team so that the strength of agreement is recorded in writing
-- **C.** Ask Claude for a single confident verdict, so the meeting can move on more quickly
+- **A.** A balanced pros-and-cons list of the platform, to circulate before the meeting tomorrow
+- **B.** Three reference customers from the vendor, to confirm the platform works as promised
+- **C.** A sensitivity table on price and usage growth, to show how the three-year cost could move
 - **D.** A pre-mortem: assume it failed badly in 18 months and list the most likely reasons why ✅
 
 **Answer: D** — A pre-mortem breaks group optimism by making failure the premise. It produces concrete risks for an assumption and risk register.
 
-- *A is wrong:* A persuasive benefits summary reinforces the bias you're trying to counter.
-- *B is wrong:* A poll measures consensus, not risk. Strong agreement is exactly when blind spots grow.
-- *C is wrong:* A single verdict hides trade-offs and assumptions. Decision support should expose them.
+- *A is wrong:* A pros-and-cons list written inside the group's framing tends to mirror its optimism. It doesn't make failure the premise.
+- *B is wrong:* Vendor-chosen references are selected to be positive, so they confirm the bias rather than test it.
+- *C is wrong:* Sensitivity on cost is useful, but it covers one dimension and won't surface operational, people or lock-in risks.
 
 ### MOCK-12 — core
 
@@ -3708,22 +3708,22 @@ Answer distribution: A:7 B:6 C:6 D:6
 - *B is wrong:* Grammar errors are cosmetic. A fabricated identifier is a correctness and trust failure.
 - *D is wrong:* Length doesn't affect correctness. The risk is in the specific identifiers.
 
-### MOCK-14 — core
+### MOCK-14 — stretch
 
-**Scenario:** Claude's capacity forecast concludes you won't need new database nodes until Q4. It assumes 20% quarter-on-quarter growth. Last quarter's actual growth isn't mentioned anywhere.
+**Scenario:** You have 45 minutes before a 12-page Claude-drafted migration assessment goes to the client. It contains cost figures, product version numbers, two named client stakeholders and several pages of background prose.
 
-**Q:** How do you validate this analysis?
+**Q:** How do you spend the review time?
 
-- **A.** Re-run the same forecast at higher effort and accept it if the conclusion stays the same
-- **B.** Accept it, since the arithmetic in the forecast table adds up correctly on inspection
-- **C.** Ask a colleague whether the Q4 date feels roughly right based on their past experience
-- **D.** Check the growth rate against actuals and find the rate that would change the answer ✅
+- **A.** Check a random 10% of all sentences, since sampling is the proportional approach
+- **B.** Ask Claude in the same chat to self-check against a rubric, and send if it passes
+- **C.** Read the whole draft end to end once for flow, since a careful read catches errors
+- **D.** Fully check the figures, versions and names, and sample the background prose ✅
 
-**Answer: D** — For analysis, validation means challenging the assumptions. Check the key input against actuals, and find the breakpoint where the conclusion flips.
+**Answer: D** — Proportional verification is risk-tiered, not uniform. It is external, so the high-risk content types (numbers, versions, people) get full checks against sources; low-risk prose can be sampled.
 
-- *A is wrong:* Re-running with the same assumption reproduces the same answer. Consistency isn't correctness.
-- *B is wrong:* Correct arithmetic on a wrong assumption gives a wrong conclusion.
-- *C is wrong:* Intuition isn't a check. The growth rate can be compared with real data.
+- *A is wrong:* Sampling suits low-risk bulk work. A uniform 10% sample will miss most of the high-risk items in an external deliverable.
+- *B is wrong:* A self-check is a filter, not a guarantee. It can't certify facts the model already believes.
+- *C is wrong:* A read for flow doesn't check numbers or versions against any source, and fluent text hides errors.
 
 ### MOCK-15 — core
 
@@ -3766,15 +3766,15 @@ Answer distribution: A:7 B:6 C:6 D:6
 **Q:** Which input will give the most useful agenda?
 
 - **A.** Last meeting's minutes, open actions with owners, and pending decisions ✅
-- **B.** The project's original kickoff deck, so the agenda reflects the initial goals
-- **C.** A list of everyone attending, so the agenda can give each person equal time
-- **D.** A generic agenda template downloaded from the web, adapted by changing the title
+- **B.** The full transcripts of the last three meetings, so that nothing is missed
+- **C.** The project plan's milestone list, so the agenda follows the schedule
+- **D.** A request for a standard agenda with fixed time boxes per workstream
 
 **Answer: A** — An outcome-driven agenda comes from the open state: pending decisions, actions with named owners, and what changed since the last meeting.
 
-- *B is wrong:* The kickoff deck is out of date. It doesn't show what is open now.
-- *C is wrong:* Equal airtime isn't the goal. The agenda should be built around the decisions needed.
-- *D is wrong:* A generic template has none of the project's actual open items.
+- *B is wrong:* Raw transcripts bury the open state in discussion, and the agenda still won't be built around decisions.
+- *C is wrong:* Milestones show the schedule, not which decisions or actions are open right now.
+- *D is wrong:* Fixed time boxes per workstream produce a status round, which is the discussion you want to avoid.
 
 ### MOCK-18 — core
 
@@ -3793,7 +3793,7 @@ Answer distribution: A:7 B:6 C:6 D:6
 - *B is wrong:* 3D distortion and a truncated baseline exaggerate differences, which is dishonest.
 - *D is wrong:* Dual axes invite false visual comparisons and drop four of the six services.
 
-### MOCK-19 — core
+### MOCK-19 — stretch
 
 **Scenario:** In a shared forecast workbook, a VLOOKUP returns the wrong customer tier for about 5% of rows. Claude offers to 'fix the formula' across the whole column.
 
@@ -3861,22 +3861,22 @@ Answer distribution: A:7 B:6 C:6 D:6
 - *C is wrong:* Dumping everything doesn't surface what's missing, such as downtime constraints you never wrote down.
 - *D is wrong:* Options built on the same unknown assumptions don't fill the gaps.
 
-### MOCK-23 — core
+### MOCK-23 — stretch
 
-**Scenario:** Thirty-five turns into revising a design document, each fix Claude makes breaks something agreed earlier, and the chat is now mostly your corrections.
+**Scenario:** Eight turns into refining a client status update, each Claude draft is closer than the last. The only remaining issue is the tone of one paragraph. A colleague says long chats always degrade and you should start fresh.
 
 **Q:** What should you do?
 
-- **A.** Keep correcting in the same chat, since Claude now has the most context about the whole work
-- **B.** Ask Claude to apologise and list its mistakes, so it pays more attention afterwards
-- **C.** Start a fresh chat with a complete prompt that includes everything you've learned so far ✅
-- **D.** Switch to a different Style in the same chat, so the tone of the replies resets
+- **A.** Start a fresh chat now and paste the brief again, since chats this long always degrade
+- **B.** Open an incognito chat, so that the earlier drafts stop influencing the next reply you get
+- **C.** Stay in this chat and ask for a targeted change to that paragraph, naming the tone you want ✅
+- **D.** Switch the Style to Formal and regenerate the whole update from the beginning in this chat
 
-**Answer: C** — A chat full of wrong drafts and corrections keeps steering the output. A clean start with a corrected spec beats continued patching.
+**Answer: C** — Iterate rather than restart while the context is on task and converging. A fresh chat is the fix for polluted or drifting context, not a reflex at a turn count.
 
-- *A is wrong:* The accumulated context is the problem. More turns make it worse.
-- *B is wrong:* Listing mistakes adds more polluted context and doesn't fix the specification.
-- *D is wrong:* Tone isn't the issue. The conversation history is still there.
+- *A is wrong:* Eight on-task, converging turns aren't degradation. Restarting throws away agreed content for no gain.
+- *B is wrong:* Incognito changes history and memory, not the drafts already in the chat. A new chat would lose them anyway.
+- *D is wrong:* Regenerating everything to fix one paragraph risks undoing parts already agreed.
 
 ### MOCK-24 — core
 
@@ -3901,16 +3901,16 @@ Answer distribution: A:7 B:6 C:6 D:6
 
 **Q:** What should happen before it is published?
 
-- **A.** Run a bias and inclusive-language review, revise it, and get a named owner's approval ✅
-- **B.** Publish it, since the wording is common in the industry and sounds enthusiastic
-- **C.** Ask Claude to make the advert longer, so that the problem phrases stand out less
-- **D.** Publish it on internal channels only, where the wording carries less risk to anyone
+- **A.** Do a bias and inclusive-language review, revise, and get a named owner to sign off ✅
+- **B.** Ask Claude to rewrite it in a neutral tone, then publish the version it returns
+- **C.** Replace the three flagged phrases and publish, since those are the only problems
+- **D.** Publish it, and ask legal to review the wording only if a candidate complains
 
 **Answer: A** — Generated content needs bias checks. These phrases signal age bias and exclusion, and a named human owns the final wording.
 
-- *B is wrong:* Common wording can still be discriminatory, and AI-generated text gets no exemption.
-- *C is wrong:* Diluting biased phrases doesn't remove them.
-- *D is wrong:* Internal candidates are also protected, so the bias still matters.
+- *B is wrong:* A rewrite with no human review or owner can keep subtler bias, and nobody is accountable for the wording.
+- *C is wrong:* Spotting three phrases isn't a review. The rest of the advert hasn't been checked for the same bias.
+- *D is wrong:* Reacting to complaints means the discriminatory advert has already been published.
 
 ## Mock elective block DESIGN — Elective block: Claude Design (M3.6)
 
@@ -4022,22 +4022,22 @@ Answer distribution: A:2 B:1 C:1 D:1
 - *C is wrong:* Non-functional requirements belong in the criteria. Deferring them hides the real constraint.
 - *D is wrong:* An intensifier is still unmeasurable.
 
-### MOCK-E07 (elective) — core
+### MOCK-E07 (elective) — stretch
 
-**Scenario:** Claude generated fifteen CRUD controllers over a week. The most recent five return errors in a different JSON shape from the team's template, and the client's front end breaks on them.
+**Scenario:** Claude reports that a 600-line LegacyTaxAdapter module is dead code: a repository-wide search finds no references to it. You're about to delete it in a cleanup PR.
 
-**Q:** What prevents this drift?
+**Q:** What should you check before deleting it?
 
-- **A.** Send the template and a reference controller with each request; diff against them ✅
-- **B.** Ask Claude to remember the error format, and trust it to apply it in future
-- **C.** Fix the front end so it accepts both error shapes, and keep generating as before
-- **D.** Generate all future controllers in a single prompt, so they share one format
+- **A.** Runtime references a text search misses: reflection, DI config, jobs, and call telemetry ✅
+- **B.** Nothing more, since a repository-wide search is complete evidence that nothing calls it
+- **C.** Ask Claude to repeat the search with a broader pattern, then delete if it still finds none
+- **D.** Nothing; keep it forever instead, since legacy code may always be used somewhere unseen
 
-**Answer: A** — Generated boilerplate stays consistent when every request carries the template and a reference, and the output is checked against them.
+**Answer: A** — 'No references found' is an inference from a text search. Legacy code is reached through hidden coupling: reflection, configuration, dependency-injection registration, scheduled jobs or other repositories. Check those and production telemetry before deleting.
 
-- *B is wrong:* Relying on recall across sessions is exactly how the drift happened.
-- *C is wrong:* Accommodating inconsistency spreads it, and the contract is left ambiguous.
-- *D is wrong:* One huge prompt doesn't scale, and nothing checks the output against the template.
+- *B is wrong:* Text search can't see dynamic dispatch, config-driven loading or callers in other repositories.
+- *C is wrong:* A broader pattern still searches text in one repository, so it shares the same blind spots.
+- *D is wrong:* Keeping all dead code forever grows the debt. The answer is evidence, then a decision.
 
 ### MOCK-E08 (elective) — core
 
@@ -4058,37 +4058,37 @@ Answer distribution: A:2 B:1 C:1 D:1
 
 ### MOCK-E09 (elective) — core
 
-**Scenario:** For an API-heavy product, a QA lead plans 400 browser-based end-to-end tests generated by Claude, one for each business rule.
+**Scenario:** Repository tests run against an in-memory SQLite substitute; production runs PostgreSQL. A query using a Postgres-specific JSONB operator passed every test and then failed in staging.
 
-**Q:** What strategy is better?
+**Q:** What should change in the test strategy?
 
-- **A.** Proceed, since end-to-end tests exercise the real system and so give the most confidence
-- **B.** Skip automation and run the business rules manually before each release instead
-- **C.** Test most rules at unit and API level, and keep a few E2E tests for key journeys ✅
-- **D.** Generate the 400 tests but run them only once a month to keep CI times down
+- **A.** Add more SQLite unit tests that cover the JSONB query path with extra edge cases
+- **B.** Mock the repository in every test, so the database dialect no longer affects results
+- **C.** Run repository tests on real PostgreSQL in a test container, with seeded fixtures ✅
+- **D.** Rely on the staging environment as the integration test for all database queries
 
-**Answer: C** — Test pyramid: business rules are cheaper, faster and less flaky to test at lower levels. End-to-end tests cover critical user journeys.
+**Answer: C** — Integration tests need the real dependency. A throwaway PostgreSQL container with fixtures tests the actual dialect and operators, while staying fast and repeatable.
 
-- *A is wrong:* 400 UI tests are slow, flaky and costly to maintain, and confidence drops as flakiness rises.
-- *B is wrong:* Manual testing doesn't scale and misses regressions between releases.
-- *D is wrong:* Monthly runs find regressions too late to be useful.
+- *A is wrong:* SQLite doesn't implement Postgres JSONB operators, so more tests on the substitute keep testing the wrong engine.
+- *B is wrong:* Mocking the repository removes the database from the test entirely, which is where this bug lives.
+- *D is wrong:* Staging finds dialect bugs late and slowly, after the change has merged.
 
-### MOCK-E10 (elective) — core
+### MOCK-E10 (elective) — stretch
 
-**Scenario:** A generated unit test for calculate_discount() patches calculate_discount itself with a mock that returns 10, then asserts that the result equals 10. Coverage tools count the module as covered.
+**Scenario:** Claude drafts a defect report from a crash screenshot and 2,000 log lines. It states 'Root cause: null session token in AuthMiddleware line 88' and lists reproduction steps that nobody has run.
 
-**Q:** What is wrong, and what is the fix?
+**Q:** How should the report be fixed before filing?
 
-- **A.** It proves nothing; mock only external boundaries and assert on the real function ✅
-- **B.** Nothing; mocking makes the test fast and isolated, which is good practice
-- **C.** The assertion is too strict; check only that some value is returned instead
-- **D.** Coverage should be turned off for this module, since mocks distort the numbers
+- **A.** Split observed facts, with log excerpts, from the suspected cause; list only steps run ✅
+- **B.** File it as written, since a specific root cause makes the report more actionable for developers
+- **C.** Remove the logs and the screenshot, so the report is shorter and quicker for the team to triage
+- **D.** Ask Claude to reread the logs carefully and raise its confidence in the cause before you file it
 
-**Answer: A** — A test that mocks the unit under test verifies the mock, not the code. Mock dependencies at the boundaries, and assert on real behaviour.
+**Answer: A** — A defect report is evidence. Observed behaviour with excerpts, a hypothesis labelled as such, and reproduction steps that were actually executed let developers trust it and confirm the cause.
 
-- *B is wrong:* Isolation means isolating dependencies, not replacing the thing being tested.
-- *C is wrong:* A weaker assertion makes a meaningless test even weaker.
-- *D is wrong:* Hiding coverage doesn't fix the test. The point is that coverage doesn't measure assertion quality.
+- *B is wrong:* An unconfirmed root cause stated as fact sends developers down the wrong path if it's wrong.
+- *C is wrong:* The logs and screenshot are the evidence that make the report checkable.
+- *D is wrong:* Rereading in the same context doesn't turn a hypothesis into evidence; running the steps does.
 
 ## Mock elective block D6 — Elective block: Claude Code (M6.2, M6.3, M6.8)
 
@@ -4111,7 +4111,7 @@ Answer distribution: A:1 B:1 C:2 D:1
 - *B is wrong:* A clean start without a handover loses the same decisions.
 - *C is wrong:* Effort doesn't restore information the summary dropped.
 
-### MOCK-E12 (elective) — core
+### MOCK-E12 (elective) — stretch
 
 **Scenario:** During a session, Claude ran a database migration against the shared development database and edited three files. The approach turns out to be wrong, so you rewind to the checkpoint before it.
 
@@ -4130,37 +4130,37 @@ Answer distribution: A:1 B:1 C:2 D:1
 
 ### MOCK-E13 (elective) — core
 
-**Scenario:** A regression appeared after a three-day agent-assisted feature. Fortunately the work landed as 30 small commits, each with passing tests and a message explaining why.
+**Scenario:** Three worktree branches are ready to merge: a change to the shared logging utility, a feature that depends on the new utility API, and an unrelated documentation fix.
 
-**Q:** What is the fastest reliable way to find the cause?
+**Q:** In what order should you merge them?
 
-- **A.** Read all 30 diffs carefully, from the first commit onwards, until something looks wrong
-- **B.** Revert all 30 commits and re-implement the feature in a single new pull request
-- **C.** Use git bisect with a reproduction test over the commits to find the first bad change ✅
-- **D.** Ask Claude which of its commits most likely caused the regression, and revert that one
+- **A.** Feature first, since it is the largest and most valuable of the three changes
+- **B.** All three at once in one combined pull request, to save on review time
+- **C.** Utility first, then rebase the feature on it, rerun its tests and merge it ✅
+- **D.** In the order the sessions finished, so the history matches how work ran
 
-**Answer: C** — Small, tested commits exist so you can bisect. A reproduction test plus bisect finds the culprit in about log2(30) steps, from evidence.
+**Answer: C** — Merge order follows dependencies: land the shared change, rebase what builds on it, and re-verify before merging. The independent doc fix can go any time.
 
-- *A is wrong:* Reading every diff is slow, and subtle interactions are easy to miss.
-- *B is wrong:* Reverting everything throws away good work to avoid a diagnosis.
-- *D is wrong:* A guess about likelihood isn't evidence, and reverting the wrong commit wastes time.
+- *A is wrong:* The feature depends on the new utility, so merging it first breaks the build or merges untested code.
+- *B is wrong:* A combined PR hides which change broke what and makes review and rollback harder.
+- *D is wrong:* Finish order says nothing about dependencies, so a dependent change can land before what it needs.
 
-### MOCK-E14 (elective) — core
+### MOCK-E14 (elective) — stretch
 
-**Scenario:** You plan to run five worktrees in parallel for a release. One task renames a core database column that every other task's code reads.
+**Scenario:** Claude's commit messages on your branch list exactly what changed in each file, for example 'Change timeout from 30 to 45 in client.py'. A reviewer still says the history is not useful.
 
-**Q:** How should you organise the work?
+**Q:** What is the commit message missing?
 
-- **A.** Run all five in parallel anyway, and resolve the merge conflicts at the end
-- **B.** Land the shared schema change first as one change, then parallelise the rest ✅
-- **C.** Give the schema change to all five sessions, so each one adapts its own code
-- **D.** Use a single worktree for all five tasks, so the sessions see each other's changes
+- **A.** Nothing; a precise list of each change per file is what a good commit message holds
+- **B.** Why the change was made, the problem or constraint, since the diff shows the what ✅
+- **C.** Only the ticket number, since the tracker holds every detail the reviewer could need
+- **D.** More detail on each changed line, so reviewers don't need to open the diff at all
 
-**Answer: B** — Parallelism stops paying when work needs one coherent decision. Land the shared change first, then branch the independent tasks from it.
+**Answer: B** — The diff records what changed. A commit message earns its place by recording why, which is what a reviewer or a future bisect needs.
 
-- *A is wrong:* Every task will conflict on the same column, so the merge becomes the hard part.
-- *C is wrong:* Five agents renaming the same column create five divergent versions of the change.
-- *D is wrong:* Sessions sharing one checkout fight over the working tree.
+- *A is wrong:* Restating the diff duplicates information git already holds and leaves out the reason.
+- *C is wrong:* A bare ticket number breaks when trackers move, and the reason isn't in the history.
+- *D is wrong:* More line-level detail is still 'what', not 'why'.
 
 ### MOCK-E15 (elective) — core
 
@@ -4251,7 +4251,7 @@ Answer distribution: A:2 B:1 C:1 D:1
 - *B is wrong:* A generic tool moves the ambiguity into its arguments and loses structure.
 - *D is wrong:* Removing a needed tool breaks the order queries.
 
-### MOCK-E20 (elective) — core
+### MOCK-E20 (elective) — stretch
 
 **Scenario:** An invoice extractor uses structured outputs with a strict JSON schema. Every response parses, but in about 2% of invoices the extracted total doesn't equal the sum of the line items.
 

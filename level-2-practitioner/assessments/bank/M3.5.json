@@ -175,7 +175,7 @@
         "Prose can drift from computed output; check the narrative against the printed results"
       ],
       "answer": 3,
-      "explanation": "Code execution makes the computed figure reliable, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.",
+      "explanation": "Executed code makes the printed figure reproducible, but Claude writes the summary afterwards and can misquote it. Every number in the narrative must match the printed output.",
       "distractors": [
         "9.8 versus 'about 8' is not rounding; it's a misquote.",
         "The executed output is consistent; the drift is in the prose written afterwards.",

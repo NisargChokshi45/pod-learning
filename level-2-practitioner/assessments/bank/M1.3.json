@@ -69,13 +69,13 @@
       "scenario": "You support two clients in the same week on one seat with memory on. In a Fabrikam draft, Claude refers to 'the cut-over plan we discussed', which was a Contoso conversation.",
       "question": "Which setup prevents this?",
       "options": [
-        "One Project per client, account memory off in each, client work kept inside it",
-        "Telling Claude at the start of each chat which client you're working on today",
-        "Adding 'never mix up clients or their details' to your account-wide Instructions",
-        "Deleting yesterday's chats from the sidebar before starting the next client"
+        "Keep each client's work inside its own Project, where memory stays separate",
+        "Tell Claude at the start of each chat which client you're working on today",
+        "Add 'never mix up clients or their details' to your account-wide Instructions",
+        "Delete yesterday's chats from the sidebar before you start on the next client"
       ],
       "answer": 0,
-      "explanation": "Memory follows the user, not the engagement. Scoping each client to its own Project with account memory off keeps one client's facts out of the other's context.",
+      "explanation": "Memory follows the user, not the engagement. Each Project keeps its own memory space, so scoping each client's work to its own Project (and pausing memory or using incognito outside them) keeps one client's facts out of the other's context.",
       "distractors": [
         null,
         "Memory and past-chat search still pull in the other client's facts; a reminder doesn't remove them from context.",
@@ -126,21 +126,21 @@
     {
       "id": "M1.3-07",
       "difficulty": "core",
-      "scenario": "A new hire asks why their teammate's Claude 'just searched the web' unprompted, while their own Team-plan chats never search, even when asked.",
-      "question": "What is the most likely explanation to check first?",
+      "scenario": "You've built a migration cost model with Claude for a client. Next week finance will load it into their own forecasting workbook and adjust the rates there.",
+      "question": "Where should this output land?",
       "options": [
-        "Web search is a model feature that only the most expensive model has access to",
-        "Search needs enabling at org level, and the experience differs by app version",
-        "Their prompts don't say 'please', so the model declines tools",
-        "Searching is only available in the mobile app, not on desktop or the web"
+        "In the chat reply, as a Markdown table that finance can copy into a sheet",
+        "As a downloadable XLSX file that finance opens and edits in their own tools",
+        "As an artifact in Claude, so finance can comment on it before they use it",
+        "Pasted into the body of an email, so finance has the figures in their inbox"
       ],
       "answer": 1,
-      "explanation": "On Team and Enterprise an owner enables web search for the organisation. In the newer experience Claude searches on its own when helpful. Settings and experience differences explain the gap, not prompts.",
+      "explanation": "Who edits the output next decides where it lands. Finance will work on it outside Claude, in their own spreadsheet tooling, so a downloadable file that keeps structure and formulas is the right destination.",
       "distractors": [
-        "Search availability is a setting, not a property of one model.",
+        "Copying a Markdown table loses formulas and structure and invites transcription errors.",
         null,
-        "Politeness doesn't gate tools; an organisation setting does.",
-        "Web search isn't mobile-only."
+        "An artifact suits iteration and comment inside Claude; finance's next edit happens in their own workbook.",
+        "Pasted email figures are static text with no formulas, the same problem as the chat reply."
       ]
     },
     {

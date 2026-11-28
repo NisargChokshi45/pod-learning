@@ -35,7 +35,7 @@
         "As unusable, so the screenshot should be retyped by hand without using Claude at all"
       ],
       "answer": 2,
-      "explanation": "Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it enters the model.",
+      "explanation": "Vision is approximately right. Dense tables and small print are its known weak spots, and prices are a case where approximately right is wrong. Use the reading as a lead and confirm it against the source, or a cropped, zoomed image, before it goes into the cost comparison.",
       "distractors": [
         "Images are downscaled before the model reasons over them; small text and dense cells are predicted, not read exactly.",
         "Misreads can hit any cell in a dense table, not just footnotes; price figures still need checking.",

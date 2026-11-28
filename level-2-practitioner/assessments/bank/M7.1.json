@@ -35,7 +35,7 @@
         "Add 'never exceed the length limit' to the system prompt so the model learns to self-truncate neatly"
       ],
       "answer": 2,
-      "explanation": "stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. Handle it explicitly.",
+      "explanation": "stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. The same rule covers refusal (HTTP 200, declined) and the other non-end_turn values: branch on stop_reason before reading content.",
       "distractors": [
         "Silently skipping hides data loss: the job reports success while dropping tickets.",
         "Effort changes reasoning depth, not a guaranteed output length, and doesn't fix the missing stop_reason check.",
@@ -106,21 +106,21 @@
     {
       "id": "M7.1-06",
       "difficulty": "core",
-      "scenario": "A product manager wants to know whether a 1,200-page technical archive will fit a request, and reaches for a popular open-source tokenizer from another vendor to count it.",
-      "question": "What should you recommend?",
+      "scenario": "Your multi-tenant contract-analysis product uploads each customer's PDFs once through the Files API into one shared workspace. The browser client sends the file_id back with every question so the backend can reference the document.",
+      "question": "What is the most important change before launch?",
       "options": [
-        "Use the other vendor's tokenizer, since all modern tokenizers agree to within about one percent",
-        "Estimate at four characters per token, which is close enough for a capacity decision like this",
-        "Call the token-counting endpoint for that exact model, since only Claude's tokenizer counts its tokens",
-        "Send the full request anyway and read the error message back if it turns out to be too large"
+        "Keep file_ids server-side, mapped to each tenant, and resolve them from your own document IDs",
+        "Rely on the API to reject another customer's file_id, because each upload is scoped to its uploader",
+        "Download each file back from the Files API before every question to confirm it's the expected one",
+        "Send every PDF inline as base64 instead, because a file_id can't reference a PDF document block"
       ],
-      "answer": 2,
-      "explanation": "Token counts depend on the model's tokenizer. The count_tokens endpoint gives the real figure before you spend anything.",
+      "answer": 0,
+      "explanation": "Uploaded files are scoped to the workspace, not to your end users. A file_id accepted from the client lets one tenant reference another tenant's document. Map your own document IDs to file_ids on the server and authorise every lookup.",
       "distractors": [
-        "Different tokenizers can differ a lot on the same text, so counts don't carry over between vendors.",
-        "A rule of thumb is fine for a first guess, but this is a capacity decision. Use the exact count.",
         null,
-        "Trial and error costs money and time, and a request that fits can still be close enough to the limit to break later."
+        "The API has no idea who your tenants are: any valid file_id in the workspace resolves, whoever sends it.",
+        "Files you upload can't be downloaded back (only Skill and code-execution outputs can), and checking contents doesn't fix the authorisation gap.",
+        "PDFs can be referenced by file_id in a document block. Inlining them wastes bandwidth and still leaves authorisation to you."
       ]
     },
     {
@@ -186,21 +186,21 @@
     {
       "id": "M7.1-10",
       "difficulty": "stretch",
-      "scenario": "A request to a current model returns HTTP 200 with stop_reason 'refusal'. The calling service reads content as normal and posts it to a customer-facing channel.",
-      "question": "What should the service do instead?",
+      "scenario": "An incident-analysis service is moving to a current model. Its code sends thinking type 'enabled' with budget_tokens 16000, and the new model returns HTTP 400. The team also wants cheaper runs on simple tickets.",
+      "question": "What is the right change?",
       "options": [
-        "Branch on stop_reason before reading content: log the refusal, then fall back or return a handled message",
-        "Retry the identical request immediately until it succeeds, because refusals are usually transient",
-        "Treat any HTTP 200 as success, because genuine errors always come back with a 4xx or 5xx status",
-        "Increase max_tokens, because refusals happen when the model runs out of room to finish its answer"
+        "Switch to adaptive thinking and set output_config effort per route, tuned on real ticket samples",
+        "Keep budget_tokens but make sure it sits below max_tokens, so the request passes validation again",
+        "Disable thinking on every request and add 'think step by step' to the prompt to recover quality",
+        "Stay on the older model indefinitely, because a fixed thinking budget is the only reliable cost cap"
       ],
       "answer": 0,
-      "explanation": "A refusal comes back with HTTP 200, so status codes alone aren't enough. Check stop_reason first and handle refusal explicitly: log it, use a fallback path, or show a clear message.",
+      "explanation": "Manual thinking budgets are deprecated and rejected on current models. With adaptive thinking the model decides how much to reason, and effort is the control for depth and spend. Tune it per route on real samples and judge cost per completed task.",
       "distractors": [
         null,
-        "Re-sending the same request usually produces the same refusal, and blind retries waste spend.",
-        "Refusals arrive with HTTP 200 by design, so trusting the status code alone posts declined output as an answer.",
-        "Refusals come from safety classifiers, not the token limit. A higher max_tokens changes nothing."
+        "The budget form is rejected outright on these models, whatever its value relative to max_tokens.",
+        "Several current models reject disabled thinking, and a prompt phrase is no substitute. Lower effort is the supported cost lever.",
+        "Older models retire, so this only postpones the migration. Effort already gives per-route cost control on current models."
       ]
     }
   ]

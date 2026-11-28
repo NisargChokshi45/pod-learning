@@ -1,217 +1,217 @@
 {
- "module": "M5.2",
- "title": "Code generation, explanation and conversion",
- "status": "ELECTIVE",
- "items": [
-  {
-   "id": "M5.2-01",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "You ask Claude to 'write a SubscriptionService' for a Spring Boot codebase. The result uses field injection and RuntimeException, while your codebase uses constructor injection and a typed Result pattern. Review stalls on style.",
-   "question": "What change to the prompt would most reliably fix this next time?",
-   "options": [
-    "Add 'follow best practices for Spring Boot' to the prompt",
-    "Supply the conventions, lint rules and sibling OrderService.java as a sample",
-    "Switch to a higher effort level so it reasons more carefully about house style",
-    "Ask for the code in smaller pieces, one method per prompt"
-   ],
-   "answer": 1,
-   "explanation": "Generated code fits the codebase only when the codebase is in the context. A sibling file plus written conventions and lint rules transfers the house style; Claude otherwise defaults to the average of public code.",
-   "distractors": [
-    "'Best practices' are the generic public defaults — exactly what produced field injection.",
-    null,
-    "Effort doesn't supply information Claude doesn't have; your conventions are context, not reasoning.",
-    "Smaller pieces still have no sample to imitate, so each piece is generic."
-   ]
-  },
-  {
-   "id": "M5.2-02",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "A teammate needs a new reporting module touching six files. They plan to ask Claude for the full implementation in one prompt and review the 600-line diff afterwards.",
-   "question": "What is the better approach?",
-   "options": [
-    "Ask for the full implementation but at maximum effort so the diff is right first time",
-    "Ask for the implementation file by file, reviewing each before the next",
-    "Ask first for the file list, signatures and error handling, review that, then implement",
-    "Ask for the implementation and then ask Claude to review its own diff"
-   ],
-   "answer": 2,
-   "explanation": "Plan-before-code catches architecture mistakes (wrong layer, a missed existing utility) when they're a ten-line correction, not a 600-line rework.",
-   "distractors": [
-    "Higher effort doesn't let you review the approach before it's built; a wrong architecture at max effort is still wrong.",
-    "File by file without an agreed plan risks each file assuming a different design.",
-    null,
-    "Self-review is a filter, not a guarantee, and it still happens after the expensive work is done."
-   ]
-  },
-  {
-   "id": "M5.2-03",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "Claude explains a password-validation regex in your auth service and says it requires 'at least 12 characters, one digit and one capital letter'. You're about to quote this in a security review.",
-   "question": "What should you do before quoting it?",
-   "options": [
-    "Ask Claude to confirm its explanation is correct",
-    "Ask for strings that should match and fail, then run them against the regex",
-    "Ask a second model to explain the same regex and compare the two explanations",
-    "Quote it in the doc with a clear note that the explanation was AI-generated"
-   ],
-   "answer": 1,
-   "explanation": "An explanation of a regex is a claim; the regex engine is the oracle. Running should-match and should-fail cases tests the explanation directly.",
-   "distractors": [
-    "Asking the same model to confirm itself mostly gets agreement, not evidence.",
-    null,
-    "Two explanations agreeing is still two claims; neither is a test.",
-    "Disclosure doesn't make an unverified claim correct in a security review."
-   ]
-  },
-  {
-   "id": "M5.2-04",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "On a client's undocumented monolith, Claude reads a pricing module and writes: 'This function applies a legacy loyalty discount for pre-2019 accounts.' You're writing the handover documentation.",
-   "question": "How should this statement go into the documentation?",
-   "options": [
-    "Verbatim, since the function name and comments clearly support it",
-    "Removed, because inferred intent shouldn't be documented",
-    "Rewritten in your own words so it doesn't read as AI-generated output",
-    "As a labelled inference until confirmed by callers, tests or history"
-   ],
-   "answer": 3,
-   "explanation": "Inferred intent is a hypothesis. Separate what the code does from what it is probably for, and confirm the latter before publishing — otherwise someone later 'fixes' deliberate behaviour or trusts a wrong one.",
-   "distractors": [
-    "Plausible names and comments are exactly what make a wrong inference convincing.",
-    "Inferences are valuable for a handover; they just need labelling and confirming.",
-    "Rewording doesn't change whether the claim is verified.",
-    null
-   ]
-  },
-  {
-   "id": "M5.2-05",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "Converting a Java service to Kotlin, Claude produces code full of getX() calls and !! operators. It compiles and the tests pass.",
-   "question": "What is the main problem and the right follow-up?",
-   "options": [
-    "It's transliterated; ask for idiomatic Kotlin plus a list of what didn't map one-to-one",
-    "Nothing, since the tests pass and the conversion is therefore complete",
-    "The !! operators are fine, but the getters must be renamed to match Kotlin style",
-    "The conversion should be redone in Java-compatible Kotlin for interop safety with callers"
-   ],
-   "answer": 0,
-   "explanation": "Transliteration keeps Java idioms in Kotlin syntax; !! hides nulls the type system could catch. Idiomatic translation plus an explicit 'could not convert' list is the standard.",
-   "distractors": [
-    null,
-    "Passing tests don't make !! safe; each one is a possible NPE the tests didn't exercise, and the code is unmaintainable Kotlin.",
-    "!! is the more serious issue — it disables null safety at runtime.",
-    "'Java-compatible Kotlin' is the transliteration problem, not a fix."
-   ]
-  },
-  {
-   "id": "M5.2-06",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "A Python 2 → 3 conversion of a file-ingestion module 'works' on the sample files, but production files from one client contain non-ASCII names.",
-   "question": "Which area of the conversion most needs a human decision and a test here?",
-   "options": [
-    "Replacing print statements with print() calls",
-    "Changing except X, e syntax to except X as e",
-    "The str/bytes boundary where files are read and decoded",
-    "Replacing dict.iteritems() with dict.items()"
-   ],
-   "answer": 2,
-   "explanation": "str/bytes handling is the Python 2→3 change that can't be converted mechanically: encodings must be decided where bytes enter the system, and only data like the client's will expose it.",
-   "distractors": [
-    "print conversion is purely mechanical and doesn't affect encoding.",
-    "Exception syntax is mechanical and behaviour-neutral.",
-    null,
-    "iteritems → items is mechanical; it doesn't touch text decoding."
-   ]
-  },
-  {
-   "id": "M5.2-07",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "Claude generates a DTO-to-entity mapper for a 40-field customer record. It compiles, and a quick read looks right.",
-   "question": "What is the most effective check before merging?",
-   "options": [
-    "Ask Claude to list every field it mapped and confirm none were skipped",
-    "Add a round-trip test that maps a fully populated object and compares every field",
-    "Run the linter with its strictest rules on the generated mapper file and fix the warnings",
-    "Compare the field count of the DTO and the entity to confirm they match"
-   ],
-   "answer": 1,
-   "explanation": "Mappers fail silently — swapped or dropped fields compile and look plausible. A round-trip test on a fully populated object catches both.",
-   "distractors": [
-    "Claude's list is another claim; it would describe the swap as correct.",
-    null,
-    "Linters don't know that firstName shouldn't map to lastName.",
-    "Equal field counts don't detect a swapped mapping."
-   ]
-  },
-  {
-   "id": "M5.2-08",
-   "module": "M5.2",
-   "difficulty": "core",
-   "scenario": "A Node.js job Claude wrote logs 'done' and exits, but only some welcome emails are sent. The code is: users.forEach(async u => { await sendEmail(u) }); console.log('done').",
-   "question": "What is the defect?",
-   "options": [
-    "sendEmail must be wrapped in a try/catch so failures are logged instead of swallowed",
-    "console.log should be replaced with a structured logger",
-    "The function should be declared async at the top level",
-    "forEach doesn't await async callbacks, so the job ends before the sends complete"
-   ],
-   "answer": 3,
-   "explanation": "Array.forEach ignores returned promises. Use for…of with await, or Promise.all with a concurrency limit, so the job waits.",
-   "distractors": [
-    "Error handling matters but doesn't explain why sends are cut off.",
-    "The logger doesn't affect whether promises are awaited.",
-    "Making the outer function async doesn't make forEach await its callbacks.",
-    null
-   ]
-  },
-  {
-   "id": "M5.2-09",
-   "module": "M5.2",
-   "difficulty": "stretch",
-   "scenario": "Migrating a reporting database from SQL Server to PostgreSQL, Claude converts TOP to LIMIT, ISNULL to COALESCE and GETDATE() to now(). All queries run. Finance later finds a customer search that used to match 'ACME' and 'acme' now misses one.",
-   "question": "What should the conversion checklist have flagged?",
-   "options": [
-    "Collation and case-sensitivity differences between the two databases",
-    "That COALESCE evaluates arguments differently from ISNULL",
-    "That LIMIT must always be paired with ORDER BY",
-    "Timezone handling differences in now()"
-   ],
-   "answer": 0,
-   "explanation": "Default SQL Server collations are typically case-insensitive while PostgreSQL comparisons are case-sensitive by default — a semantic difference no syntax rewrite catches. It belongs on the 'cannot convert mechanically' list.",
-   "distractors": [
-    null,
-    "ISNULL/COALESCE differences exist (typing) but don't explain case-sensitive matching.",
-    "ORDER BY with LIMIT matters for determinism, not for case matching.",
-    "Timezones don't affect matching 'ACME' against 'acme'."
-   ]
-  },
-  {
-   "id": "M5.2-10",
-   "module": "M5.2",
-   "difficulty": "stretch",
-   "scenario": "A pre-sales team used Claude to build a Next.js demo for a client in two days. After the demo, a product manager proposes merging it into the product 'since it already works'.",
-   "question": "What is the right response?",
-   "options": [
-    "Merge it, but run Claude over it once more to tidy the code and fix the conventions",
-    "Merge it behind a feature flag so it can be switched off",
-    "Treat it as a prototype: rebuild it or bring it in through normal review and tests",
-    "Merge only the UI components, since they are lower risk than the backend code"
-   ],
-   "answer": 2,
-   "explanation": "Demo code was generated without the codebase's conventions, tests or review. It enters the product only through the same process as any other code.",
-   "distractors": [
-    "Another generation pass isn't review; ownership of correctness stays with a human.",
-    "A flag limits exposure but still ships unreviewed, untested code into the product.",
-    null,
-    "UI components carry their own risks (accessibility, state bugs) and still skipped review."
-   ]
-  }
- ]
+  "module": "M5.2",
+  "title": "Code generation, explanation and conversion",
+  "status": "ELECTIVE",
+  "items": [
+    {
+      "id": "M5.2-01",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "You ask Claude to 'write a SubscriptionService' for a Spring Boot codebase. The result uses field injection and RuntimeException, while your codebase uses constructor injection and a typed Result pattern. Review stalls on style.",
+      "question": "What change to the prompt would most reliably fix this next time?",
+      "options": [
+        "Add 'follow Spring Boot best practices and clean-code principles' to the prompt",
+        "Supply the conventions, lint rules and sibling OrderService.java as a sample",
+        "Switch to a higher effort level so it reasons more carefully about house style",
+        "Ask for the code in smaller pieces, one method per prompt, reviewing each"
+      ],
+      "answer": 1,
+      "explanation": "Generated code fits the codebase only when the codebase is in the context. A sibling file plus written conventions and lint rules transfers the house style; Claude otherwise defaults to the average of public code.",
+      "distractors": [
+        "'Best practices' are the generic public defaults — exactly what produced field injection.",
+        null,
+        "Effort doesn't supply information Claude doesn't have; your conventions are context, not reasoning.",
+        "Smaller pieces still have no sample to imitate, so each piece is generic."
+      ]
+    },
+    {
+      "id": "M5.2-02",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "A teammate needs a new reporting module touching six files. They plan to ask Claude for the full implementation in one prompt and review the 600-line diff afterwards.",
+      "question": "What is the better approach?",
+      "options": [
+        "Ask for the full implementation but at maximum effort so the diff is right first time",
+        "Ask for the implementation file by file, reviewing each before the next",
+        "Ask first for the file list, signatures and error handling, review that, then implement",
+        "Ask for the implementation and then ask Claude to review its own diff"
+      ],
+      "answer": 2,
+      "explanation": "Plan-before-code catches architecture mistakes (wrong layer, a missed existing utility) when they're a ten-line correction, not a 600-line rework.",
+      "distractors": [
+        "Higher effort doesn't let you review the approach before it's built; a wrong architecture at max effort is still wrong.",
+        "File by file without an agreed plan risks each file assuming a different design.",
+        null,
+        "Self-review is a filter, not a guarantee, and it still happens after the expensive work is done."
+      ]
+    },
+    {
+      "id": "M5.2-03",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "Claude explains a password-validation regex in your auth service and says it requires 'at least 12 characters, one digit and one capital letter'. You're about to quote this in a security review.",
+      "question": "What should you do before quoting it?",
+      "options": [
+        "Ask Claude to re-read the regex carefully and confirm its explanation",
+        "Ask for strings that should match and fail, then run them against the regex",
+        "Ask a second model to explain the same regex and compare the two explanations",
+        "Quote it in the doc with a clear note that the explanation was AI-generated"
+      ],
+      "answer": 1,
+      "explanation": "An explanation of a regex is a claim; the regex engine is the oracle. Running should-match and should-fail cases tests the explanation directly.",
+      "distractors": [
+        "Asking the same model to confirm itself mostly gets agreement, not evidence.",
+        null,
+        "Two explanations agreeing is still two claims; neither is a test.",
+        "Disclosure doesn't make an unverified claim correct in a security review."
+      ]
+    },
+    {
+      "id": "M5.2-04",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "On a client's undocumented monolith, Claude reads a pricing module and writes: 'This function applies a legacy loyalty discount for pre-2019 accounts.' You're writing the handover documentation.",
+      "question": "How should this statement go into the documentation?",
+      "options": [
+        "Verbatim, since the function name and comments clearly support it",
+        "Removed, because inferred intent shouldn't be documented",
+        "Rewritten in your own words so it doesn't read as AI-generated output",
+        "As a labelled inference until confirmed by callers, tests or history"
+      ],
+      "answer": 3,
+      "explanation": "Inferred intent is a hypothesis. Separate what the code does from what it is probably for, and confirm the latter before publishing — otherwise someone later 'fixes' deliberate behaviour or trusts a wrong one.",
+      "distractors": [
+        "Plausible names and comments are exactly what make a wrong inference convincing.",
+        "Inferences are valuable for a handover; they just need labelling and confirming.",
+        "Rewording doesn't change whether the claim is verified.",
+        null
+      ]
+    },
+    {
+      "id": "M5.2-05",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "Converting a Java service to Kotlin, Claude produces code full of getX() calls and !! operators. It compiles and the tests pass.",
+      "question": "What is the main problem and the right follow-up?",
+      "options": [
+        "It's transliterated; ask for idiomatic Kotlin plus a list of what didn't map one-to-one",
+        "Nothing, since the tests pass and the conversion is therefore complete",
+        "The !! operators are fine, but the getters must be renamed to match Kotlin style",
+        "The conversion should be redone in Java-compatible Kotlin for interop safety with callers"
+      ],
+      "answer": 0,
+      "explanation": "Transliteration keeps Java idioms in Kotlin syntax; !! hides nulls the type system could catch. Idiomatic translation plus an explicit 'could not convert' list is the standard.",
+      "distractors": [
+        null,
+        "Passing tests don't make !! safe; each one is a possible NPE the tests didn't exercise, and the code is unmaintainable Kotlin.",
+        "!! is the more serious issue — it disables null safety at runtime.",
+        "'Java-compatible Kotlin' is the transliteration problem, not a fix."
+      ]
+    },
+    {
+      "id": "M5.2-06",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "A Python 2 → 3 conversion of a file-ingestion module 'works' on the sample files, but production files from one client contain non-ASCII names.",
+      "question": "Which area of the conversion most needs a human decision and a test here?",
+      "options": [
+        "Replacing print statements with print() function calls",
+        "Rewriting each except X, e clause as except X as e",
+        "The str/bytes boundary where files are read and decoded",
+        "Replacing dict.iteritems() with dict.items() in loops"
+      ],
+      "answer": 2,
+      "explanation": "str/bytes handling is the Python 2→3 change that can't be converted mechanically: encodings must be decided where bytes enter the system, and only data like the client's will expose it.",
+      "distractors": [
+        "print conversion is purely mechanical and doesn't affect encoding.",
+        "Exception syntax is mechanical and behaviour-neutral.",
+        null,
+        "iteritems → items is mechanical; it doesn't touch text decoding."
+      ]
+    },
+    {
+      "id": "M5.2-07",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "Claude generates a DTO-to-entity mapper for a 40-field customer record. It compiles, and a quick read looks right.",
+      "question": "What is the most effective check before merging?",
+      "options": [
+        "Ask Claude to list every field it mapped and confirm none were skipped",
+        "Add a round-trip test that maps a fully populated object and compares every field",
+        "Run the linter with its strictest rules on the generated mapper file and fix the warnings",
+        "Compare the field count of the DTO and the entity to confirm they match"
+      ],
+      "answer": 1,
+      "explanation": "Mappers fail silently — swapped or dropped fields compile and look plausible. A round-trip test on a fully populated object catches both.",
+      "distractors": [
+        "Claude's list is another claim; it would describe the swap as correct.",
+        null,
+        "Linters don't know that firstName shouldn't map to lastName.",
+        "Equal field counts don't detect a swapped mapping."
+      ]
+    },
+    {
+      "id": "M5.2-08",
+      "module": "M5.2",
+      "difficulty": "core",
+      "scenario": "A Node.js job Claude wrote logs 'done' and exits, but only some welcome emails are sent. The code is: users.forEach(async u => { await sendEmail(u) }); console.log('done').",
+      "question": "What is the defect?",
+      "options": [
+        "sendEmail must be wrapped in a try/catch so failures are logged instead of swallowed",
+        "console.log runs before the logger flushes and should be a structured logger",
+        "The enclosing function must be declared async so the inner awaits can run",
+        "forEach doesn't await async callbacks, so the job ends before the sends complete"
+      ],
+      "answer": 3,
+      "explanation": "Array.forEach ignores returned promises. Use for…of with await, or Promise.all with a concurrency limit, so the job waits.",
+      "distractors": [
+        "Error handling matters but doesn't explain why sends are cut off.",
+        "Swapping the logger doesn't change whether the email promises are awaited.",
+        "Making the outer function async doesn't make forEach await its callbacks; forEach still discards the promises.",
+        null
+      ]
+    },
+    {
+      "id": "M5.2-09",
+      "module": "M5.2",
+      "difficulty": "stretch",
+      "scenario": "Migrating a reporting database from SQL Server to PostgreSQL, Claude converts TOP to LIMIT, ISNULL to COALESCE and GETDATE() to now(). All queries run. Finance later finds a customer search that used to match 'ACME' and 'acme' now misses one.",
+      "question": "What should the conversion checklist have flagged?",
+      "options": [
+        "Collation and case-sensitivity differences between the two databases",
+        "COALESCE evaluating its arguments differently from ISNULL",
+        "LIMIT needing an ORDER BY to return the same rows each time",
+        "now() returning a timezone-aware value where GETDATE() did not"
+      ],
+      "answer": 0,
+      "explanation": "Default SQL Server collations are typically case-insensitive while PostgreSQL comparisons are case-sensitive by default — a semantic difference no syntax rewrite catches. It belongs on the 'cannot convert mechanically' list.",
+      "distractors": [
+        null,
+        "ISNULL/COALESCE differences exist (typing) but don't explain case-sensitive matching.",
+        "ORDER BY with LIMIT matters for determinism, not for case matching.",
+        "The timestamp type does differ, but it doesn't affect matching 'ACME' against 'acme'."
+      ]
+    },
+    {
+      "id": "M5.2-10",
+      "module": "M5.2",
+      "difficulty": "stretch",
+      "scenario": "A pre-sales team used Claude to build a Next.js demo for a client in two days. After the demo, a product manager proposes merging it into the product 'since it already works'.",
+      "question": "What is the right response?",
+      "options": [
+        "Merge it, but run Claude over it once more to tidy the code and fix the conventions",
+        "Merge it behind a feature flag so it can be switched off if problems appear",
+        "Treat it as a prototype: rebuild it or bring it in through normal review and tests",
+        "Merge only the UI components, since they are lower risk than the backend code"
+      ],
+      "answer": 2,
+      "explanation": "Demo code was generated without the codebase's conventions, tests or review. It enters the product only through the same process as any other code.",
+      "distractors": [
+        "Another generation pass isn't review; ownership of correctness stays with a human.",
+        "A flag limits exposure but still ships unreviewed, untested code into the product.",
+        null,
+        "UI components carry their own risks (accessibility, state bugs) and still skipped review."
+      ]
+    }
+  ]
 }

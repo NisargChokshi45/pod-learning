@@ -1,217 +1,217 @@
 {
- "module": "M3.4",
- "title": "Research and decision support",
- "status": "CORE",
- "items": [
-  {
-   "id": "M3.4-01",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "Claude answers a question about a vendor's data-residency options and shows that it ran three web searches. The answer is confident and cites a comparison blog.",
-   "question": "What does the fact that Claude searched tell you about the answer's accuracy?",
-   "options": [
-    "Nothing on its own; search finds pages, so you still check the sources",
-    "It is accurate, because the answer is based on current web data rather than training",
-    "It is accurate as long as at least three independent sources were consulted",
-    "It is inaccurate, because blog content is never reliable enough to cite"
-   ],
-   "answer": 0,
-   "explanation": "Search is retrieval, not verification. It finds relevant pages, not correct ones. For a residency claim, open the vendor's primary documentation.",
-   "distractors": [
-    null,
-    "Current pages can still be wrong, outdated or marketing.",
-    "Source count does not establish correctness; three pages can repeat one error.",
-    "Some blogs are accurate; the point is to check against the primary source."
-   ]
-  },
-  {
-   "id": "M3.4-02",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "A Research report recommends a managed streaming service. It is well written, with 24 citations. The decision is due tomorrow.",
-   "question": "Where should your limited review time go first?",
-   "options": [
-    "Polishing the prose so the steering committee members can read it quickly tomorrow",
-    "Opening the citations behind numbers, compliance claims and decisive points",
-    "Checking that every paragraph has at least one citation attached to it",
-    "Re-running Research to see whether it reaches the same recommendation"
-   ],
-   "answer": 1,
-   "explanation": "The citations are the point of a research report. Proportional verification spends effort on the high-risk claims: figures, compliance statements and anything decisive.",
-   "distractors": [
-    "Prose quality does not affect correctness.",
-    null,
-    "Presence of a citation does not show it supports the claim.",
-    "A second run can repeat the same misattribution; it is not a check."
-   ]
-  },
-  {
-   "id": "M3.4-03",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "You must research data-loss-prevention tools for a client that plans to acquire a competitor next quarter (not yet announced). A colleague drafts: 'Find DLP tools suitable for Acme ahead of its acquisition of Beta Corp.'",
-   "question": "How should the prompt be changed?",
-   "options": [
-    "State the need generically, without the client or the unannounced deal",
-    "Keep it as written, because the plan's commercial terms protect prompt content",
-    "Keep the client name but wrap the acquisition detail in XML tags for safety",
-    "Add 'treat this as strictly confidential' at the end of the research prompt"
-   ],
-   "answer": 0,
-   "explanation": "Research the market, not the client's secrets. Unannounced deal information should never go into a research prompt; describing the need generically gives the same research value.",
-   "distractors": [
-    null,
-    "Plan terms do not authorise sharing a client's unannounced strategy; the client's confidentiality obligations still apply.",
-    "Tags change formatting, not what is disclosed.",
-    "A note in the prompt does not undo the disclosure."
-   ]
-  },
-  {
-   "id": "M3.4-04",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "Two sources disagree on a cloud service's maximum message size: a 2024 blog says 1 MB, the vendor's current limits page says 10 MB for the Premium tier only.",
-   "question": "How should your report handle it?",
-   "options": [
-    "Average the two figures and report roughly 5.5 MB as the working limit",
-    "Report the blog's 1 MB figure, because the more conservative limit is safer",
-    "Report the vendor's figure with its tier and date, and note why the blog differs",
-    "Leave the limit out of the report, since the two sources contradict each other"
-   ],
-   "answer": 2,
-   "explanation": "Reconcile by date, scope and primacy: the primary, current source wins, with its scope stated. Explaining the discrepancy helps readers who saw the old figure.",
-   "distractors": [
-    "Averaging produces a number neither source supports.",
-    "Conservatism is not a reason to report an outdated, secondary figure as fact.",
-    null,
-    "Omitting a decisive limit leaves the reader without the reconciled answer."
-   ]
-  },
-  {
-   "id": "M3.4-05",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "Your weighted-criteria matrix gives Tool A 3.80, Tool C 3.75 and Tool B 3.70. Moving 10 points of weight from security to cost makes Tool C the clear winner.",
-   "question": "What should you tell the decision-maker?",
-   "options": [
-    "Tool A wins, because it has the highest weighted total in the matrix",
-    "Tool C wins, because cost is usually what decides these choices",
-    "It's a tie that turns on security versus cost; show when each option wins",
-    "The matrix is unreliable at this margin and should be thrown away entirely"
-   ],
-   "answer": 2,
-   "explanation": "Totals within about 0.1 on judgement-based scores are ties. The sensitivity check shows what the choice hinges on, which is the trade-off the decision-maker must own.",
-   "distractors": [
-    "A 0.05 lead on 1–5 judgements is false precision.",
-    "That imposes your weighting on the decision-maker.",
-    null,
-    "The matrix is useful; it shows exactly what the decision hinges on."
-   ]
-  },
-  {
-   "id": "M3.4-06",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "An architect scores three options first, then sets criteria weights, and Tool B comes out on top, which was the architect's preference.",
-   "question": "What is wrong with this process?",
-   "options": [
-    "The weights should be agreed with the decision-maker before anyone scores",
-    "Nothing is wrong, as long as the weighted-total arithmetic is correct",
-    "Weights should always be equal across criteria to avoid any bias",
-    "The architect should have asked Claude to choose neutral weights"
-   ],
-   "answer": 0,
-   "explanation": "Weighted criteria are only honest if the weights reflect the decision-maker's priorities before anyone sees the scores.",
-   "distractors": [
-    null,
-    "Correct arithmetic on rigged weights gives a rigged answer.",
-    "Equal weights are still a choice, and usually not the decision-maker's real priorities.",
-    "Weights express the decision-maker's values; they are not Claude's to choose."
-   ]
-  },
-  {
-   "id": "M3.4-07",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "A CTO asks for help deciding whether to migrate to a new cloud region and says, 'Just tell me what to do.'",
-   "question": "Which deliverable best fits this module?",
-   "options": [
-    "A one-line verdict with a short justification, since that is exactly what the CTO asked for",
-    "A recommendation plus the trade-offs and what would have to be true for each option",
-    "A complete list of every source found, so the CTO can weigh the evidence directly",
-    "A pre-mortem of each option only, since the risks are what matter most here"
-   ],
-   "answer": 1,
-   "explanation": "Decision support presents trade-offs and conditions next to any recommendation, so the accountable human can judge them. A verdict alone hides what would change the answer.",
-   "distractors": [
-    "A bare verdict hides its assumptions and conditions.",
-    null,
-    "Raw sources without synthesis are not decision support.",
-    "A pre-mortem is one input, not the whole deliverable."
-   ]
-  },
-  {
-   "id": "M3.4-08",
-   "module": "M3.4",
-   "difficulty": "core",
-   "scenario": "A sales engineer runs Research from the phone app before a client call, expecting it to use the team's Drive folder of past proposals. The report contains only web sources.",
-   "question": "What is the most likely cause?",
-   "options": [
-    "Research on mobile searches only the web and skips connectors",
-    "The Drive connector has broken and needs to be reinstalled",
-    "Research never uses connected sources on any surface",
-    "The phone app was running Research on a smaller model"
-   ],
-   "answer": 0,
-   "explanation": "On mobile, Research silently skips connectors. Run research that needs internal sources from web or desktop.",
-   "distractors": [
-    null,
-    "The connector may be fine; the surface is the cause.",
-    "Research does use connected sources on web and desktop.",
-    "Model choice does not decide whether connectors are queried."
-   ]
-  },
-  {
-   "id": "M3.4-09",
-   "module": "M3.4",
-   "difficulty": "stretch",
-   "scenario": "A Research report states '99.99% uptime guaranteed' and cites the vendor's SLA page. The SLA page says 'up to 99.99% monthly uptime for multi-region deployments'.",
-   "question": "What kind of citation error is this?",
-   "options": [
-    "Paraphrase drift: real source, but 'up to' and the scope were dropped",
-    "A fabricated citation: the page cited does not actually exist",
-    "No error, since the 99.99% figure matches the vendor's SLA page exactly",
-    "A stale page, because vendor SLA terms are typically revised every year"
-   ],
-   "answer": 0,
-   "explanation": "The citation exists but the claim dropped 'up to' and the multi-region scope. Checking the exact wording and context catches it.",
-   "distractors": [
-    null,
-    "The page exists and is relevant, so it is not fabricated.",
-    "The number matches, but the guarantee and scope do not.",
-    "Nothing indicates the page is outdated; the wording was distorted."
-   ]
-  },
-  {
-   "id": "M3.4-10",
-   "module": "M3.4",
-   "difficulty": "stretch",
-   "scenario": "You need to scope a Research run on observability platforms for a decision next month.",
-   "question": "Which addition to the brief most improves the usability of the report?",
-   "options": [
-    "Ask for the most detailed and comprehensive report it can produce",
-    "Ask Research to consult as many independent sources as it can find on the topic",
-    "State the decision, the options in scope, weighted criteria and output shape",
-    "Ask it to write in a persuasive executive style the board will read"
-   ],
-   "answer": 2,
-   "explanation": "A scoped brief turns a generic survey into evidence for a specific decision. Length, volume of sources and style do not.",
-   "distractors": [
-    "Detail without scope produces a long generic report.",
-    "More sources mean more to check, not more relevance.",
-    null,
-    "Persuasive style makes weak evidence harder to spot."
-   ]
-  }
- ]
+  "module": "M3.4",
+  "title": "Research and decision support",
+  "status": "CORE",
+  "items": [
+    {
+      "id": "M3.4-01",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "Claude answers a question about a vendor's data-residency options and shows that it ran three web searches. The answer is confident and cites a comparison blog.",
+      "question": "What does the fact that Claude searched tell you about the answer's accuracy?",
+      "options": [
+        "Nothing on its own; search finds pages, so you still check the sources",
+        "It is accurate, because the answer is based on current web data rather than training",
+        "It is accurate as long as at least three independent sources were consulted",
+        "It is inaccurate, because blog content is never reliable enough to cite"
+      ],
+      "answer": 0,
+      "explanation": "Search is retrieval, not verification. It finds relevant pages, not correct ones. For a residency claim, open the vendor's primary documentation.",
+      "distractors": [
+        null,
+        "Current pages can still be wrong, outdated or marketing.",
+        "Source count does not establish correctness; three pages can repeat one error.",
+        "Some blogs are accurate; the point is to check against the primary source."
+      ]
+    },
+    {
+      "id": "M3.4-02",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "A Research report recommends a managed streaming service. It is well written, with 24 citations. The decision is due tomorrow.",
+      "question": "Where should your limited review time go first?",
+      "options": [
+        "Polishing the prose so the steering committee members can read it quickly tomorrow",
+        "Opening the citations behind numbers, compliance claims and decisive points",
+        "Checking that every paragraph has at least one citation attached to it",
+        "Re-running Research to see whether it reaches the same recommendation"
+      ],
+      "answer": 1,
+      "explanation": "The citations are the point of a research report. Proportional verification spends effort on the high-risk claims: figures, compliance statements and anything decisive.",
+      "distractors": [
+        "Prose quality does not affect correctness.",
+        null,
+        "Presence of a citation does not show it supports the claim.",
+        "A second run can repeat the same misattribution; it is not a check."
+      ]
+    },
+    {
+      "id": "M3.4-03",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "You must research data-loss-prevention tools for a client that plans to acquire a competitor next quarter (not yet announced). A colleague drafts: 'Find DLP tools suitable for Acme ahead of its acquisition of Beta Corp.'",
+      "question": "How should the prompt be changed?",
+      "options": [
+        "State the need generically, without the client or the unannounced deal",
+        "Keep it as written, because the plan's commercial terms protect prompt content",
+        "Keep the client name but wrap the acquisition detail in XML tags for safety",
+        "Add 'treat this as strictly confidential' at the end of the research prompt"
+      ],
+      "answer": 0,
+      "explanation": "Research the market, not the client's secrets. Unannounced deal information should never go into a research prompt; describing the need generically gives the same research value.",
+      "distractors": [
+        null,
+        "Plan terms do not authorise sharing a client's unannounced strategy; the client's confidentiality obligations still apply.",
+        "Tags change formatting, not what is disclosed.",
+        "A note in the prompt does not undo the disclosure."
+      ]
+    },
+    {
+      "id": "M3.4-04",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "Two sources disagree on a cloud service's maximum message size: a 2024 blog says 1 MB, the vendor's current limits page says 10 MB for the Premium tier only.",
+      "question": "How should your report handle it?",
+      "options": [
+        "Average the two figures and report roughly 5.5 MB as the working limit",
+        "Report the blog's 1 MB figure, because the more conservative limit is safer",
+        "Report the vendor's figure with its tier and date, and note why the blog differs",
+        "Leave the limit out of the report, since the two sources contradict each other"
+      ],
+      "answer": 2,
+      "explanation": "Reconcile by date, scope and primacy: the primary, current source wins, with its scope stated. Explaining the discrepancy helps readers who saw the old figure.",
+      "distractors": [
+        "Averaging produces a number neither source supports.",
+        "Conservatism is not a reason to report an outdated, secondary figure as fact.",
+        null,
+        "Omitting a decisive limit leaves the reader without the reconciled answer."
+      ]
+    },
+    {
+      "id": "M3.4-05",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "Your weighted-criteria matrix gives Tool A 3.80, Tool C 3.75 and Tool B 3.70. Moving 10 points of weight from security to cost makes Tool C the clear winner.",
+      "question": "What should you tell the decision-maker?",
+      "options": [
+        "Tool A wins, because it has the highest weighted total in the matrix",
+        "Tool C wins, because cost is usually what decides these choices",
+        "It's a tie that turns on security versus cost; show when each option wins",
+        "The matrix is unreliable at this margin and should be thrown away entirely"
+      ],
+      "answer": 2,
+      "explanation": "Totals within about 0.1 on judgement-based scores are ties. The sensitivity check shows what the choice hinges on, which is the trade-off the decision-maker must own.",
+      "distractors": [
+        "A 0.05 lead on 1–5 judgements is false precision.",
+        "That imposes your weighting on the decision-maker.",
+        null,
+        "The matrix is useful; it shows exactly what the decision hinges on."
+      ]
+    },
+    {
+      "id": "M3.4-06",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "An architect scores three options first, then sets criteria weights, and Tool B comes out on top, which was the architect's preference.",
+      "question": "What is wrong with this process?",
+      "options": [
+        "The weights should be agreed with the decision-maker before anyone scores",
+        "Nothing is wrong, as long as the weighted-total arithmetic is correct",
+        "Weights should always be equal across criteria to avoid any bias",
+        "The architect should have asked Claude to choose neutral weights"
+      ],
+      "answer": 0,
+      "explanation": "Weighted criteria are only honest if the weights reflect the decision-maker's priorities before anyone sees the scores.",
+      "distractors": [
+        null,
+        "Correct arithmetic on rigged weights gives a rigged answer.",
+        "Equal weights are still a choice, and usually not the decision-maker's real priorities.",
+        "Weights express the decision-maker's values; they are not Claude's to choose."
+      ]
+    },
+    {
+      "id": "M3.4-07",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "Your vendor research for the CTO is a three-page narrative: background first, inline links throughout, and the recommendation in the last paragraph. A reviewer says it isn't decision-ready.",
+      "question": "Which restructure best meets the standard for a research deliverable?",
+      "options": [
+        "Keep the narrative order, but move every inline link into numbered footnotes",
+        "Summary first, then an evidence table, open questions with owners, and sources",
+        "Lead with the recommendation, then attach the full Research report as an appendix",
+        "Cut it to one paragraph with the recommendation, so the CTO can read it quickly"
+      ],
+      "answer": 1,
+      "explanation": "Summary first because decision-makers read the top; an evidence table because reviewers check claims there; open questions with owners make the uncertainty explicit; and a sources list lets the reader check the work.",
+      "distractors": [
+        "Footnotes tidy the links but leave the answer buried and the claims unchecked in one place.",
+        null,
+        "An appended report gives the reader unchecked prose to wade through instead of a checkable evidence table.",
+        "Brevity without evidence or open questions hides what the recommendation rests on."
+      ]
+    },
+    {
+      "id": "M3.4-08",
+      "module": "M3.4",
+      "difficulty": "core",
+      "scenario": "A sales engineer runs Research from the phone app before a client call, expecting it to use the team's Drive folder of past proposals. The report contains only web sources.",
+      "question": "What is the most likely cause?",
+      "options": [
+        "Research on mobile searches only the web and skips connectors",
+        "The Drive connector has broken and needs to be reinstalled",
+        "Research never uses connected sources on any surface",
+        "The phone app was running Research on a smaller model"
+      ],
+      "answer": 0,
+      "explanation": "On mobile, Research silently skips connectors. Run research that needs internal sources from web or desktop.",
+      "distractors": [
+        null,
+        "The connector may be fine; the surface is the cause.",
+        "Research does use connected sources on web and desktop.",
+        "Model choice does not decide whether connectors are queried."
+      ]
+    },
+    {
+      "id": "M3.4-09",
+      "module": "M3.4",
+      "difficulty": "stretch",
+      "scenario": "A Research report states '99.99% uptime guaranteed' and cites the vendor's SLA page. The SLA page says 'up to 99.99% monthly uptime for multi-region deployments'.",
+      "question": "What kind of citation error is this?",
+      "options": [
+        "Paraphrase drift: real source, but 'up to' and the scope were dropped",
+        "A fabricated citation: the page cited does not actually exist",
+        "No error, since the 99.99% figure matches the vendor's SLA page exactly",
+        "A stale page, because vendor SLA terms are typically revised every year"
+      ],
+      "answer": 0,
+      "explanation": "The citation exists but the claim dropped 'up to' and the multi-region scope. Checking the exact wording and context catches it.",
+      "distractors": [
+        null,
+        "The page exists and is relevant, so it is not fabricated.",
+        "The number matches, but the guarantee and scope do not.",
+        "Nothing indicates the page is outdated; the wording was distorted."
+      ]
+    },
+    {
+      "id": "M3.4-10",
+      "module": "M3.4",
+      "difficulty": "stretch",
+      "scenario": "You need to scope a Research run on observability platforms for a decision next month.",
+      "question": "Which addition to the brief most improves the usability of the report?",
+      "options": [
+        "Ask for the most detailed and comprehensive report it can produce",
+        "Ask Research to consult as many independent sources as it can find on the topic",
+        "State the decision, the options in scope, weighted criteria and output shape",
+        "Ask it to write in a persuasive executive style the board will read"
+      ],
+      "answer": 2,
+      "explanation": "A scoped brief turns a generic survey into evidence for a specific decision. Length, volume of sources and style do not.",
+      "distractors": [
+        "Detail without scope produces a long generic report.",
+        "More sources mean more to check, not more relevance.",
+        null,
+        "Persuasive style makes weak evidence harder to spot."
+      ]
+    }
+  ]
 }

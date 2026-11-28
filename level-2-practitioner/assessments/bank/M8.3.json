@@ -133,21 +133,21 @@
    "id": "M8.3-07",
    "module": "M8.3",
    "difficulty": "core",
-   "scenario": "A generated dependency list contains a package whose registry entry shows no licence field, and the repository has no LICENSE file.",
-   "question": "How should the audit classify it?",
+   "scenario": "Claude generates 20 synthetic user personas for a client's banking-app research. Every 'senior engineer' persona is male, and every 'struggles with technology' persona is over 65.",
+   "question": "What should happen before the personas go into the client deliverable?",
    "options": [
-    "Allowed, since public code with no stated licence is effectively public domain",
-    "Allowed for internal tools only, since nobody will enforce it",
-    "Blocked until legal clears it, because no licence means no permission",
-    "Review only if it has fewer than 100 GitHub stars"
+    "Ship them, since synthetic personas are fictional and cannot harm any real person",
+    "Add a footnote saying the personas were AI-generated and may contain some bias",
+    "Run an attribute-swap check, fix the skewed patterns, and have a named human review them",
+    "Regenerate once with 'avoid stereotypes' in the prompt and ship whatever comes back"
    ],
    "answer": 2,
-   "explanation": "Copyright applies by default. Without a licence you have no permission to use, modify or distribute the code.",
+   "explanation": "Generated content can encode stereotypes, and personas shape design decisions for real users. A cheap bias check (swap the attribute, compare, read who is always cast in which role), a fix, and review by the accountable human are what responsible client work requires.",
    "distractors": [
-    "Public visibility isn't a grant of rights. Public domain requires an explicit dedication.",
-    "The legal position doesn't depend on whether anyone enforces it.",
+    "Personas drive design decisions and reach the client under your name; encoded bias harms real users and the brand.",
+    "A disclaimer shifts the problem to the reader instead of fixing content you are accountable for.",
     null,
-    "Popularity has nothing to do with the licence."
+    "A prompt instruction is not a check; the regenerated set is still unreviewed."
    ]
   },
   {
@@ -199,18 +199,18 @@
    "scenario": "You are designing scope limits for a scheduled agent that cleans up stale cloud resources in a client's staging account every night.",
    "question": "Which design best meets the agentic responsibilities in this module?",
    "options": [
-    "Admin credentials so it never fails, plus a summary email of what it reports deleting",
-    "Staging-scoped least-privilege credentials, a dry-run list a named owner approves, full logging and a stop procedure",
-    "Read-write credentials for every environment so it can also clean up production resources whenever someone asks it to",
-    "Least-privilege credentials and no logging, since staging resources are not important"
+    "Staging-only least-privilege credentials and full logging, with deletions running unattended each night",
+    "Staging-only least-privilege credentials, a dry-run list a named owner approves, full logs, a stop procedure",
+    "Staging-only credentials and a dry-run list a named owner approves, with the agent's nightly summary as the log",
+    "Admin credentials across all environments so it never fails, with approval needed for production deletions only"
    ],
    "answer": 1,
-   "explanation": "The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log, and a known way to stop it.",
+   "explanation": "The agent gets least privilege, a human gate before the irreversible step (deletion), an audit log that records what it actually did, and a known way to stop it.",
    "distractors": [
-    "Admin credentials maximise the blast radius, and a self-reported summary isn't evidence.",
+    "Deletion is irreversible; with no human gate a bad selection destroys resources before anyone looks.",
     null,
-    "Scope creep into production removes the boundary entirely.",
-    "Without logs you can't reconstruct or defend what the agent did."
+    "A self-reported summary is a claim, not a log, and there is no way to stop a run that goes wrong.",
+    "Cross-environment admin credentials put production inside the blast radius of a staging job."
    ]
   }
  ]

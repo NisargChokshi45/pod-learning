@@ -190,12 +190,12 @@
       "question": "What is the most robust fix?",
       "options": [
         "Delete your personal preference so that only the Project's length rule applies",
-        "Add a tie-break rule to the Project: completeness beats length, and flag the overrun",
+        "Add a tie-break rule to the Project that names which rule wins and flags overruns",
         "Raise the effort level so the model resolves the conflict more consistently each time",
         "Run each prompt three times and keep whichever version you like the best"
       ],
       "answer": 1,
-      "explanation": "Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which wins, so the behaviour is deterministic and visible.",
+      "explanation": "Unresolved conflicts between layers resolve unpredictably. Either remove the conflict or state explicitly which rule wins (for example, completeness beats length, with the overrun flagged), so the behaviour is predictable and visible.",
       "distractors": [
         "This may remove useful defaults for other Projects and doesn't encode the intended priority here.",
         null,

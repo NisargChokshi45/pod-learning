@@ -49,9 +49,9 @@
    "scenario": "You ask Claude to implement a tax calculation fix. It implements, the tests fail, and it changes the test expectations until they pass.",
    "question": "Which prompt pattern would have closed this loophole?",
    "options": [
-    "'Make all tests pass before you finish.'",
+    "'Make sure every test passes before you report the task as done.'",
     "'Implement the fix, then write tests for it so nothing is left untested.'",
-    "'Use maximum effort and be careful.'",
+    "'Think hard, use maximum effort, and double-check your changes.'",
     "'Write failing tests first, then implement; don't edit agreed tests.'"
    ],
    "answer": 3,
@@ -111,7 +111,7 @@
    "options": [
     "Ask Claude to guess the fix from the error message and push it",
     "Disable the failing test so the release isn't blocked, then fix it after",
-    "Re-run CI until it passes",
+    "Re-run the CI job a few times to see whether it's just flaky",
     "Give the full log, get ranked hypotheses, and reproduce it first"
    ],
    "answer": 3,
@@ -119,7 +119,7 @@
    "distractors": [
     "A guessed fix without a reproduction can't be shown to work.",
     "Disabling the test hides the defect.",
-    "Re-running treats a real failure as noise and proves nothing.",
+    "Re-running can hide a real intermittent defect and gives no evidence of the cause; it postpones the diagnosis.",
     null
    ]
   },
@@ -129,9 +129,9 @@
    "scenario": "Two agents' branches conflict in the same service file. One added retry logic, the other changed the timeout model.",
    "question": "How should the conflict be resolved?",
    "options": [
-    "Take whichever branch merged first",
+    "Keep the side that merged first and drop the other's hunk",
     "Resolve by intent, keeping both behaviours, with a test for each",
-    "Take the branch with more passing tests",
+    "Keep the side whose branch has more passing tests",
     "Ask Claude to pick one side so the merge stays quick and the diff stays small"
    ],
    "answer": 1,
@@ -150,8 +150,8 @@
    "question": "What is the right position?",
    "options": [
     "Accept; an AI review is more thorough than a human one",
-    "Accept only for small PRs under 50 lines",
-    "Reject AI review entirely as unreliable",
+    "Accept for PRs under 50 lines; keep human approval for larger ones",
+    "Reject AI review entirely; it adds noise reviewers learn to ignore",
     "AI review is an input; a named human still approves every PR"
    ],
    "answer": 3,
@@ -159,7 +159,7 @@
    "distractors": [
     "Thoroughness doesn't create accountability, and AI review can miss context-dependent defects.",
     "Size doesn't remove the need for an accountable approver.",
-    "AI review is useful as a first pass; the issue is replacing the human, not using it.",
+    "AI review is a useful first pass for the human reviewer; the problem is replacing the human, not using the tool.",
     null
    ]
   },
@@ -171,7 +171,7 @@
    "options": [
     "Move the key to a repo secret and grant only the permissions needed",
     "Rename the trigger phrase so fewer people can invoke the action by accident",
-    "Run the action only on weekdays",
+    "Add --max-turns and a job timeout so runaway runs stop early",
     "Pin Claude to a cheaper model to control cost"
    ],
    "answer": 0,
@@ -179,28 +179,28 @@
    "distractors": [
     null,
     "A trigger phrase is not an access control.",
-    "Scheduling doesn't reduce privilege or protect the key.",
+    "Turn and time caps control cost, but the key is still in the YAML and the token can still write everywhere.",
     "Cost control doesn't address the exposed key or broad permissions."
    ]
   },
   {
    "id": "M6.3-10",
    "difficulty": "stretch",
-   "scenario": "Running four parallel sessions, you notice two of them are now editing the same module as part of 'cleanup'. Merges keep conflicting on every hunk.",
-   "question": "What is the best adjustment?",
+   "scenario": "Claude finishes a checkout-page change and reports: 212 unit tests pass, lint is clean, and coverage rose to 85%. Nobody has run the app since the change.",
+   "question": "What verification is still missing before you call it done?",
    "options": [
-    "Add a fifth session whose only job is resolving conflicts continuously",
-    "Force-push the session with the cleaner diff",
-    "Scope tasks so no two sessions own the same module",
-    "Turn off tests until all sessions finish"
+    "Run the app and walk the checkout flow end to end, observing the result",
+    "Raise the coverage target to 95% and have Claude add tests to reach it",
+    "Ask Claude to write more unit tests for the components it changed",
+    "Re-run the same suite in CI to confirm the local result holds there"
    ],
-   "answer": 2,
-   "explanation": "Overlapping refactors are where parallelism stops paying. Scope each session to disjoint files, or sequence the overlapping work.",
+   "answer": 0,
+   "explanation": "Tests and coverage measure what ran, not whether the feature works for a user. Building and running the app and observing the behaviour (what the bundled verify skill automates) closes the gap.",
    "distractors": [
-    "Another session adds coordination cost without removing the overlap.",
-    "Force-pushing destroys work and breaks the hard rule.",
     null,
-    "Disabling tests removes the check that catches broken merges."
+    "Coverage measures executed lines, not checked behaviour; a higher number still never exercised the real flow.",
+    "More unit tests of the same kind leave the integrated, running behaviour unobserved.",
+    "The same suite in another environment repeats the same blind spot."
    ]
   }
  ]

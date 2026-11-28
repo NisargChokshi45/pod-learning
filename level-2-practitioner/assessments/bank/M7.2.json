@@ -70,7 +70,7 @@
       "question": "What is the right redesign?",
       "options": [
         "Switch tool_choice to 'any', so the model is still required to call some tool on every turn",
-        "Use tool_choice auto, name the tool in the prompt, use strict schemas and verify the call",
+        "Use tool_choice auto, name the tool in the prompt, keep strict schemas, and check the call ran",
         "Downgrade permanently to an older model that still accepts forced tool use, and pin it there",
         "Remove the tools entirely and describe the tool in plain text, so the model replies in that format"
       ],
@@ -126,21 +126,21 @@
     {
       "id": "M7.2-07",
       "difficulty": "core",
-      "scenario": "A strict schema guarantees that a delete_record tool receives a well-formed record_id. A user in tenant A asks the assistant to delete a record that belongs to tenant B.",
-      "question": "Where must the protection live?",
+      "scenario": "Finance wants a service that produces a monthly branded Excel and PowerPoint pack. Your team already maintains a brand-template Skill (a SKILL.md plus template files) that engineers use in Claude Code.",
+      "question": "What is the best way to build the service on the API?",
       "options": [
-        "In the strict schema, which already ensures that only valid, well-formed record IDs reach the tool",
-        "In the system prompt, by instructing Claude never to delete any record owned by another tenant",
-        "In the model's own judgement, since current models already refuse obviously harmful requests",
-        "In the tool's own code, which checks that the caller may act on that record before deleting it"
+        "Paste the SKILL.md text into the system prompt, because the API can't load Skill folders at all",
+        "Upload it with the Skills API and attach it, plus xlsx and pptx, to a code-execution container",
+        "Attach the Skills to a plain request with no tools, since Skills execute inside the model itself",
+        "Ask for markdown tables and convert them into xlsx and pptx files with a script on your own server"
       ],
-      "answer": 3,
-      "explanation": "A strict schema guarantees the shape of the arguments, not that the caller may use them. Authorisation belongs in your code, at the point of action, because model arguments are untrusted input.",
+      "answer": 1,
+      "explanation": "A Skill is the same SKILL.md format on every surface. Through the API, custom Skills (uploaded via the Skills endpoint) and the built-in xlsx, pptx, docx and pdf Skills are attached to a code-execution container, which runs their scripts and returns generated files by file ID.",
       "distractors": [
-        "A valid-shaped ID can still belong to another tenant. Schema validity isn't authorisation.",
-        "Prompt rules can be bypassed by injection or mistakes, so they can't enforce tenant isolation.",
-        "Relying on model judgement for access control is unsafe: authorisation must be deterministic.",
-        null
+        "The Skills endpoint loads Skill folders. Flattening one into a prompt loses its scripts and templates, and costs tokens on every call.",
+        null,
+        "Skills run as files and scripts in the code-execution container. Without the code-execution tool there is nothing to run them.",
+        "Converting markdown yourself throws away the brand templates and the built-in Skills' file handling you already have."
       ]
     },
     {

@@ -112,21 +112,21 @@
       "id": "M8.2-06",
       "module": "M8.2",
       "difficulty": "core",
-      "scenario": "You're sending a two-line email to a client that quotes the renewal price Claude extracted from the contract. It seems too small to be worth formally verifying.",
-      "question": "How should you treat it?",
+      "scenario": "You ask Claude to review a pull request and mention that you think the new caching change is safe. It agrees. A teammate then comments that the change has a race condition; you paste the comment in, and Claude now agrees with the teammate.",
+      "question": "Which failure mode is this, and what is the right response?",
       "options": [
-        "Full review against the contract, because it's external and financial",
-        "Skip review, because short messages carry little risk",
-        "Spot-check it by asking Claude to repeat the figure in a new message and compare",
-        "Add 'subject to change' to the email so the figure doesn't matter"
+        "Sycophancy; settle it with a test that tries to reproduce the race on the changed path",
+        "Fabrication; ask Claude to cite the documentation behind each of its review comments",
+        "Stale knowledge; rerun the review with web search on so it uses current library docs",
+        "Instruction drift; restate the review checklist at the top and ask for a fresh review"
       ],
       "answer": 0,
-      "explanation": "Proportional verification is driven by consequence, not length. External and financial are both full-review triggers, so check the figure against the source document.",
+      "explanation": "The model is leaning towards whoever framed the question last, so its agreement carries no evidence either way. Settle it externally: a test or reproduction that exercises the concurrent path decides, not the model's opinion.",
       "distractors": [
         null,
-        "Length doesn't set risk; a wrong price quoted to a client is costly however short the email.",
-        "Repetition from the same model isn't an independent check against the contract.",
-        "A disclaimer doesn't fix a wrong figure and can still damage trust or create a dispute."
+        "Nothing was invented; the answers track whoever spoke last. Citations wouldn't show whether the race is real.",
+        "The code is in the conversation, not missing from training; search won't settle a race in your diff.",
+        "The checklist wasn't forgotten; the model followed the latest framing. Re-asking invites the same lean."
       ]
     },
     {
@@ -154,21 +154,21 @@
       "id": "M8.2-08",
       "module": "M8.2",
       "difficulty": "core",
-      "scenario": "Claude recommends migrating to a managed queue service and lists its benefits. The recommendation reads well, but it rests on assumptions about message volume and team skills.",
-      "question": "Which validation fits a recommendation like this?",
+      "scenario": "Before sending an executive summary of an RCA, you ask Claude in the same chat to check it against a 12-point rubric. It reports that all 12 pass, including 'every figure matches the RCA'.",
+      "question": "How much assurance does that self-check give you?",
       "options": [
-        "Check the grammar and structure of the recommendation document",
-        "List what would have to be true for it to be right, then check those conditions",
-        "Ask Claude for a second recommendation and pick whichever one sounds more convincing",
-        "Accept it if the listed benefits match the vendor's marketing page"
+        "Some: it's a filter for slips, so still trace each figure to the RCA yourself",
+        "Full: the rubric explicitly covered the figures, so they have now been checked",
+        "None: self-checks never catch anything, so drop the rubric and review by hand",
+        "Enough, as long as you run the same self-check a second time and both runs pass"
       ],
-      "answer": 1,
-      "explanation": "Decisions are validated by surfacing the conditions they depend on (volume, skills, cost) and checking each one, which turns a persuasive narrative into testable claims.",
+      "answer": 0,
+      "explanation": "A self-check is a filter, not a guarantee. The checker is the same model with the same beliefs, so it catches slips but not errors it believes are right. Use it to narrow where you look, then do the external check against the RCA.",
       "distractors": [
-        "Presentation quality says nothing about whether the decision is right.",
         null,
-        "Choosing by persuasiveness repeats the tone-over-substance mistake.",
-        "Vendor marketing is a secondary, interested source; it doesn't test your conditions."
+        "The model can 'confirm' a figure it misread in the first place; covering an item isn't checking it.",
+        "Over-correction: self-checks reliably catch slips such as dropped requirements; they just aren't the verification.",
+        "Repeating the same check with the same model repeats the same blind spots."
       ]
     },
     {

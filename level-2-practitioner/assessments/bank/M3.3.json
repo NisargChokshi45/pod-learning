@@ -53,7 +53,7 @@
    "question": "What is the main problem?",
    "options": [
     "Projects cannot hold more than one signed SOW, so the second upload would be rejected",
-    "Both clients' files share one retrieval pool, so one client's data can leak into the other's work",
+    "One shared retrieval pool means client A's material can surface in drafts for client B",
     "Retrieval mode becomes noticeably slower when knowledge comes from two different clients",
     "Project instructions can describe only one audience, so the outputs would get the tone wrong"
    ],
@@ -113,11 +113,11 @@
    "module": "M3.3",
    "difficulty": "core",
    "scenario": "A client emails a change request to add a second hosting region. Your PM asks Claude in the engagement Project for the impact.",
-   "question": "Which request best fits this module?",
+   "question": "Which request should the PM make first?",
    "options": [
     "Ask for a revised estimate in person-days so you can reply to the client with a number today",
     "Ask Claude to accept the change and update the plan and SOW files in the Project automatically",
-    "Ask what requirements, deliverables, dates and risks change, citing the SOW, then verify with the tech lead",
+    "List affected requirements, deliverables, dates and risks with SOW citations; the tech lead confirms each",
     "Ask for a summary of the client's email to forward to the steering committee for a decision"
    ],
    "answer": 2,
@@ -160,7 +160,7 @@
     "Paste the summary into the audit response, since it was generated from company sources",
     "Ask Claude to rewrite the summary in a formal register suitable for the auditor",
     "Discard it, because enterprise search results can't be trusted for audit purposes",
-    "Use it to locate the thread, ticket and document, then cite those sources"
+    "Use it to locate the thread, ticket and document, then cite those primary sources"
    ],
    "answer": 3,
    "explanation": "Enterprise search makes live, permission-scoped calls and returns only what was written down. It is a way to find sources; the evidence is the sources themselves.",
@@ -201,7 +201,7 @@
    "options": [
     "One of them is getting results from an outdated cached copy of the index",
     "Enterprise search randomises the order of results to reduce answer bias",
-    "Each query runs live against only the sources that person can access",
+    "Each query runs live against only the sources that particular person can access",
     "One engineer has memory turned on, which overrides the search results"
    ],
    "answer": 2,
