@@ -1,0 +1,354 @@
+<title>Claude Level 2 Quiz</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: exam bench — set list rail on the left, one question card at a time on the right; rail collapses above content on phones. */
+:root {
+  --bg: #f5f7f9;
+  --surface: #ffffff;
+  --sunken: #eaeef2;
+  --fg: #14212b;
+  --muted: #5b6b78;
+  --line: #d5dde4;
+  --accent: #0b4a6e;        /* syllabus navy */
+  --accent-soft: #e1edf4;
+  --accent-fg: #ffffff;
+  --ok: #1f7a4d;  --ok-soft: #e3f3ea;
+  --bad: #b3392f; --bad-soft: #f8e6e4;
+  --warn: #8a5a00; --warn-soft: #fbf0d9;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0e151b; --surface: #15202a; --sunken: #1b2833; --fg: #e4ebf0; --muted: #93a4b1; --line: #2a3a47;
+  --accent: #7cc0e6; --accent-soft: #17344a; --accent-fg: #06202f;
+  --ok: #5fcf93; --ok-soft: #133525; --bad: #f08a80; --bad-soft: #3d1c19; --warn: #e6b65c; --warn-soft: #3a2c10;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0e151b; --surface: #15202a; --sunken: #1b2833; --fg: #e4ebf0; --muted: #93a4b1; --line: #2a3a47;
+  --accent: #7cc0e6; --accent-soft: #17344a; --accent-fg: #06202f;
+  --ok: #5fcf93; --ok-soft: #133525; --bad: #f08a80; --bad-soft: #3d1c19; --warn: #e6b65c; --warn-soft: #3a2c10;
+  color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 15px/1.55 var(--body); margin: 0; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 24px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px;
+  border-bottom: 2px solid var(--accent); padding-bottom: 12px; margin-bottom: 20px; }
+h1 { font: 700 1.6rem/1.2 var(--display); margin: 0; text-wrap: balance; }
+.sub { color: var(--muted); font-size: .9rem; }
+.eyebrow { font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.grid { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 760px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Rail */
+nav.rail { display: flex; flex-direction: column; gap: 4px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+@media (max-width: 760px) { nav.rail { position: static; flex-direction: row; flex-wrap: wrap; } }
+.rail-group { font: 500 .72rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 12px 0 4px; }
+@media (max-width: 760px) { .rail-group { width: 100%; } }
+.set { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left;
+  background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 8px 10px; color: var(--fg);
+  font: inherit; cursor: pointer; width: 100%; }
+@media (max-width: 760px) { .set { width: auto; grid-template-columns: auto auto; } .set .name { display: none; } }
+.set:hover { background: var(--sunken); }
+.set[aria-current="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.set .code { font: 500 .78rem var(--mono); color: var(--accent); }
+.set .name { font-size: .86rem; line-height: 1.3; }
+.set .best { font: 500 .72rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.set .best.pass { color: var(--ok); }
+
+/* Main card */
+main { min-width: 0; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 24px; }
+@media (max-width: 500px) { .panel { padding: 16px; } }
+.set-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 16px; }
+.set-head h2 { font: 600 1.25rem/1.25 var(--display); margin: 4px 0 0; text-wrap: balance; }
+.modes { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.modes button { font: 500 .82rem var(--body); padding: 6px 12px; border: 0; background: var(--surface); color: var(--muted); cursor: pointer; }
+.modes button[aria-pressed="true"] { background: var(--accent); color: var(--accent-fg); }
+.progress { height: 4px; background: var(--sunken); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+.progress > i { display: block; height: 100%; background: var(--accent); transition: width .2s; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 16px; font: .78rem var(--mono); color: var(--muted); margin-bottom: 16px; font-variant-numeric: tabular-nums; }
+.chip { display: inline-block; font: 500 .7rem/1 var(--mono); letter-spacing: .04em; padding: 4px 7px; border-radius: 4px; background: var(--sunken); color: var(--muted); }
+.chip.stretch { background: var(--warn-soft); color: var(--warn); }
+.chip.elective { background: var(--accent-soft); color: var(--accent); }
+.scenario { background: var(--sunken); border-left: 3px solid var(--accent); padding: 12px 14px; border-radius: 0 6px 6px 0; margin: 0 0 14px; max-width: 72ch; }
+.question { font: 600 1.05rem/1.45 var(--body); margin: 0 0 16px; max-width: 72ch; }
+.options { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.opt { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; width: 100%; text-align: left;
+  font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; cursor: pointer; }
+.opt:hover:not(:disabled) { border-color: var(--accent); }
+.opt:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.opt .letter { font: 600 .85rem/28px var(--mono); text-align: center; width: 28px; height: 28px; border-radius: 50%; background: var(--sunken); color: var(--muted); }
+.opt .txt { padding-top: 3px; }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.opt[aria-pressed="true"] .letter { background: var(--accent); color: var(--accent-fg); }
+.opt.correct { border-color: var(--ok); background: var(--ok-soft); }
+.opt.correct .letter { background: var(--ok); color: var(--surface); }
+.opt.wrong { border-color: var(--bad); background: var(--bad-soft); }
+.opt.wrong .letter { background: var(--bad); color: var(--surface); }
+.opt:disabled { cursor: default; }
+.why { display: block; grid-column: 2; font-size: .86rem; color: var(--muted); margin-top: 4px; }
+.feedback { margin-top: 16px; padding: 12px 14px; border-radius: 6px; max-width: 72ch; }
+.feedback.ok { background: var(--ok-soft); }
+.feedback.bad { background: var(--bad-soft); }
+.feedback strong { font-family: var(--display); }
+.nav-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-top: 20px; }
+.btn { font: 500 .9rem var(--body); padding: 8px 16px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.btn:disabled { opacity: .45; cursor: default; }
+.dots { display: flex; flex-wrap: wrap; gap: 4px; }
+.dot { width: 26px; height: 26px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface); font: 500 .7rem var(--mono); color: var(--muted); cursor: pointer; padding: 0; }
+.dot.answered { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.dot.right { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+.dot.miss { background: var(--bad-soft); border-color: var(--bad); color: var(--bad); }
+.dot[aria-current="true"] { outline: 2px solid var(--fg); outline-offset: 1px; }
+
+/* Results */
+.score { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.score .tile { border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; }
+.score .big { font: 700 2rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.verdict { display: inline-block; font: 600 .78rem/1 var(--mono); letter-spacing: .06em; padding: 5px 8px; border-radius: 4px; margin-top: 6px; }
+.verdict.pass { background: var(--ok-soft); color: var(--ok); }
+.verdict.fail { background: var(--bad-soft); color: var(--bad); }
+.review { display: grid; gap: 12px; }
+.review details { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; }
+.review details.miss { border-left: 3px solid var(--bad); }
+.review details.hit { border-left: 3px solid var(--ok); }
+.review summary { cursor: pointer; font-weight: 500; }
+.review .q { margin: 10px 0 6px; max-width: 72ch; }
+.review ul { margin: 6px 0; padding-left: 18px; font-size: .9rem; }
+.review li { margin: 4px 0; }
+.intro p { max-width: 68ch; }
+.intro ul { padding-left: 18px; max-width: 68ch; }
+.empty { color: var(--muted); }
+.timer { font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .progress > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Claude AI Certification · Level 2 Practitioner</div>
+      <h1>Claude Level 2 Quiz</h1>
+    </div>
+    <div class="sub" id="bankInfo">Loading question bank…</div>
+  </header>
+  <div class="grid">
+    <nav class="rail" id="rail" aria-label="Question sets"></nav>
+    <main id="main"><div class="panel"><p class="empty">Loading…</p></div></main>
+  </div>
+</div>
+
+<script src="quiz-bank.js"></script>
+<script>
+(function () {
+  "use strict";
+  const BANK = window.QUIZ_BANK;
+  const main = document.getElementById("main");
+  const rail = document.getElementById("rail");
+  const L = "ABCD";
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem("l2quiz:" + k)); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem("l2quiz:" + k, JSON.stringify(v)); } catch (e) {} }
+  };
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const slug = m => m.toLowerCase().replace(/\./g, "-");
+
+  if (!BANK) {
+    main.innerHTML = '<div class="panel"><p>Couldn\'t load <code>quiz-bank.js</code>. Run <code>node tools/build-quiz.mjs level-2-practitioner</code> and keep it next to this page.</p></div>';
+    document.getElementById("bankInfo").textContent = "No question bank found";
+    return;
+  }
+
+  // Build set list
+  const sets = BANK.modules.map(m => ({ key: slug(m.module), code: m.module, name: m.title, items: m.items, kind: "module", status: m.status || "CORE" }));
+  if (BANK.mock) {
+    sets.push({ key: "mock", code: "MOCK", name: "Mock exam: 25 core items", items: BANK.mock.items.filter(i => !i.elective), kind: "mock", passAt: 20 });
+    // One elective block per cluster group; take the blocks your cluster's electives cover.
+    Object.entries(BANK.blocks || {}).forEach(([b, cfg]) => {
+      const el = BANK.mock.items.filter(i => i.elective && i.block === b);
+      if (el.length) sets.push({ key: "mock-" + b.toLowerCase(), code: cfg.code, name: cfg.name, items: el, kind: "mock", passAt: Math.ceil(el.length * 0.8) });
+    });
+  }
+  const total = sets.reduce((n, s) => n + s.items.length, 0);
+  document.getElementById("bankInfo").textContent = total + " questions · bank built " + BANK.generated;
+
+  let state = null; // { set, idx, picks:[], mode:'practice'|'exam', submitted, started }
+  let timerHandle = null;
+
+  function renderRail() {
+    let html = '<div class="rail-group">CORE modules, in teaching order</div>';
+    sets.forEach((s, i) => {
+      if (s.kind === "module" && s.status === "ELECTIVE" && sets[i - 1] && sets[i - 1].status !== "ELECTIVE") html += '<div class="rail-group">Electives (by cluster)</div>';
+      if (s.kind === "mock" && sets[i - 1] && sets[i - 1].kind !== "mock") html += '<div class="rail-group">Exam simulation</div>';
+      const best = store.get("best:" + s.key);
+      const pass = best && best.score / best.of >= 0.8;
+      html += `<button class="set" data-key="${s.key}" aria-current="${state && state.set.key === s.key}">
+        <span class="code">${esc(s.code)}</span><span class="name">${esc(s.name)}</span>
+        <span class="best ${pass ? "pass" : ""}">${best ? best.score + "/" + best.of : "—"}</span></button>`;
+    });
+    html += '<div class="rail-group">Home</div><button class="set" data-key="" aria-current="' + (!state) + '"><span class="code">≡</span><span class="name">How this works</span><span class="best"></span></button>';
+    rail.innerHTML = html;
+  }
+  rail.addEventListener("click", e => {
+    const b = e.target.closest(".set"); if (!b) return;
+    location.hash = b.dataset.key ? b.dataset.key : "";
+    if (!b.dataset.key) route();
+  });
+
+  function intro() {
+    state = null; stopTimer(); renderRail();
+    const mods = sets.filter(s => s.kind === "module").length;
+    main.innerHTML = `<div class="panel intro">
+      <div class="eyebrow">Start here</div>
+      <h2 style="font:600 1.25rem var(--display);margin:6px 0 12px">Practise each module, then sit the mock</h2>
+      <p>The real Level 2 assessment has four parts: a prompt-and-output review against a rubric, a 90-minute practical lab, a graded deliverable with a verification note, and a verification drill at the 80% threshold. This page is the knowledge check that sits underneath them: 20 module sets, a 25-item CORE mock (pass 20/25) and four 5-item elective blocks (pass 4/5 each; take the blocks your cluster's electives cover). The other parts are in <code>prompt-output-review.md</code>, <code>practical-lab.md</code> and <code>verification-drill.md</code>.</p>
+      <ul>
+        <li><strong>Practice mode</strong> shows the answer as soon as you choose, with the reason each wrong option is wrong. Use it while learning.</li>
+        <li><strong>Exam mode</strong> holds feedback until you submit. The mock exam always runs in exam mode.</li>
+        <li>Questions are scenario-based. Each tests a principle you'd apply at work, never a version number or a date.</li>
+        <li>Modules 1–10 are CORE (everyone). Modules 11–20 are electives gated by cluster; a chip marks them.</li>
+        <li>Your best score per set is saved in this browser only.</li>
+      </ul>
+      <p class="sub">${mods} module set${mods === 1 ? "" : "s"} available${BANK.mock ? " · mock exam ready" : " · mock exam not built yet"}.</p>
+      <div class="nav-row"><span></span><button class="btn primary" id="go">Start with ${esc(sets[0].code)}</button></div>
+    </div>`;
+    document.getElementById("go").onclick = () => { location.hash = sets[0].key; };
+  }
+
+  function start(set, mode) {
+    stopTimer();
+    state = { set, idx: 0, picks: new Array(set.items.length).fill(null), mode: set.kind === "mock" ? "exam" : (mode || "practice"), submitted: false, started: Date.now() };
+    renderRail(); render();
+    if (state.mode === "exam") timerHandle = setInterval(tick, 1000);
+  }
+  function stopTimer() { if (timerHandle) clearInterval(timerHandle); timerHandle = null; }
+  function tick() { const t = document.getElementById("timer"); if (t && state) t.textContent = fmt(Date.now() - state.started); }
+  const fmt = ms => { const s = Math.floor(ms / 1000); return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); };
+
+  function render() {
+    if (state.submitted) return results();
+    const { set, idx, picks, mode } = state;
+    const it = set.items[idx];
+    const pick = picks[idx];
+    const revealed = mode === "practice" && pick !== null;
+    const answered = picks.filter(p => p !== null).length;
+    const opts = it.options.map((o, i) => {
+      let cls = "opt", why = "";
+      if (revealed) {
+        if (i === it.answer) cls += " correct";
+        else if (i === pick) cls += " wrong";
+        if (i !== it.answer && it.distractors[i]) why = `<span class="why">${esc(it.distractors[i])}</span>`;
+      }
+      return `<li><button class="${cls}" data-i="${i}" aria-pressed="${pick === i}" ${revealed ? "disabled" : ""}>
+        <span class="letter">${L[i]}</span><span class="txt">${esc(o)}${why}</span></button></li>`;
+    }).join("");
+    const fb = revealed ? `<div class="feedback ${pick === it.answer ? "ok" : "bad"}"><strong>${pick === it.answer ? "Correct." : "Not quite. The answer is " + L[it.answer] + "."}</strong> ${esc(it.explanation)}</div>` : "";
+    const dots = set.items.map((q, i) => {
+      let c = "dot";
+      if (mode === "practice" && picks[i] !== null) c += picks[i] === q.answer ? " right" : " miss";
+      else if (picks[i] !== null) c += " answered";
+      return `<button class="${c}" data-go="${i}" aria-current="${i === idx}" aria-label="Question ${i + 1}">${i + 1}</button>`;
+    }).join("");
+    const last = idx === set.items.length - 1;
+    main.innerHTML = `<div class="panel">
+      <div class="set-head">
+        <div><div class="eyebrow">${esc(set.code)} · ${set.kind === "mock" ? "Exam simulation" : "Module check"}</div><h2>${esc(set.name)}</h2></div>
+        ${set.kind === "mock" ? '<span class="chip">Exam mode</span>' : `<div class="modes" role="group" aria-label="Mode">
+          <button data-mode="practice" aria-pressed="${mode === "practice"}">Practice</button>
+          <button data-mode="exam" aria-pressed="${mode === "exam"}">Exam</button></div>`}
+      </div>
+      <div class="progress"><i style="width:${(answered / set.items.length) * 100}%"></i></div>
+      <div class="meta"><span>Q${idx + 1} of ${set.items.length}</span><span>${answered} answered</span>
+        ${mode === "exam" ? `<span>Elapsed <span class="timer" id="timer">${fmt(Date.now() - state.started)}</span></span>` : ""}
+        <span class="chip">${esc(it.id)}</span>${it.difficulty === "stretch" ? '<span class="chip stretch">stretch</span>' : ""}${it.elective ? '<span class="chip elective">elective</span>' : ""}
+        ${it.module && set.kind === "mock" ? `<span class="chip">${esc(it.module)}</span>` : ""}</div>
+      <p class="scenario">${esc(it.scenario)}</p>
+      <p class="question">${esc(it.question)}</p>
+      <ul class="options">${opts}</ul>
+      ${fb}
+      <div class="nav-row">
+        <div class="dots">${dots}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="prev" ${idx === 0 ? "disabled" : ""}>Previous</button>
+          ${last ? `<button class="btn primary" id="submit">${mode === "exam" ? "Submit answers" : "See summary"}</button>`
+                 : `<button class="btn primary" id="next">Next</button>`}
+        </div>
+      </div>
+    </div>`;
+    main.querySelectorAll(".opt").forEach(b => b.onclick = () => { state.picks[idx] = +b.dataset.i; render(); });
+    main.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { state.idx = +b.dataset.go; render(); });
+    main.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { if (b.dataset.mode !== state.mode) start(state.set, b.dataset.mode); });
+    const p = document.getElementById("prev"); if (p) p.onclick = () => { state.idx--; render(); };
+    const n = document.getElementById("next"); if (n) n.onclick = () => { state.idx++; render(); main.scrollIntoView({ block: "start" }); };
+    const s = document.getElementById("submit"); if (s) s.onclick = submit;
+  }
+
+  function submit() {
+    const unanswered = state.picks.filter(p => p === null).length;
+    const btn = document.getElementById("submit");
+    if (unanswered && btn && !btn.dataset.confirm) {
+      btn.dataset.confirm = "1";
+      btn.textContent = `${unanswered} unanswered. Submit anyway?`;
+      return;
+    }
+    state.submitted = true; stopTimer();
+    const score = state.set.items.filter((q, i) => state.picks[i] === q.answer).length;
+    const of = state.set.items.length;
+    const prev = store.get("best:" + state.set.key);
+    if (!prev || score > prev.score) store.set("best:" + state.set.key, { score, of });
+    renderRail(); results();
+  }
+
+  function results() {
+    const { set, picks } = state;
+    const score = set.items.filter((q, i) => picks[i] === q.answer).length;
+    const of = set.items.length;
+    const passAt = set.passAt || Math.ceil(of * 0.8);
+    const pass = score >= passAt;
+    // per-module breakdown for the mock
+    let breakdown = "";
+    if (set.kind === "mock") {
+      const by = {};
+      set.items.forEach((q, i) => { const m = q.module || "?"; by[m] = by[m] || [0, 0]; by[m][1]++; if (picks[i] === q.answer) by[m][0]++; });
+      breakdown = `<div class="tile"><div class="eyebrow">By module</div><div style="font:.85rem var(--mono);margin-top:6px;font-variant-numeric:tabular-nums">${Object.entries(by).map(([m, [a, b]]) => `${esc(m)} ${a}/${b}`).join("<br>")}</div></div>`;
+    }
+    const rev = set.items.map((q, i) => {
+      const hit = picks[i] === q.answer;
+      return `<details class="${hit ? "hit" : "miss"}" ${hit ? "" : "open"}>
+        <summary>${hit ? "✓" : "✗"} Q${i + 1} · ${esc(q.id)}: ${picks[i] === null ? "unanswered" : "you chose " + L[picks[i]]}, answer ${L[q.answer]}</summary>
+        <p class="q"><em>${esc(q.scenario)}</em><br><strong>${esc(q.question)}</strong></p>
+        <p>${esc(q.explanation)}</p>
+        <ul>${q.options.map((o, j) => `<li><strong>${L[j]}.</strong> ${esc(o)}${j === q.answer ? " ✅" : q.distractors[j] ? `<br><span class="sub">${esc(q.distractors[j])}</span>` : ""}</li>`).join("")}</ul>
+      </details>`;
+    }).join("");
+    main.innerHTML = `<div class="panel">
+      <div class="set-head"><div><div class="eyebrow">${esc(set.code)} · Results</div><h2>${esc(set.name)}</h2></div></div>
+      <div class="score">
+        <div class="tile"><div class="eyebrow">Score</div><div class="big">${score}/${of}</div>
+          <span class="verdict ${pass ? "pass" : "fail"}">${pass ? "PASS" : "BELOW PASS LINE"} · need ${passAt}</span></div>
+        <div class="tile"><div class="eyebrow">Percent</div><div class="big">${Math.round(score / of * 100)}%</div></div>
+        <div class="tile"><div class="eyebrow">Time</div><div class="big">${fmt(Date.now() - state.started)}</div></div>
+        ${breakdown}
+      </div>
+      <div class="nav-row" style="margin:0 0 16px"><span class="sub">Missed questions are open below. Reread the module notes for any topic you missed twice.</span>
+        <button class="btn primary" id="retry">Retake</button></div>
+      <div class="review">${rev}</div>
+    </div>`;
+    document.getElementById("retry").onclick = () => start(set, state.mode);
+  }
+
+  function route() {
+    const key = location.hash.replace("#", "");
+    const set = sets.find(s => s.key === key);
+    if (set) start(set); else intro();
+  }
+  window.addEventListener("hashchange", route);
+  route();
+})();
+</script>

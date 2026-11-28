@@ -1,0 +1,13 @@
+{
+  "level": 2,
+  "title": "Level 2 Practitioner",
+  "order": ["M1.3", "M2.2", "M2.3", "M3.2", "M3.4", "M8.2", "M3.5", "M3.3", "M4.2", "M8.3",
+            "M3.6", "M5.1", "M5.2", "M5.3", "M5.5", "M6.2", "M6.3", "M6.8", "M7.1", "M7.2"],
+  "mockCore": 25,
+  "blocks": {
+    "DESIGN": { "code": "M3.6+", "name": "Elective block: Claude Design (M3.6)", "size": 5 },
+    "D5": { "code": "D5+", "name": "Elective block: Software engineering (M5.1–M5.5)", "size": 5 },
+    "D6": { "code": "D6+", "name": "Elective block: Claude Code (M6.2, M6.3, M6.8)", "size": 5 },
+    "D7": { "code": "D7+", "name": "Elective block: Developer platform (M7.1, M7.2)", "size": 5 }
+  }
+}
