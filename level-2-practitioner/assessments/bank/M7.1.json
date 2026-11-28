@@ -1,0 +1,207 @@
+{
+  "module": "M7.1",
+  "title": "Claude API fundamentals",
+  "status": "ELECTIVE",
+  "items": [
+    {
+      "id": "M7.1-01",
+      "difficulty": "core",
+      "scenario": "Your contract-review service hard-codes one Claude model ID in 14 files. A deprecation notice for that model arrives, giving a retirement date two months out.",
+      "question": "What is the most robust response?",
+      "options": [
+        "Keep the current model until the retirement date passes, then switch every file to the newest model in one commit",
+        "Centralise the model ID in config, run the golden-set regression on the replacement, canary, then cut over early",
+        "Switch every file to the replacement ID today and rely on the vendor's statement that quality is equal or better",
+        "Switch now and ask users to report any quality drop, rolling back if complaints exceed an agreed threshold"
+      ],
+      "answer": 1,
+      "explanation": "Pinning is only safe with a migration plan: one config point, an eval set that proves the replacement, a canary, and a cutover before retirement (retired models return 404).",
+      "distractors": [
+        "Waiting for the date turns retirement into an outage, because the old ID starts returning errors and the switch is untested.",
+        null,
+        "Switching blind skips the regression; behaviour differences (effort defaults, thinking, prefill) can break the service.",
+        "Using users as the test suite means discovering regressions in production, and a rollback target that is retiring anyway."
+      ]
+    },
+    {
+      "id": "M7.1-02",
+      "difficulty": "core",
+      "scenario": "A nightly job summarises tickets. Some summaries are cut off mid-sentence, and the downstream parser crashes on half-written JSON.",
+      "question": "What should the integration do first?",
+      "options": [
+        "Wrap the parser in a try/except, skip any summary that fails to parse, and report the skipped count weekly",
+        "Lower the effort level so that responses come back shorter and fit comfortably inside the existing limit",
+        "Check stop_reason and treat max_tokens as a truncated reply: raise the limit or continue, but never parse it",
+        "Add 'never exceed the length limit' to the system prompt so the model learns to self-truncate neatly"
+      ],
+      "answer": 2,
+      "explanation": "stop_reason tells you why generation ended. max_tokens means the output is incomplete, so it must never be parsed as a finished answer. Handle it explicitly.",
+      "distractors": [
+        "Silently skipping hides data loss: the job reports success while dropping tickets.",
+        "Effort changes reasoning depth, not a guaranteed output length, and doesn't fix the missing stop_reason check.",
+        null,
+        "max_tokens is a hard ceiling the model doesn't see, so a prompt instruction can't make truncation safe."
+      ]
+    },
+    {
+      "id": "M7.1-03",
+      "difficulty": "core",
+      "scenario": "After upgrading the SDK to a new major version, every call from a data team's classifier fails with HTTP 400. The code sets temperature=0 'for determinism'.",
+      "question": "What is the right fix?",
+      "options": [
+        "Pin the SDK back to the previous major version permanently, so the temperature setting keeps working",
+        "Retry the 400 responses with exponential backoff, because the API may simply be under heavy load",
+        "Set temperature to its documented default value, so the request passes the new parameter validation",
+        "Remove the parameter; get consistency from instructions, examples and structured outputs instead"
+      ],
+      "answer": 3,
+      "explanation": "Sampling parameters were removed in the current API version that new SDK majors send. Remove them, and get consistency through prompt and format controls.",
+      "distractors": [
+        "Pinning an old SDK to keep a removed parameter postpones the problem and blocks every other upgrade.",
+        "A 400 is deterministic: the same request fails the same way. Retrying wastes spend.",
+        "The parameters are rejected outright, even at their default values.",
+        null
+      ]
+    },
+    {
+      "id": "M7.1-04",
+      "difficulty": "core",
+      "scenario": "A support bot sends a 9,000-token system prompt (product docs plus style guide) on every request. The first line of that prompt is 'Current time: {now}'. Cache reads in usage are always zero.",
+      "question": "Why isn't caching working, and what's the fix?",
+      "options": [
+        "Caching only applies to batch requests, so the bot should move its traffic onto the Message Batches API",
+        "The timestamp makes every prompt prefix unique; move volatile values to after the cached prefix instead",
+        "The system prompt is too long to cache; split it into several smaller requests that each fit the cache",
+        "Caching only activates with the 1-hour TTL, so set the ttl field to 1h on the system prompt block"
+      ],
+      "answer": 1,
+      "explanation": "The cache keys on the exact prefix. One changing byte early on invalidates everything after it. Put stable content first and volatile content last, then confirm with usage.cache_read_input_tokens.",
+      "distractors": [
+        "Caching works on ordinary synchronous requests; batching is a separate discount.",
+        null,
+        "Long stable prompts are exactly what caching is for. Length isn't the problem.",
+        "The TTL controls lifetime, not activation. With the timestamp in front, nothing would ever be read back."
+      ]
+    },
+    {
+      "id": "M7.1-05",
+      "difficulty": "core",
+      "scenario": "You need to label 600,000 historical support tickets for a quarterly trend report due in two weeks. Nobody waits on any single result.",
+      "question": "Which approach fits best?",
+      "options": [
+        "Submit them through the Message Batches API, keying every request and result by its custom_id",
+        "Send them synchronously in parallel worker threads, as fast as the rate limits will allow",
+        "Paste them into a long chat in the app, 500 at a time, and copy the labels out into a sheet",
+        "Use the OpenAI compatibility layer, because the existing scripts already target that interface"
+      ],
+      "answer": 0,
+      "explanation": "Non-urgent bulk work is what Batches is for: half price and asynchronous. Results arrive in any order, so key them by custom_id.",
+      "distractors": [
+        null,
+        "Synchronous calls pay full price and fight rate limits for work that doesn't need low latency.",
+        "Manual chat batches are slow and error-prone, and the output can't be reproduced or audited.",
+        "The compatibility layer is for testing and comparison, not production workloads, and it lacks features such as caching."
+      ]
+    },
+    {
+      "id": "M7.1-06",
+      "difficulty": "core",
+      "scenario": "A product manager wants to know whether a 1,200-page technical archive will fit a request, and reaches for a popular open-source tokenizer from another vendor to count it.",
+      "question": "What should you recommend?",
+      "options": [
+        "Use the other vendor's tokenizer, since all modern tokenizers agree to within about one percent",
+        "Estimate at four characters per token, which is close enough for a capacity decision like this",
+        "Call the token-counting endpoint for that exact model, since only Claude's tokenizer counts its tokens",
+        "Send the full request anyway and read the error message back if it turns out to be too large"
+      ],
+      "answer": 2,
+      "explanation": "Token counts depend on the model's tokenizer. The count_tokens endpoint gives the real figure before you spend anything.",
+      "distractors": [
+        "Different tokenizers can differ a lot on the same text, so counts don't carry over between vendors.",
+        "A rule of thumb is fine for a first guess, but this is a capacity decision. Use the exact count.",
+        null,
+        "Trial and error costs money and time, and a request that fits can still be close enough to the limit to break later."
+      ]
+    },
+    {
+      "id": "M7.1-07",
+      "difficulty": "core",
+      "scenario": "Legal wants an internal tool that answers questions about 300-page vendor contracts. They insist on checking every answer against the source before relying on it.",
+      "question": "Which API design best supports that?",
+      "options": [
+        "Return answers as structured JSON with a 'confidence' field, and only show those scoring above 0.9",
+        "Raise effort to max on every question, so answers are accurate enough that checking is unnecessary",
+        "Summarise each contract first, then answer from the summary so that every request stays small",
+        "Enable citations on the document block, and show the cited passages with page numbers per answer"
+      ],
+      "answer": 3,
+      "explanation": "Citations make each answer checkable against the exact source passage, which is what the reviewer needs. Self-reported confidence and higher effort don't replace evidence.",
+      "distractors": [
+        "A model's self-reported confidence isn't calibrated evidence, and citations can't be combined with structured output anyway.",
+        "Higher effort can improve answers but never removes the need to verify contract statements.",
+        "Answering from a summary drops detail and removes the link back to the clause, the opposite of what legal asked for.",
+        null
+      ]
+    },
+    {
+      "id": "M7.1-08",
+      "difficulty": "core",
+      "scenario": "An enterprise client requires all AI traffic to run through their cloud provider's account. Your design relies on the Files API and Message Batches.",
+      "question": "What should you do at design time?",
+      "options": [
+        "Assume full parity with the first-party API, since every route serves the same Claude models",
+        "Check that platform's feature-availability table, and plan workarounds for gaps before committing",
+        "Proxy calls from the client's cloud account to the first-party API so that you keep every feature",
+        "Drop the cloud requirement, because first-party features should take priority over client constraints"
+      ],
+      "answer": 1,
+      "explanation": "Cloud routes have documented feature gaps that change over time. Check availability for the exact platform first, and design workarounds (your own queue, inline documents) before you build.",
+      "distractors": [
+        "Same models doesn't mean same features. Several API features are missing on partner-operated routes.",
+        null,
+        "Routing around the client's mandated platform breaks the contractual requirement the route exists to satisfy.",
+        "The client's platform constraint is a requirement. You adapt the design, not the contract."
+      ]
+    },
+    {
+      "id": "M7.1-09",
+      "difficulty": "stretch",
+      "scenario": "A long-running triage assistant needs to switch into 'incident communications mode' partway through a conversation. The team plans to rewrite the top-level system prompt on that turn. The conversation's large prefix is cached.",
+      "question": "What is the better approach, and why?",
+      "options": [
+        "Rewrite the top-level system prompt on that turn, since the cache adapts to small edits automatically",
+        "Start a brand-new conversation with a new system prompt and no history, as earlier turns aren't needed",
+        "Append a mid-conversation system message after the latest user turn; the cached prefix stays intact",
+        "Put the new instruction inside an assistant message, so the model reads it as part of its own plan"
+      ],
+      "answer": 2,
+      "explanation": "Editing the top-level system prompt changes the start of the prefix and invalidates the cache for the whole history. A mid-conversation system message adds operator instructions at the end, keeping the cache. Support varies by model and platform, so check it.",
+      "distractors": [
+        "The cache matches exact prefixes. Any edit to the system prompt invalidates everything after it.",
+        "Discarding history loses the incident context the assistant needs to write accurate communications.",
+        null,
+        "Putting operator instructions in assistant turns blurs who said what, and prefill-style tricks are rejected on current models."
+      ]
+    },
+    {
+      "id": "M7.1-10",
+      "difficulty": "stretch",
+      "scenario": "A request to a current model returns HTTP 200 with stop_reason 'refusal'. The calling service reads content as normal and posts it to a customer-facing channel.",
+      "question": "What should the service do instead?",
+      "options": [
+        "Branch on stop_reason before reading content: log the refusal, then fall back or return a handled message",
+        "Retry the identical request immediately until it succeeds, because refusals are usually transient",
+        "Treat any HTTP 200 as success, because genuine errors always come back with a 4xx or 5xx status",
+        "Increase max_tokens, because refusals happen when the model runs out of room to finish its answer"
+      ],
+      "answer": 0,
+      "explanation": "A refusal comes back with HTTP 200, so status codes alone aren't enough. Check stop_reason first and handle refusal explicitly: log it, use a fallback path, or show a clear message.",
+      "distractors": [
+        null,
+        "Re-sending the same request usually produces the same refusal, and blind retries waste spend.",
+        "Refusals arrive with HTTP 200 by design, so trusting the status code alone posts declined output as an answer.",
+        "Refusals come from safety classifiers, not the token limit. A higher max_tokens changes nothing."
+      ]
+    }
+  ]
+}
