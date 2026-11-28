@@ -69,7 +69,8 @@ a reason for every option, is in [answer-key.md](assessments/answer-key.md).
 ## Live quiz
 
 There are two ways to open it:
-- **Published (private) page:** see CLAUDE.md §8 for the link and the republish procedure.
+- **Published (private) page:** https://claude.ai/artifact/CwauW3j6dCLUZLFozo77hn. Share it from the page's
+  Share menu. CLAUDE.md §8 has the republish procedure.
 - **Offline:** open `assessments/quiz.html` in a browser. It loads `quiz-bank.js` from the same folder.
 
 ## Keep current

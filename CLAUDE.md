@@ -144,7 +144,7 @@ Each level's quiz is published as a private claude.ai artifact:
 | Level | URL | `<level-dir>` |
 |---|---|---|
 | 1 | **https://claude.ai/artifact/KcVBhGjJVcnpYHudRhKvid** | `level-1-foundational` |
-| 2 | **L2_ARTIFACT_URL** | `level-2-practitioner` |
+| 2 | **https://claude.ai/artifact/CwauW3j6dCLUZLFozo77hn** | `level-2-practitioner` |
 
 To update one, never publish without its URL, because that creates a duplicate artifact:
 1. Edit `assessments/bank/*.json` (or `quiz.html`).
