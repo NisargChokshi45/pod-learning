@@ -3,7 +3,8 @@
 **Time:** 90 minutes, timed · **Format:** individual, open notes, real Claude seat (org-approved plan)
 **Mirrors:** the 90-minute practical lab in the Level 2 assessment.
 **Pass line:** **75/100 overall**, *and* no zero in **Task 2 (data handling)** or **Task 6 (verification)**.
-A zero in either one fails the lab, whatever the total. At Practitioner level, nobody checks your work
+A zero in either one fails the lab, whatever the total. So does uploading the raw logs (a zero on Task 2's
+first criterion), even if the rest of Task 2 scores. At Practitioner level, nobody checks your work
 after you. Unverified or leaked output is the failure this level exists to prevent.
 
 > **Trainer setup (before the session).** Build the lab pack below from synthetic data only. Seed every
@@ -145,7 +146,7 @@ non-specialist), the output standards (page and cell references; assumptions log
 | 5 Decision brief and slides | 16 | | |
 | 6 Verification | 18 | | **yes** |
 | 7 Reuse or build | 12 | | |
-| **Total** | **100** | | Pass: ≥75, with no zero in 2 or 6 |
+| **Total** | **100** | | Pass: ≥75, no zero in 2 or 6, raw logs never uploaded |
 
 ---
 

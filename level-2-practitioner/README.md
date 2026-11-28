@@ -56,8 +56,8 @@ The syllabus defines four parts. This pack has a practice version of each one, p
 
 | Real assessment | Practice here | Pass line |
 |---|---|---|
-| Prompt-and-output review against a rubric | [prompt-output-review.md](assessments/prompt-output-review.md): review three prompt+output pairs | 32/40, with no zero on any verification criterion |
-| 90-minute practical lab | [practical-lab.md](assessments/practical-lab.md), "Vendor Switch" | 75/100, with no zero on verification or data handling |
+| Prompt-and-output review against a rubric | [prompt-output-review.md](assessments/prompt-output-review.md): review three prompt+output pairs | 32/40, with at least 2 on R4 (verification) for every pair |
+| 90-minute practical lab | [practical-lab.md](assessments/practical-lab.md), "Vendor Switch" | 75/100, with no zero on verification or data handling; uploading the raw logs fails outright |
 | Graded deliverable with a verification note | [graded-deliverable.md](assessments/graded-deliverable.md): brief, note template and rubric | 16/20, and the verification note is complete |
 | Verification drill at **80%** (up from 70%) | [verification-drill.md](assessments/verification-drill.md) | 16/20 |
 | *(knowledge check)* | [Mock exam](assessments/quiz.html#mock): 25 CORE items + four 5-item elective blocks | 20/25 · 4/5 per block |

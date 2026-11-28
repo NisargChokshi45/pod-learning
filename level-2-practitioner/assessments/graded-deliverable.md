@@ -2,7 +2,8 @@
 
 **Mirrors:** "a graded deliverable with a verification note" in the Level 2 assessment.
 **Time:** take-home, up to one working week. **Pass line:** **16/20**, *and* a complete verification note. An
-incomplete note caps the score at 10.
+incomplete note caps the score at 10. "Complete" means every heading in the template below is filled in, each
+checked row names who checked it, and the note says what was *not* checked.
 
 > **The point.** At Practitioner level the deliverable is real work, made with Claude, shipped under your
 > name. The verification note is how a reviewer, a client or an auditor can trust it without redoing it
@@ -42,12 +43,12 @@ If the real artefact can't leave the client, submit a sanitised copy and say so 
 **Disclosure:** <how AI use was disclosed to the recipient, per policy and contract, or "not required because …">
 
 ### What was checked
-| Item / claim type | Risk | How it was checked | Against what | Result |
-|---|---|---|---|---|
-| All figures in §3 | High | Recomputed in Sheets from the raw export | usage-export.csv (rows 2–5201) | 1 discrepancy fixed (FX) |
-| Vendor SLA claims | High | Opened every cited source | vendor sites, retrieved 2026-11-20 | 2 claims removed (unsourced) |
-| Background prose | Low | 20% sample read against sources | — | No issues |
-| Code | High | Tests run, diff read, dependency licences checked | CI run #482, approved licence list | Pass |
+| Item / claim type | Risk | How it was checked | Against what | Checked by | Result |
+|---|---|---|---|---|---|
+| All figures in §3 | High | Recomputed in Sheets from the raw export | usage-export.csv (rows 2–5201) | <name> | 1 discrepancy fixed (FX) |
+| Vendor SLA claims | High | Opened every cited source | vendor sites, retrieved 2026-11-20 | <name> | 2 claims removed (unsourced) |
+| Background prose | Low | 20% sample read against sources | — | <name> | No issues |
+| Code | High | Tests run, diff read, dependency licences checked | CI run #482, approved licence list | <name> | Pass |
 
 ### What was NOT checked, and why
 - <e.g. "Vendor B roadmap claims: no primary source available; marked as unverified in §4">

@@ -1,7 +1,8 @@
 # Level 2 Prompt-and-Output Review
 
 **Time:** 40 minutes · **Mirrors:** "prompt-and-output review against a rubric" in the Level 2 assessment.
-**Pass line:** **32/40**, *and* a non-zero score on criterion **R4 (verification)** for every pair.
+**Pass line:** **32/40**, *and* at least **2 on criterion R4 (verification)** for every pair, which means every
+high-risk (✱) defect in that pair was found. Missing a ✱ defect caps R4 at 1 for that pair and fails the review.
 
 > **What you're being tested on.** At Practitioner level you judge Claude's work, not just produce it. For
 > each pair below, score the **prompt** and the **output** against the rubric. Name every defect with a
@@ -76,6 +77,9 @@ points for the policy call. Total = 13 + 13 + 14 = **40**.
 ---
 
 ## Trainer key — don't distribute
+
+**Scoring R4 from the defect lists below:** 0 = none found · 1 = some found, or any ✱ missed · 2 = the
+threshold stated for the pair, with every ✱ found · 3 = every defect found, plus a proportional fix plan.
 
 **Pair 1. Defects to find (R4 needs ≥4 of 6, including both ✱):**
 1. ✱ ¶6 **invented claims**: "Type II", "ISO 27001:2022", "GDPR and HIPAA compliant". The prompt says only
