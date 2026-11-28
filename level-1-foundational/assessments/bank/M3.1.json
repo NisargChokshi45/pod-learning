@@ -5,21 +5,21 @@
     {
       "id": "M3.1-01",
       "difficulty": "core",
-      "scenario": "You ask Claude to summarise a 40-message migration thread into a paragraph plus an action table. The table lists 'Owner: Ravi, Due: Friday' for a DNS cutover. You don't remember Ravi agreeing to anything.",
-      "question": "What is the most likely explanation and the right next step?",
+      "scenario": "You ask Claude to summarise a 40-message migration thread into a paragraph plus an action table. The table lists 'Owner: Ravi, Due: Friday' for the DNS cutover. You don't remember Ravi agreeing to anything.",
+      "question": "What is the most likely explanation, and the right next step?",
       "options": [
-        "Claude must have seen a message you missed — post the table as is",
-        "The table format invited the model to fill empty Owner/Due cells with plausible values; check the source message and mark it UNASSIGNED / NO DATE if nobody committed",
-        "Ravi is the most senior engineer, so the assignment is reasonable — keep it",
-        "Re-run the same prompt until the owner changes, then pick the most common answer"
+        "Claude likely caught a message you skimmed past; post the table exactly as written",
+        "The Owner/Due columns invited a guess; find the source message or mark it UNASSIGNED",
+        "Ravi owns DNS on this team, so the inference is sound; keep that row and post the table",
+        "Regenerate the summary twice more and keep whichever owner appears most often"
       ],
       "answer": 1,
-      "explanation": "Hallucinated owners and dates are a known summarisation failure: structured formats pressure the model to fill every cell. Require a source citation per action and verify against the thread.",
+      "explanation": "A table format with Owner and Due columns pressures the model to fill every cell, so invented owners and dates are a known summarisation failure. Ask for a source citation per action and an explicit UNASSIGNED / NO DATE when nobody committed, then check against the thread.",
       "distractors": [
-        "Possible, but unverified. Posting an unchecked attribution assigns work to someone who never agreed.",
+        "Possible, but unverified. Posting it assigns work to someone who may never have agreed to it.",
         null,
-        "Plausibility isn't agreement. Inferring owners is exactly the error to avoid.",
-        "Re-sampling measures consistency, not truth. The source thread is the only authority."
+        "Owning an area is not agreeing to a task. Inferring owners is exactly the error to avoid.",
+        "Re-sampling measures consistency, not truth. Only the thread can settle who agreed."
       ]
     },
     {
@@ -28,38 +28,38 @@
       "scenario": "During a SEV-2 checkout outage you need a public status-page update and an exec update. You have confirmed impact, start time and current mitigation, but no root cause yet.",
       "question": "How should you use Claude?",
       "options": [
-        "Ask Claude to write one update that works for everyone, including a likely root cause to reassure customers",
-        "Give Claude only confirmed facts and ask for two registers: customer-facing (impact, mitigation, next update time, no speculation) and exec (impact, ETA confidence, decision needed)",
-        "Paste the full internal incident channel so Claude can decide what's public",
-        "Wait until the root cause is known before using Claude for any communication"
+        "One update for both audiences, adding the likely root cause so customers feel reassured early",
+        "Confirmed facts only; two drafts: customer (impact, next update) and exec (risk, decision)",
+        "Paste the whole incident channel and let Claude decide which details are safe to publish",
+        "Hold all communication until the root cause is confirmed, then draft both updates at once"
       ],
       "answer": 1,
-      "explanation": "Same facts, different readers: register is chosen deliberately. Confirmed facts only — public speculation about root cause has to be retracted later.",
+      "explanation": "Same facts, different readers: pick the register on purpose. Supply only confirmed facts. A speculative root cause on a public page is a commitment you may have to retract.",
       "distractors": [
-        "One-size-fits-all fails both readers, and a speculative root cause on a public page is a commitment you can't back.",
+        "One register fails both readers, and public root-cause speculation is a claim you can't yet back.",
         null,
-        "Over-sharing internal context (names, speculation, possibly customer data) and delegating the public/private judgment to the model.",
-        "Stakeholder updates are needed during the incident; Claude speeds them up as long as you supply only verified facts."
+        "Over-shares internal context (names, speculation, maybe customer data) and hands the public/private judgement to the model.",
+        "Stakeholders need updates during the incident. Silence until root cause is a communication failure."
       ]
     },
     {
       "id": "M3.1-03",
       "difficulty": "core",
-      "scenario": "Your weekly client status email, drafted by Claude from stand-up notes, contains: 'The reporting export will ship next sprint.' Internally this was only a stretch goal.",
-      "question": "Which part of sending discipline catches this?",
+      "scenario": "You have a 30-page project report and 20 minutes to present its outcome to a steering committee next week.",
+      "question": "What is the best first request to Claude?",
       "options": [
-        "Checking the email's tone",
-        "Checking every commitment — anything that reads as a promise must have been agreed by someone with authority",
-        "Running a spell check",
-        "Checking the subject line is under 60 characters"
+        "'Turn this report into a 10-slide deck', then rework whichever slides look the weakest",
+        "'Write the story in six sentences: situation, problem, result, ask', then outline slides",
+        "'Give me one slide per report section', so the deck mirrors the document faithfully",
+        "'Pick a professional template and fill it from the report', then rehearse with speaker notes"
       ],
       "answer": 1,
-      "explanation": "Read before send means checking every name, number and commitment. Drafting models turn tentative internal language into confident statements.",
+      "explanation": "Narrative before slides: agree the storyline first, then cut it into a deck outline (one takeaway per slide title, speaker notes carrying detail). The slide tool only renders structure; it doesn't create it.",
       "distractors": [
-        "Tone can be perfect while the content makes an unauthorised promise.",
+        "Generating slides first locks in a structure nobody chose; you end up polishing slides with no argument.",
         null,
-        "Spelling is correct here; the problem is meaning, not orthography.",
-        "Formatting rules don't catch content errors."
+        "A report's section order serves a reader, not a 20-minute audience that needs the outcome and the ask.",
+        "Templates fix appearance, not narrative. The committee needs a storyline and a clear ask."
       ]
     },
     {
@@ -68,138 +68,138 @@
       "scenario": "You need a 12-page runbook for a new service. A colleague suggests asking Claude to 'write the full runbook' in one prompt to save time.",
       "question": "Which approach produces the most reliable document?",
       "options": [
-        "One prompt for the whole runbook, then a single read-through",
-        "Outline first (sections with purpose and reader takeaway), approve it, generate section by section, then run a consistency and glossary pass",
-        "Ask Claude to write it three times and merge the best paragraphs",
-        "Write it yourself — Claude can't handle long documents"
+        "One prompt for the full runbook, then a careful single read-through before publishing",
+        "Approve an outline, draft section by section, then run a consistency and glossary pass",
+        "Generate three complete drafts in separate chats and merge the strongest paragraphs",
+        "Write the runbook by hand, since Claude loses track of anything longer than a page"
       ],
       "answer": 1,
-      "explanation": "Outline-first fixes the argument cheaply, section-level generation limits drift, and consistency/glossary passes catch contradictions in terms and numbers.",
+      "explanation": "Outline-first fixes the argument cheaply, section-level drafting limits drift, and a consistency/glossary pass catches contradictions in terms and numbers.",
       "distractors": [
-        "Long one-shot output drifts and is hard to review thoroughly.",
+        "Long one-shot output drifts and is hard to review thoroughly in one pass.",
         null,
-        "Merging three drafts multiplies inconsistency rather than removing it.",
+        "Three independent drafts multiply inconsistency in terms and numbers rather than removing it.",
         "Over-correction: long documents work well with the structured approach."
       ]
     },
     {
       "id": "M3.1-05",
       "difficulty": "core",
-      "scenario": "An approved design doc must go to the CTO and to the team implementing it.",
-      "question": "What's the best way to adapt it?",
+      "scenario": "Claude's drafts of your weekly engineering updates are fine but don't sound like you; teammates can tell. You have a year of your own updates in a folder.",
+      "question": "What is the most effective fix?",
       "options": [
-        "Send the same doc to both and ask Claude to make it 'more professional'",
-        "Create an exec version leading with decision, cost, risk and timeline, and an engineering version with interfaces, migration and rollback — same facts, different reader",
-        "Shorten the doc by 50% and send that to both",
-        "Translate the technical terms into simpler words for both audiences"
+        "Add 'write exactly like me, casual but precise' to the top of every request",
+        "Build a custom Style from three of your own updates and apply it to these drafts",
+        "Paste a different old update into each chat and ask Claude to copy its wording",
+        "Upload the whole year of updates into every chat so Claude can learn your voice from them"
       ],
       "answer": 1,
-      "explanation": "Rewriting for a defined reader beats generic 'improve it' requests. Register is a choice: execs need the decision first; engineers need the detail.",
+      "explanation": "A custom Style built from samples of the same genre conditions every draft on your patterns without re-explaining each time. A few representative samples beat adjectives or bulk uploads.",
       "distractors": [
-        "'More professional' is vague and doesn't serve either reader's needs.",
+        "Adjectives like 'casual but precise' are vague; samples show the model what you mean.",
         null,
-        "Uniform cutting removes what each audience needs.",
-        "Engineers need the precise terms; simplifying them for the implementers loses information."
+        "Copying one sample invites reused phrasing and drifts between chats; a Style is consistent and reusable.",
+        "Bulk uploads waste context and share far more than the task needs; a few good samples suffice."
       ]
     },
     {
       "id": "M3.1-06",
       "difficulty": "core",
-      "scenario": "A draft proposal has good sentences but the argument is in the wrong order and a cost section is missing. A teammate has started line-editing it with Claude.",
+      "scenario": "A draft proposal has good sentences, but the argument is in the wrong order and the cost section is missing. A teammate has started line-editing it with Claude.",
       "question": "What should happen first?",
       "options": [
-        "Continue line edits, then fix structure at the end",
-        "Ask Claude for a structural critique without rewriting — order, gaps, what to cut — fix structure, then line-edit",
-        "Run a grammar check, then send",
-        "Ask Claude to rewrite the whole proposal from scratch"
+        "Finish the line edits so the prose is clean, then sort out structure",
+        "Ask for a structural critique without rewriting, fix it, then line-edit",
+        "Have Claude add a cost section at the end and keep the current order",
+        "Ask Claude to rewrite the entire proposal from scratch in a fresh chat"
       ],
       "answer": 1,
-      "explanation": "Structural edits come before line edits; polishing paragraphs that will be moved or deleted wastes effort.",
+      "explanation": "Structural edits come before line edits. Polishing paragraphs that will be moved or cut wastes effort, and a critique-without-rewrite keeps the author's material and intent.",
       "distractors": [
-        "Polished sentences may be cut when the structure changes — wasted work.",
+        "Polished sentences get cut or moved when the structure changes, so the work is wasted.",
         null,
-        "Grammar isn't the problem; the argument and the missing section are.",
-        "A from-scratch rewrite discards the good material and the author's intent without diagnosing the problem."
+        "Patches the gap but leaves the argument in the wrong order, which was the main problem.",
+        "Discards the good material and the author's intent without diagnosing what was wrong."
       ]
     },
     {
       "id": "M3.1-07",
       "difficulty": "core",
-      "scenario": "Your team writes many client emails and wants them to sound consistent: same product names, sign-off, banned phrases and glossary.",
-      "question": "What's the most durable way to achieve this with Claude?",
+      "scenario": "Your six-person delivery team writes client emails daily and keeps getting product names, sign-offs and banned phrases inconsistent.",
+      "question": "What is the most durable way to get consistency with Claude?",
       "options": [
-        "Each person types the rules into every chat when they remember",
-        "Put the team voice guide and glossary in a shared Project's instructions so every chat there starts with them",
-        "Ask Claude to remember the rules in one chat",
-        "Write one perfect email and have everyone copy it"
+        "Each person pastes the house rules into a chat whenever they remember to",
+        "Put the voice guide and glossary in a shared Project's instructions",
+        "Ask Claude in one chat to remember the house rules for everyone",
+        "Circulate one approved email that everyone uses as a fixed template"
       ],
       "answer": 1,
-      "explanation": "Persistent instructions apply to every turn without anyone remembering to add them; in-context conditioning on house rules gives consistency.",
+      "explanation": "Project instructions apply to every chat in the Project without anyone remembering to add them, so the whole team drafts from the same rules.",
       "distractors": [
-        "Relying on memory means rules get forgotten or applied inconsistently.",
+        "Relying on memory means the rules are forgotten or applied inconsistently.",
         null,
-        "One chat's context doesn't carry to the team's other chats.",
-        "A template covers one case; a voice guide generalises."
+        "One chat's context doesn't carry to teammates' chats.",
+        "A single template covers one situation; a voice guide generalises across emails."
       ]
     },
     {
       "id": "M3.1-08",
       "difficulty": "core",
-      "scenario": "You ask Claude to summarise a private incident-review DM thread (it names a customer and an engineer's mistake) and post it in a public #engineering channel.",
+      "scenario": "You ask Claude to summarise a private incident-review DM thread, which names a customer and an engineer's mistake, and post the summary in the public #engineering channel.",
       "question": "What is the main problem?",
       "options": [
-        "Summaries are usually too long for Slack",
-        "Posting a private conversation's summary in a public channel is a disclosure — check the audience before anything is posted",
-        "Claude can't summarise DMs",
-        "The summary should have used bullet points"
+        "The summary will be too long to read comfortably in a busy channel",
+        "Posting it publicly discloses private content to the whole channel",
+        "The summary will lose nuance, so it should go in a thread reply",
+        "Claude should post it from a bot account rather than under your name"
       ],
       "answer": 1,
-      "explanation": "Visibility and etiquette: assume everyone in the channel sees what's posted. Privacy rules from M8.1 apply to summaries as much as to originals.",
+      "explanation": "Visibility and etiquette: assume everyone in the channel sees what's posted. M8.1's rules apply to a summary just as they apply to the original.",
       "distractors": [
         "Length is a style issue; the audience mismatch is the real problem.",
         null,
-        "Capability isn't the issue; whether you should is.",
-        "Formatting doesn't fix a disclosure."
+        "A thread reply is still visible to the whole channel; it doesn't fix the disclosure.",
+        "Changing the poster doesn't change who can read it; the content is the problem."
       ]
     },
     {
       "id": "M3.1-09",
       "difficulty": "stretch",
-      "scenario": "Claude produces release notes from 60 commits. They read beautifully. Your reviewer approves them after a quick skim, and the notes describe an internal refactor as a new user-facing feature.",
+      "scenario": "Claude produces release notes from 60 commits. They read beautifully. Your reviewer approves after a skim, and the notes describe an internal refactor as a new user-facing feature.",
       "question": "Which practice would most reliably have prevented this?",
       "options": [
-        "Asking for more polished wording",
-        "Requiring a commit hash citation for every line and verifying user-facing and breaking items against the diff, as a separate pass from reading for flow",
-        "Using a larger model",
-        "Having the reviewer read the notes twice"
+        "A second reviewer reading the finished notes end to end for clarity",
+        "A commit hash per line, checked against the diff in a separate pass",
+        "Asking Claude to double-check its own notes before handing them over",
+        "Generating the notes at a higher effort level with a stronger model"
       ],
       "answer": 1,
-      "explanation": "Fluent ≠ correct: polished text lowers vigilance. Traceability (citations) plus a deliberate verification pass catches mis-categorised changes.",
+      "explanation": "Fluent isn't correct, and polished text lowers vigilance. Traceability (a citation per line) plus a deliberate verification pass, separate from reading for flow, catches mis-categorised changes.",
       "distractors": [
-        "Polish is what lulled the reviewer; more of it makes the problem worse.",
+        "Another read for flow repeats the same blind spot; verification needs a different method.",
         null,
-        "Better models reduce errors but don't remove the need to verify.",
-        "Re-reading for flow repeats the same blind spot; verification needs a different method."
+        "Self-review by the same model isn't independent; it tends to confirm its own framing.",
+        "More capability reduces errors but doesn't remove the need to verify against the source."
       ]
     },
     {
       "id": "M3.1-10",
       "difficulty": "stretch",
       "scenario": "You correspond in English with a Japanese client about a contract change. You draft in English and want to send in Japanese.",
-      "question": "What's the safest workflow?",
+      "question": "What is the safest workflow?",
       "options": [
-        "Ask Claude for a Japanese version and send it directly — modern translation is accurate",
-        "Ask for the Japanese version in the right business register plus a back-translation to English, check meaning, and have a fluent colleague review anything with contractual weight",
-        "Send in English only; never use translation for clients",
-        "Send both the Japanese and the English versions without review so the client can compare"
+        "Ask Claude for a polite Japanese version and send it, since its translation is reliable",
+        "Get the Japanese and a back-translation, check meaning, have a fluent colleague review",
+        "Send the English only and let the client run it through their own translation tools",
+        "Send the Japanese and English side by side, unreviewed, so the client can compare them"
       ],
       "answer": 1,
-      "explanation": "Multi-language drafting is a strength, but contractual and commercial terms need human verification. A back-translation exposes meaning drift you can check yourself.",
+      "explanation": "Multi-language drafting is a strength, but contractual terms need human verification. A back-translation exposes meaning drift you can check yourself; a fluent reviewer covers register and legal wording.",
       "distractors": [
         "Register, honorifics and legal terms are exactly where unchecked translation fails.",
         null,
-        "Over-correction: translation is valuable with the right checks.",
-        "Sending unreviewed text in two languages creates two unverified versions that may disagree."
+        "Pushes the risk onto the client's tools, which you can't check either.",
+        "Two unreviewed versions may disagree, and you've created two documents with contractual weight."
       ]
     }
   ]

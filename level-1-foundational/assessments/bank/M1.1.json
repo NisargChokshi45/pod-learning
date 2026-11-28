@@ -8,18 +8,18 @@
       "scenario": "A teammate needs to rename a widely used function across a 300-file TypeScript monorepo and update its tests. They plan to paste the relevant files into a chat conversation in batches.",
       "question": "What's the best routing advice?",
       "options": [
-        "Use Claude Code in the repository on a branch, so it can find every call site, edit files and run the tests",
-        "Paste the files in batches but number them so Claude keeps track",
-        "Upload the whole repo as a zip to a Project and ask for the edited files back",
-        "Use the Excel add-in to list call sites in a spreadsheet first"
+        "Run Claude Code in the repository on a branch, so it finds every call site and runs the tests",
+        "Paste the files in numbered batches into one chat so Claude can track every call site across them",
+        "Upload the repository to a Project as knowledge files and ask Claude to return each edited file",
+        "Ask Claude in chat for a codemod script, run it locally, then paste any failing tests back into chat"
       ],
       "answer": 0,
-      "explanation": "Code in a repository → Claude Code. It reads the repo itself, makes real diffs and can run the tests to verify the change; chat has partial context and can't execute anything.",
+      "explanation": "Code in a repository → Claude Code. It reads the repo itself, produces real diffs on a branch and runs the tests to verify the change; chat and Projects see only what you gave them and execute nothing.",
       "distractors": [
         null,
-        "Numbering doesn't fix partial context, inability to run tests, or copy-paste drift between batches.",
-        "A Project gives read access to files but still can't run tests, and pasting edited files back reintroduces drift.",
-        "Spreadsheet add-ins are for working inside Office files, not for code refactors."
+        "Numbering doesn't fix partial context: call sites outside the pasted batches are missed, nothing is executed, and edits drift between round trips.",
+        "Project knowledge is read-only context. Claude still can't run the tests, and copying edited files back reintroduces drift.",
+        "Workable but indirect: a script written blind to the repo misses edge cases, and you become the test runner. Claude Code does this loop itself."
       ]
     },
     {
@@ -28,18 +28,18 @@
       "scenario": "You've used plain chat for months. Today you start an agentic session with access to your local project folder and your email connector, and ask it to 'tidy up the release notes and let the team know'.",
       "question": "How should your review change compared to plain chat?",
       "options": [
-        "It shouldn't. Read the final summary message as usual",
-        "Review the actions: which files it changed and what it sent, ideally before the actions happen",
-        "Only review if the final message mentions an error",
-        "Switch to a more capable model so review becomes unnecessary"
+        "Read the final summary carefully, since in both modes it is the record of the work",
+        "Review the actions taken: files changed and messages sent, ideally before they happen",
+        "Review only the release-notes file, since the email is just a short notification",
+        "Spot-check the session afterwards, since the connectors already enforce permissions"
       ],
       "answer": 1,
-      "explanation": "In chat you check an answer; in an agentic session you check actions. A summary can look fine while a file was overwritten or an email went to the wrong list.",
+      "explanation": "In chat you check an answer; in an agentic session you check actions. A summary can read fine while a file was overwritten or an email went to the wrong list.",
       "distractors": [
         "The summary is Claude's account of what it did, not evidence of what it did.",
         null,
-        "Failures in actions often produce confident, error-free summaries.",
-        "Model capability reduces errors; it doesn't remove your accountability for actions taken on your behalf."
+        "A sent message can't be unsent; the outbound action is the highest-risk part, not the lowest.",
+        "Connector permissions limit what is possible, not whether each action was the right one. After-the-fact checks can't undo a sent email."
       ]
     },
     {
@@ -48,18 +48,18 @@
       "scenario": "A colleague shares a screenshot of a feature in their Claude sidebar and says 'you have it too, just use it'. You can't find it.",
       "question": "What's the right way to establish whether your seat has the feature?",
       "options": [
-        "Assume you have it and ask an admin why it's hidden",
-        "Log into the colleague's account to use it",
-        "Check your own settings and the official docs for your plan; the screenshot may be from a different plan, seat, rollout or release",
-        "Install a browser extension that unlocks hidden features"
+        "Ask the colleague which plan they're on, since the same plan means the same features",
+        "Raise a ticket with your admin saying the feature is missing from your seat",
+        "Check your own settings and the official docs for your plan and seat type",
+        "Search the release notes for the feature; if it's announced, your seat has it"
       ],
       "answer": 2,
-      "explanation": "Entitlements vary by plan, seat type, admin settings, rollout cohort and release. Your own settings plus official docs are the evidence.",
+      "explanation": "Entitlements vary by plan, seat type, admin settings, rollout cohort, region and release. Your own settings plus the official docs for your plan are the evidence.",
       "distractors": [
-        "Starting from an assumption wastes admin time; verify first.",
-        "Using someone else's account breaks identity, audit and policy.",
+        "Same plan isn't enough: seat type (Standard vs Premium), admin toggles and gradual rollouts all differ.",
+        "Starting from the assumption it's missing wastes admin time; it may simply not be part of your seat. Verify first.",
         null,
-        "Unofficial tooling is a security risk and doesn't change entitlements."
+        "An announcement says the feature exists, not that your plan, seat and rollout cohort include it."
       ]
     },
     {
@@ -68,17 +68,17 @@
       "scenario": "Your manager wants an updated pricing scenario inside an existing Excel workbook that has linked formulas across five sheets.",
       "question": "Which surface fits best?",
       "options": [
-        "Export to CSV, paste into chat, then paste results back",
-        "Claude Code, editing the .xlsx file as binary",
-        "A Project with the workbook uploaded, asking for a new version to download",
-        "The Excel add-in, working inside the workbook so formulas and references stay live"
+        "Export each sheet to CSV, paste them into chat, and paste the results back",
+        "Claude Code, pointed at the folder that holds the .xlsx file",
+        "A Project with the workbook uploaded, then download the regenerated file",
+        "The Excel add-in, working inside the live workbook and its formulas"
       ],
       "answer": 3,
-      "explanation": "Work inside an Office or Google file → the add-in or connector for that app. It operates on the live workbook rather than a disconnected copy.",
+      "explanation": "Work inside an Office or Google file → the add-in or connector for that app. It operates on the live workbook, so formulas and cross-sheet references stay intact.",
       "distractors": [
-        "CSV loses formulas and cross-sheet links; pasting back creates stale, broken copies.",
-        "Claude Code is for repositories; editing a workbook outside Excel bypasses its formula engine.",
-        "Downloading a regenerated copy breaks continuity with the shared original and its links.",
+        "CSV drops formulas and cross-sheet links; pasting values back creates a stale, broken copy.",
+        "Claude Code is for repositories; editing the workbook outside Excel bypasses its formula engine and the shared original.",
+        "A regenerated download breaks continuity with the shared original and its links.",
         null
       ]
     },
@@ -88,17 +88,17 @@
       "scenario": "Every Friday you collect Jira progress and calendar milestones into the same status format for leadership, retyping roughly the same prompt each week.",
       "question": "What's the better long-term approach?",
       "options": [
-        "Keep a text file of the prompt and paste it each Friday",
-        "Package it as a reusable Skill and run it as a scheduled task, with the output reviewed before sending",
-        "Ask a teammate to do it on alternate weeks",
-        "Build a custom product feature on the API for leadership"
+        "Save the prompt in Project instructions and paste the week's Jira export into a new chat each Friday",
+        "Package it as a Skill and run it as a scheduled task, reviewing the output before it's sent",
+        "Keep one long chat for the report so Claude remembers the format from previous weeks",
+        "Ask the platform team to build an internal API integration that generates the report"
       ],
       "answer": 1,
-      "explanation": "Repeatable or scheduled work → Skills and scheduled tasks. Consistent output, less manual effort, and a review step keeps you accountable.",
+      "explanation": "Repeatable or scheduled work → Skills and scheduled tasks. The procedure is consistent, the gathering is automatic, and the review step keeps you accountable.",
       "distractors": [
-        "Works, but stays manual and drifts as the prompt gets edited ad hoc.",
+        "Better than retyping, but still manual each week, and an exported paste skips the connectors that could fetch current data.",
         null,
-        "Shares the toil but doesn't remove it or improve consistency.",
+        "One ever-growing chat accumulates stale context and cost; consistency should come from a packaged procedure, not chat history.",
         "The API is for product features; an internal weekly report doesn't need custom engineering."
       ]
     },
@@ -108,18 +108,18 @@
       "scenario": "Your product team wants to add 'summarise this ticket' as a feature for customers inside your SaaS application.",
       "question": "Which surface is appropriate?",
       "options": [
-        "The API (Developer Platform), integrated into the product with its own security and data-flow review",
-        "Each support agent uses their own Claude app account and pastes summaries in",
-        "Claude in Chrome, clicking through the app for each customer",
-        "A shared Project that customers are invited into"
+        "The API, integrated into the product with its own security and data-flow review",
+        "Support agents use their company Claude seats and paste each summary into the ticket",
+        "A scheduled task that summarises new tickets nightly and posts them to the ticket system",
+        "A shared Team Project holding the ticket export, which support agents query on request"
       ],
       "answer": 0,
       "explanation": "A product feature → the API. It needs programmatic integration, controlled data flow and reliability that end-user app surfaces don't provide.",
       "distractors": [
         null,
-        "Manual, unscalable, and pushes customer data through individual seats.",
-        "Browser automation is for UI tasks without an API, not a product feature.",
-        "Projects are internal collaboration spaces, not a customer-facing product."
+        "Manual and unscalable, and customer data flows through individual seats rather than a reviewed product path.",
+        "A personal or team automation is not a product feature: customers can't trigger it, and it has no product SLA or review.",
+        "Projects are internal collaboration spaces; customers never touch them, and an export goes stale immediately."
       ]
     },
     {
@@ -128,18 +128,18 @@
       "scenario": "You're working late on a client deliverable and your company seat has hit its usage limit. Your personal Pro account still has headroom.",
       "question": "What should you do?",
       "options": [
-        "Switch to the personal account just for tonight",
-        "Use the personal account but enable incognito",
-        "Paste the client material into a free consumer account instead",
-        "Stay on approved routes: wait for the window to reset, use approved usage options, or continue without Claude; never move client work to a personal account"
+        "Use the personal account with model training turned off in its privacy settings",
+        "Use the personal account in an incognito chat so nothing is saved to history",
+        "Stay on approved routes: wait for the reset, use approved options, or work without Claude",
+        "Use the personal account but paste only the parts of the deliverable you've redacted"
       ],
-      "answer": 3,
-      "explanation": "Personal accounts sit outside the organisation's contract, controls and audit. A usage limit is a planning problem, not a reason to bypass governance.",
+      "answer": 2,
+      "explanation": "A personal account sits outside the organisation's contract, admin controls and audit. A usage limit is a planning problem, not a reason to move client work out of governance.",
       "distractors": [
-        "'Just tonight' is still client data leaving organisational governance.",
+        "Training settings are one dimension; the contract, retention controls and audit trail still don't apply.",
         "Incognito changes history and memory, not contractual coverage.",
-        "Worse still: a consumer account with no organisational controls.",
-        null
+        null,
+        "Redaction reduces what leaks but doesn't make an ungoverned account an approved route for client work."
       ]
     },
     {
@@ -148,38 +148,38 @@
       "scenario": "You need to know whether a model your team scripted against is being retired, and what limits apply to API file uploads.",
       "question": "Where do you look first?",
       "options": [
-        "A popular community forum thread from last year",
-        "The official docs (platform.claude.com/docs for the API, including the deprecations page) and the release notes",
-        "Ask Claude in chat, since it knows its own limits",
-        "A colleague's recollection from a conference talk"
+        "support.claude.com, since the help centre documents limits for every surface",
+        "platform.claude.com/docs, including the model deprecations page, and the release notes",
+        "Ask Claude in a chat with web search off, since it knows its own model line-up",
+        "The internal champions channel, since someone has probably asked this already"
       ],
       "answer": 1,
-      "explanation": "Volatile facts (retirements, limits) live in the official documentation and release notes for the relevant surface. Everything else may be stale.",
+      "explanation": "Volatile API facts (retirements, request limits) live in the API documentation and release notes. Help-centre and app limits differ by surface.",
       "distractors": [
-        "Old community threads go stale as products change monthly.",
+        "support.claude.com covers the apps; API limits differ (e.g. PDF page limits) and live in the platform docs.",
         null,
         "The model's training cut-off predates recent changes; product facts need the docs.",
-        "Second-hand recollection is not authoritative and may refer to a different surface."
+        "The champions channel is for how your org configured things, not an authoritative source for vendor limits."
       ]
     },
     {
       "id": "M1.1-09",
       "difficulty": "stretch",
-      "scenario": "A new engineer asks why Claude seemed 'much smarter' fixing a bug in Claude Code than in chat, even though both use the same model.",
+      "scenario": "A new engineer asks why Claude seemed 'much smarter' fixing a bug in Claude Code than in chat, even though both used the same model.",
       "question": "What's the most accurate explanation?",
       "options": [
-        "Claude Code uses a secret, stronger model",
-        "Chat responses are deliberately limited to save cost",
-        "The harness differs: Claude Code can read the repository, run tests and observe results, so it can gather context and verify its own fixes",
-        "Claude Code has no context window limit"
+        "Claude Code sets a higher effort level by default, so it reasons more on each fix",
+        "Claude Code loads the whole repository into context, so nothing is missing",
+        "The harness differs: Claude Code can read the repo, run tests and check results",
+        "Claude Code adds a coding-specific system prompt that chat doesn't use"
       ],
       "answer": 2,
-      "explanation": "Capability comes from the harness around the model: tools to observe and verify. The same model with file access and a test runner performs far better on code.",
+      "explanation": "Capability comes from the harness around the model: tools to gather context and verify. The same model with file access and a test runner performs far better on code.",
       "distractors": [
-        "The difference is tools and context, not a hidden model.",
-        "Chat isn't throttled for quality; it simply lacks the repository and execution tools.",
+        "Effort can matter, but it can't supply files Claude never saw or test results it never ran.",
+        "Claude Code searches and reads relevant files agentically; large repos don't fit in context and aren't loaded whole.",
         null,
-        "Every surface has a context window; Claude Code manages it, it doesn't remove it."
+        "Framing helps a little; the decisive difference is the ability to observe the repo and verify its own fix."
       ]
     },
     {
@@ -188,18 +188,18 @@
       "scenario": "A tech lead is designing how the team uses Claude. Juniors will draft design docs; seniors will run multi-step automated jobs over connectors overnight.",
       "question": "Which statement best reflects the four modes of use?",
       "options": [
-        "Every engineer should start in Mode 4 to learn fastest",
-        "Moving from chatbot to agentic tool increases autonomy, so the review shifts from checking answers to designing guardrails up front and auditing actions after",
-        "Modes only differ in which model is selected",
-        "Mode 2 and Mode 4 are the same because both produce documents"
+        "Both groups need the same review, since every mode ends with an output a person reads",
+        "Moving towards agentic use, review shifts from checking answers to guardrails and auditing",
+        "The overnight jobs are Mode 3, so the seniors should approve each step as it runs",
+        "Modes map to plans: drafting needs a standard seat, and agentic jobs need a premium seat"
       ],
       "answer": 1,
-      "explanation": "Chatbot → productivity assistant → engineering partner → agentic tool: each step grants more autonomy and demands more up-front guardrails and after-the-fact auditing.",
+      "explanation": "Chatbot → productivity assistant → engineering partner → agentic tool: each step grants more autonomy, so review moves from checking answers to designing guardrails up front and auditing actions after.",
       "distractors": [
-        "Starting with the highest autonomy and the least review experience maximises risk.",
+        "Unattended agentic jobs act before anyone reads anything; the review model has to change.",
         null,
-        "Modes are about autonomy and where Claude acts, not model choice.",
-        "Mode 2 produces artefacts you edit; Mode 4 runs multi-step work, sometimes unattended. The risk profiles differ."
+        "Unattended multi-step jobs are Mode 4. Mode 3 is a supervised partner in a bounded workspace; nobody approves steps overnight.",
+        "Modes describe autonomy and where Claude acts, not seat types."
       ]
     }
   ]

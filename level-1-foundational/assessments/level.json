@@ -1,0 +1,6 @@
+{
+  "level": 1,
+  "title": "Level 1 Foundational",
+  "order": ["M1.1", "M8.1", "M1.2", "M2.1", "M3.1", "M4.1", "M6.1"],
+  "mockCore": 25
+}

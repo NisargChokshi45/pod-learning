@@ -8,18 +8,18 @@
       "scenario": "You need to fix a bug that spans a 400-file service. A teammate suggests copying the 'relevant' files into a chat window and asking Claude there.",
       "question": "Why is Claude Code the better surface for this task?",
       "options": [
-        "Chat models are less intelligent than the model Claude Code uses",
-        "Claude Code searches the live repo for what it needs, edits files in place as reviewable diffs, and can run the tests to verify its fix",
-        "Claude Code doesn't count against usage limits, so it's cheaper",
-        "Chat can't read code files at all"
+        "Chat runs a weaker model than Claude Code, so its code answers are worse",
+        "It searches the live repo, edits files in place and runs the tests itself",
+        "Claude Code doesn't count against usage limits, so long tasks cost less",
+        "Chat can't read source files at all, so the paste would simply be rejected"
       ],
       "answer": 1,
       "explanation": "Repository work needs the real file state, targeted search and a verification loop. Pasting is partial, stale, and leaves verification to you.",
       "distractors": [
-        "The same model families are available in both; the difference is access to the repo, not intelligence.",
+        "The same model families are available in both; the difference is access to the repo and the ability to act.",
         null,
         "Claude Code on a subscription counts against the same plan limits.",
-        "Chat accepts pasted code and file uploads; the problem is partial context and no ability to act or test."
+        "Chat accepts pasted code and uploads; the problem is partial, stale context and no way to run anything."
       ]
     },
     {
@@ -28,10 +28,10 @@
       "scenario": "It's your first Claude Code session in a repository you've never seen. You have a ticket to change how discounts are calculated.",
       "question": "What should your first prompts be?",
       "options": [
-        "\"Implement the discount change from the ticket\" — then review whatever it produces",
-        "\"Read every file in the repo first so you have full context\"",
-        "Questions only: what the service does, where discounts are calculated, how tests run — then ask for a plan before any change",
-        "Switch to bypassPermissions so the exploration isn't interrupted"
+        "'Implement the discount change from the ticket', then review whatever it produces",
+        "'Read every file in the repo first so you have full context before we start'",
+        "Questions only: what it does, where discounts live, how tests run; then a plan",
+        "Switch to bypassPermissions so exploring the repo isn't interrupted by prompts"
       ],
       "answer": 2,
       "explanation": "Questions before changes build context and let you judge Claude's understanding at zero risk; a plan before edits lets you correct the approach cheaply.",
@@ -48,18 +48,18 @@
       "scenario": "You want Claude Code to propose a refactor of the payment module, but you don't want anything changed until you've agreed the approach with your tech lead.",
       "question": "Which permission mode fits?",
       "options": [
-        "plan — Claude reads and proposes, nothing executes",
-        "acceptEdits — edits apply automatically, commands ask",
-        "bypassPermissions — so the proposal is complete",
-        "auto — the classifier will avoid risky edits"
+        "plan: Claude explores and proposes, but makes no edits to your source",
+        "acceptEdits: file edits apply automatically while commands still ask",
+        "bypassPermissions: so nothing interrupts the analysis of the module",
+        "auto: the classifier lets through only edits it judges to be safe"
       ],
       "answer": 0,
-      "explanation": "Plan mode is for exploring and proposing without executing. It's the right mode before any non-trivial change that needs agreement.",
+      "explanation": "Plan mode is for exploring and proposing: Claude reads files and can run exploratory commands, but doesn't edit your source. It is the right mode before any non-trivial change that needs agreement.",
       "distractors": [
         null,
-        "acceptEdits applies file changes without asking — the opposite of 'nothing changes yet'.",
-        "Bypass removes every check and is never needed to produce a plan.",
-        "Auto may still execute actions it judges safe; you asked for none."
+        "acceptEdits applies file changes without asking, the opposite of 'nothing changes yet'.",
+        "Bypass removes the approval gate and is never needed to produce a proposal.",
+        "Auto may still make edits it judges safe; you asked for none until the approach is agreed."
       ]
     },
     {
@@ -68,10 +68,10 @@
       "scenario": "A colleague is annoyed by approval prompts on their laptop and plans to run Claude Code with bypassPermissions for all daily work.",
       "question": "What's the best advice?",
       "options": [
-        "Fine, as long as they're working on a feature branch",
-        "Fine, because checkpoints can undo anything that goes wrong",
-        "Don't — add allow rules for the safe repetitive commands (tests, lint) or use acceptEdits/auto; reserve bypass for isolated sandboxes or CI",
-        "Fine, as long as they use the most capable model"
+        "Fine, as long as they always work on a feature branch and never directly on main",
+        "Fine, because /rewind checkpoints can undo anything that goes wrong in the session",
+        "No: add allow rules for safe commands or use auto; keep bypass for sandboxes/CI",
+        "Fine, as long as they run the most capable model at the highest effort level"
       ],
       "answer": 2,
       "explanation": "On a laptop, bypass gives any wrong turn or injected instruction your SSH keys, cloud credentials, other repos and push rights. Reduce friction with rules, not by removing the boundary.",
@@ -88,10 +88,10 @@
       "scenario": "Claude Code tells you, confidently, that request validation for /orders happens in middleware/validate.ts and cites line 42.",
       "question": "What's the right habit before building on this answer?",
       "options": [
-        "Accept it — Claude Code has repository access, so its citations are always correct",
-        "Open the cited file and line (and check the tool-call trail shows it actually read it) before relying on the answer",
-        "Ask the same question again and accept it if the answer matches",
-        "Ask Claude whether it is sure"
+        "Accept it; with full repository access, its file and line citations are reliable",
+        "Open the cited file and line, and check the tool trail shows it read that file",
+        "Ask the same question in a fresh session and accept it if both answers match",
+        "Ask Claude how confident it is and accept the answer if it says it is certain"
       ],
       "answer": 1,
       "explanation": "Repo access reduces but doesn't eliminate errors. Verifying a cited file:line is cheap and is the competency the M6.1 exercises train.",
@@ -108,17 +108,17 @@
       "scenario": "You're about to let Claude Code attempt a risky change to the build configuration of a working repository.",
       "question": "What should you do first?",
       "options": [
-        "Nothing — /rewind can undo anything",
-        "Create a branch and make sure the working tree is committed, so you have a known-good point to return to",
-        "Copy the repo to a USB drive",
-        "Turn on acceptEdits so the change is applied atomically"
+        "Nothing extra; /rewind can undo whatever the build change ends up doing",
+        "Create a branch and commit the working tree for a known-good point",
+        "Copy the entire repository to a backup folder outside the project first",
+        "Switch to acceptEdits so the whole change is applied in one atomic step"
       ],
       "answer": 1,
       "explanation": "Branch first, commit early: Git gives a complete, reliable rollback independent of Claude Code's own checkpoints.",
       "distractors": [
         "Checkpoints don't undo shell side effects, and relying on one mechanism is fragile.",
         null,
-        "Clumsy and unnecessary; Git already provides cheap, precise rollback.",
+        "Clumsy and easy to get out of sync; Git already gives cheap, precise rollback.",
         "acceptEdits changes how approvals work, not whether you can roll back."
       ]
     },
@@ -128,10 +128,10 @@
       "scenario": "After two hours, one Claude Code session has fixed a CSS bug, investigated a DB timeout and reviewed a PR. Now you start an unrelated authentication task and answers seem muddled.",
       "question": "What's the most likely cause and fix?",
       "options": [
-        "The model is overloaded; wait an hour and retry",
-        "Context pollution from unrelated earlier work; use /clear before starting an unrelated task",
-        "The repo is too large for Claude Code; split it into smaller repos",
-        "Thinking is turned off; turn it on"
+        "The model is overloaded at this time of day; wait an hour and retry",
+        "Leftover context from the earlier tasks; /clear before the new task",
+        "The repo is too large for one session; split it into smaller repos",
+        "The session hit its usage limit; switch to a smaller, faster model"
       ],
       "answer": 1,
       "explanation": "Everything in the session competes for attention in the context window. /clear between unrelated tasks; /compact to trim within one task.",
@@ -139,7 +139,7 @@
         "Nothing suggests a service problem; the symptom matches accumulated irrelevant context.",
         null,
         "Agentic search handles large repos; the issue is session hygiene, not repo size.",
-        "Not the symptom here, and on current models thinking isn't something you toggle off in Claude Code."
+        "Hitting a usage limit stops work with a message; it doesn't muddle answers, and a smaller model won't clear polluted context."
       ]
     },
     {
@@ -148,18 +148,18 @@
       "scenario": "Your team wants Claude Code to automatically fix lint errors on every pull request in CI.",
       "question": "Which setup is appropriate?",
       "options": [
-        "Run it on a developer's laptop with bypassPermissions on a schedule",
-        "Run it in an ephemeral, isolated CI container with scoped tokens and no production credentials; bypass-level autonomy is acceptable there; results go to a PR for human review",
-        "Run it in CI with full production credentials so it can test against live systems",
-        "Don't automate; CI can never use Claude Code"
+        "A developer laptop running bypassPermissions on a nightly schedule",
+        "An ephemeral CI container, scoped tokens, no prod secrets, results as a PR",
+        "A CI job holding production credentials so each fix is tested against live systems",
+        "Nowhere; Claude Code can't run unattended, so the fixes stay manual"
       ],
       "answer": 1,
-      "explanation": "Unattended runs need autonomy, so the boundary moves to the environment: an isolated, disposable sandbox with minimal credentials, and human review of the output.",
+      "explanation": "Unattended runs need autonomy, so the boundary moves to the environment: a disposable, isolated container with minimal credentials. Bypass-level autonomy is acceptable there, and a human reviews the output as a PR.",
       "distractors": [
-        "A laptop is exactly where bypass is never appropriate.",
+        "A laptop is exactly where bypass is never appropriate, scheduled or not.",
         null,
         "Production credentials in an autonomous run maximise blast radius.",
-        "Claude Code supports CI usage (e.g. GitHub Actions); the question is how to sandbox it."
+        "Claude Code supports CI use (e.g. GitHub Actions); the question is how to sandbox it."
       ]
     },
     {
@@ -168,13 +168,13 @@
       "scenario": "Your repository contains a .env file with real staging credentials. You want Claude Code to be able to run tests freely but never read secrets.",
       "question": "Which control is most reliable?",
       "options": [
-        "Add a line to CLAUDE.md asking Claude not to open .env",
-        "Rely on auto mode's classifier to recognise the file as sensitive",
-        "Add deny rules in project settings (e.g. Read(./.env*)) plus allow rules for the test command",
-        "Rename .env to config.txt so it doesn't look sensitive"
+        "A line in CLAUDE.md telling Claude it must never open or print the .env file",
+        "Auto mode's classifier, which will recognise the file as sensitive",
+        "Deny rules such as Read(./.env*) in settings, plus an allow rule for tests",
+        "Renaming .env to config.txt so it no longer looks like a secrets file"
       ],
       "answer": 2,
-      "explanation": "Deny rules are deterministic and enforced by the harness before execution. Instructions and classifiers are probabilistic; use rules for 'must never'.",
+      "explanation": "Deny rules are deterministic, enforced by the harness before a tool runs, and apply in every permission mode. Instructions and classifiers are probabilistic; use rules for 'must never'. Better still, keep real secrets out of the working tree.",
       "distractors": [
         "CLAUDE.md is guidance the model reads, not an enforced control.",
         "The classifier is a judgement call — useful for grey areas, not guaranteed for must-never cases.",
@@ -188,10 +188,10 @@
       "scenario": "During a session, Claude ran a migration script that dropped a local test table and also edited three source files. You want to undo everything.",
       "question": "Which statement is accurate?",
       "options": [
-        "/rewind restores both the files and the dropped table",
-        "/rewind can restore Claude's file edits, but the dropped table is a shell side effect — you need to recreate it (e.g. rerun setup/seed); Git covers committed file state",
-        "Nothing can be undone once a command has run",
-        "git restore will bring back the table"
+        "/rewind to the last checkpoint restores both the files and the dropped table",
+        "/rewind restores the file edits; rebuild the table by rerunning the seed",
+        "Nothing can be undone once a command has run, so restore from backups",
+        "git restore . brings back the edited files and the dropped table together"
       ],
       "answer": 1,
       "explanation": "Checkpoints track Claude's file edits, not external effects of commands. Git manages file history only. External state needs its own recovery path, which is why risky commands deserve Manual approval.",

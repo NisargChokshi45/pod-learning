@@ -8,16 +8,16 @@
       "scenario": "In one afternoon you must (a) risk-review an 80-page vendor master services agreement and (b) make a release announcement sound friendlier.",
       "question": "Which model and effort plan is most appropriate?",
       "options": [
-        "Use the most capable model at maximum effort for both, to be safe",
-        "Use the default model and effort for both; choosing per task is premature optimisation",
-        "Contract review on a strong model at high effort with the document first and questions last; the rewrite on a faster model at low effort",
-        "Use the fastest model for the contract since it's long, and the strongest model for the announcement since it's customer-facing"
+        "Both on the most capable model at Max effort, since both go to external readers",
+        "Both on the default model and effort, so the two outputs are consistent in style",
+        "Contract on a strong model at High effort; the rewrite on a faster model at Low",
+        "Contract on the fastest model since it's long; the announcement on the strongest one"
       ],
       "answer": 2,
       "explanation": "Match model and effort to the task: long-document reasoning benefits from a capable model and higher effort; a tone rewrite is a light language task where speed and usage matter more.",
       "distractors": [
         "Max effort on a rewrite burns time and usage with no quality gain.",
-        "Defaults over-pay on easy tasks and can under-think hard ones; the objective is choosing deliberately.",
+        "Defaults over-pay on easy tasks and can under-think hard ones; the objective is choosing deliberately, and the two tasks don't need matching style.",
         null,
         "Inverted: document length calls for capability and careful reasoning, not the fastest model."
       ]
@@ -28,17 +28,17 @@
       "scenario": "Your team is about to hard-code a model ID into a nightly ticket-classification job and the team's prompt guide.",
       "question": "What should you do before standardising on that model?",
       "options": [
-        "Check the model deprecation page and record the model's retirement status and date where it's pinned",
-        "Nothing — models are supported indefinitely once released",
-        "Pick the oldest available model because it's the most stable",
-        "Ask Claude which models will be retired soon"
+        "Check the deprecation page and record the model's retirement status where it's pinned",
+        "Pin the newest model, since newly released models are never deprecated in a job's lifetime",
+        "Use a model alias instead of an ID, so retirements are handled without any re-validation",
+        "Ask Claude in chat which models are scheduled to retire, and note its answer in the guide"
       ],
       "answer": 0,
-      "explanation": "Models are deprecated and then retired; a pinned job fails at retirement. The deprecation page is the authoritative source to check before standardising.",
+      "explanation": "Models are deprecated and then retired; a pinned job fails at retirement. The deprecation page is the authoritative source to check before standardising, and the date belongs next to the pin.",
       "distractors": [
         null,
-        "Models do retire; retired models stop answering requests.",
-        "Older models are closer to retirement, not further from it.",
+        "Newer is a sensible default but not a guarantee; you still need the published lifecycle and a date to plan against.",
+        "Even where an alias exists, a silent switch changes outputs; you'd still have to re-validate the prompt. Check and record the lifecycle.",
         "The model's training cut-off means it may not know current deprecation plans; check the official page."
       ]
     },
@@ -48,18 +48,18 @@
       "scenario": "A teammate wants to zip a 150,000-line monorepo and paste it into a chat to ask architecture questions.",
       "question": "What's the best response?",
       "options": [
-        "Go ahead — the current context window is large enough for any repository",
-        "Paste only the README; that's enough for architecture questions",
-        "Split the repo into ten chats and paste a tenth into each",
-        "Estimate first (roughly 10 tokens per line ≈ 1.5M tokens, which doesn't fit) and use Claude Code to explore the repo agentically instead"
+        "Fine on current models: the context window is sized for whole codebases like this one",
+        "Paste just the README and top-level folder listing, which is enough for architecture",
+        "Estimate first (about 1.5M tokens, so it won't fit) and use Claude Code in the repo",
+        "Split the repo across ten chats and ask the same architecture question in each one"
       ],
-      "answer": 3,
-      "explanation": "Code is token-dense; a large repo exceeds the context window, and stuffing is slow, costly and less accurate. Claude Code searches and reads only relevant files.",
+      "answer": 2,
+      "explanation": "Code is token-dense (~10 tokens per line here). A large repo exceeds the context window, and stuffing is slow, costly and less accurate. Claude Code searches and reads only relevant files.",
       "distractors": [
-        "Large context windows still have a limit, and quality degrades when relevant facts are buried in huge contexts.",
+        "Large windows still have a limit, and quality degrades when relevant facts are buried in a huge context.",
         "A README rarely reflects the real architecture; Claude needs the relevant code.",
-        "Chats share no state, so no single chat can reason across the whole system.",
-        null
+        null,
+        "Chats share no state, so no single chat can reason across the whole system."
       ]
     },
     {
@@ -68,18 +68,18 @@
       "scenario": "You need an accurate token budget for a prompt template before shipping a feature on the API. A colleague suggests using tiktoken because it's already installed.",
       "question": "How should you count tokens?",
       "options": [
-        "tiktoken is fine — all modern models share the same tokenizer",
-        "Use the API's count_tokens endpoint with the same model ID you'll use in production",
-        "Count words and multiply by 1.3; that's exact for code too",
-        "Count characters and divide by 4 for every content type"
+        "Use tiktoken, since modern tokenizers produce near-identical counts",
+        "Call count_tokens with the exact model ID you'll use in production",
+        "Multiply the word count by 1.3, which holds for prose and code alike",
+        "Call count_tokens once on any model, since counts carry across generations"
       ],
       "answer": 1,
       "explanation": "Token counts are model-specific and tokenizers change between generations. Count with the target model's own tokenizer; rough ratios are for estimates only.",
       "distractors": [
-        "Tokenizers differ between vendors and between Claude generations; tiktoken undercounts Claude tokens.",
+        "Tokenizers differ between vendors and between Claude generations; tiktoken is OpenAI's and gives wrong counts for Claude.",
         null,
         "~1.3 tokens/word is a rough English-prose heuristic; code and non-English text are much denser.",
-        "Chars/4 is a prose estimate, not a budget; it breaks for code, JSON and non-English."
+        "Tokenizers change between generations, so a count on one model can be wrong by a third on another."
       ]
     },
     {
@@ -88,16 +88,16 @@
       "scenario": "Claude tells you confidently that 'the latest version' of a popular web framework is a specific number and recommends an API from it. It cites nothing.",
       "question": "What's the right move?",
       "options": [
-        "Trust it — the model was trained on the framework's documentation",
-        "Ask the same question again; if the answer repeats, it's correct",
-        "Treat it as possibly stale (training cut-off) and force a web search with citations, then verify against the official docs",
-        "Switch to the highest effort level, which gives the model access to current information"
+        "Accept it if the version looks plausible, since the framework was in its training data",
+        "Ask the same question in a fresh chat; if both answers match, treat it as confirmed",
+        "Treat it as possibly stale, force a web search with citations, then check the docs",
+        "Re-ask at Max effort, which makes the model check its knowledge more thoroughly"
       ],
       "answer": 2,
-      "explanation": "'Latest' facts after the training cut-off are unknown to the model, which won't know it's stale. Force a search and check sources.",
+      "explanation": "'Latest' facts after the training cut-off are unknown to the model, which won't know it's stale. Force a search and check the sources.",
       "distractors": [
-        "Training data stops at the cut-off; later releases are invisible to the model.",
-        "Repetition shows consistency, not correctness.",
+        "Training data stops at the cut-off; later releases are invisible to the model, and plausibility isn't evidence.",
+        "Two runs from the same training data agreeing shows consistency, not correctness.",
         null,
         "Effort controls reasoning depth, not access to live information."
       ]
@@ -108,18 +108,18 @@
       "scenario": "A CI test for your LLM-powered summariser asserts the exact output string for a fixed input. It fails about one run in five.",
       "question": "What's the best fix?",
       "options": [
-        "Assert properties (required fields present, valid JSON, length bounds) and track the pass rate on a small eval set",
-        "Retry the test until it passes",
-        "Lower the effort to minimum so output is deterministic",
-        "Delete the test; LLM features can't be tested"
+        "Assert properties such as fields, valid JSON and length, and track a pass rate",
+        "Add automatic retries so the test passes if any of three attempts matches",
+        "Set effort to Low so the model reasons less and the output stops varying",
+        "Regenerate the golden string from the latest run each time the test fails"
       ],
       "answer": 0,
       "explanation": "Outputs are non-deterministic by design. Test properties across a set of inputs and judge the distribution, not one golden string.",
       "distractors": [
         null,
-        "Retry-until-green hides real failure rates.",
+        "Retry-until-green hides the real failure rate.",
         "Lower effort doesn't make sampling deterministic.",
-        "LLM features are testable — with property assertions and eval sets."
+        "A golden string that follows the output tests nothing; it will just fail on the next variation."
       ]
     },
     {
@@ -128,18 +128,18 @@
       "scenario": "Mid-way through a release-day migration, you hit your 5-hour usage limit on your company seat.",
       "question": "Which response is appropriate?",
       "options": [
-        "Continue the work on your personal account until the window resets",
-        "Ask a colleague for their login",
-        "Paste everything into a free chatbot from another vendor",
-        "Switch to a lighter model or lower effort where the task allows, use credits if your plan and policy permit, or queue work for the next window"
+        "Continue on your personal account until the company window resets this evening",
+        "Move to a lighter model or lower effort, use credits if allowed, or queue the work",
+        "Ask a colleague with headroom to run your prompts from their seat for the afternoon",
+        "Switch to another vendor's chatbot that your team hasn't been told not to use"
       ],
-      "answer": 3,
-      "explanation": "Work within limits using model/effort choice, sanctioned credits, or planning; never move company data to personal or unapproved tools.",
+      "answer": 1,
+      "explanation": "Work within limits using model and effort choice, sanctioned credits, or planning; never move company data to personal or unapproved tools.",
       "distractors": [
-        "Moves company data outside org governance — an M8.1 violation.",
-        "Credential sharing breaches policy and the audit trail.",
-        "Unapproved tools are an uncontrolled data disclosure.",
-        null
+        "Moves company data outside org governance, an M8.1 violation.",
+        null,
+        "Running your work through another person's seat muddles accountability and the audit trail; raise capacity with your admin instead.",
+        "Not being told no isn't approval; an unapproved tool is an uncontrolled data disclosure."
       ]
     },
     {
@@ -148,38 +148,38 @@
       "scenario": "Your manager asks why the weekly status summaries changed in length and style this week, though the prompt is unchanged.",
       "question": "What's the most likely explanation to investigate first?",
       "options": [
-        "Claude remembered last week's feedback from other users",
-        "The model or effort level changed (new default, someone's switch, or a retirement), compounded by normal output variation",
-        "The prompt got corrupted in transit",
-        "Claude is learning from your team's chats in real time"
+        "Memory picked up last week's feedback from other users in the workspace",
+        "The model or effort changed, compounded by normal output variation",
+        "The model is fine-tuned weekly on your team's conversations",
+        "The source data was longer this week, so the summary grew to match"
       ],
       "answer": 1,
-      "explanation": "Different models and effort levels behave differently, and outputs vary run to run. Check what changed, re-validate, and pin the choice.",
+      "explanation": "Different models and effort levels behave differently, and outputs vary run to run. Check what changed (a new default, a teammate's switch, a retirement), re-validate, and pin the choice.",
       "distractors": [
-        "There's no cross-user memory; each chat starts fresh except for your own memory/Projects.",
+        "Memory is per user; there's no cross-user learning from other people's feedback.",
         null,
-        "Possible but unlikely; model/effort changes are the common cause.",
-        "Models don't update from your conversations in real time."
+        "Models don't update from your conversations.",
+        "Input length can shift length, but not style; a model or effort change explains both and is the first thing to check."
       ]
     },
     {
       "id": "M1.2-09",
       "difficulty": "stretch",
-      "scenario": "You ran the same hard debugging task at Low, High and Max effort. High and Max gave equally correct root causes; Max took three times longer.",
+      "scenario": "You ran the same hard debugging task at Low, High and Max effort. High and Max gave equally correct root causes; Max took three times longer. Low got it wrong.",
       "question": "What should your team guide recommend for this task type?",
       "options": [
-        "Max, because more effort is always better",
-        "Low, because it was fastest",
-        "High as the default, escalating to higher effort only when High is shown to fall short",
-        "Alternate effort levels randomly to average out non-determinism"
+        "Max, because on debugging work extra reasoning is a cheap safety margin",
+        "Medium, as a compromise between Low's speed and High's accuracy",
+        "High by default, escalating only when High is shown to fall short",
+        "Low first, then re-run at Max whenever the first answer looks wrong"
       ],
       "answer": 2,
-      "explanation": "Extra effort has diminishing returns. Use the lowest level that reliably succeeds and escalate on evidence — the point of the effort-ladder exercise.",
+      "explanation": "Extra effort has diminishing returns. Use the lowest level that reliably succeeds and escalate on evidence; that's the point of the effort-ladder exercise.",
       "distractors": [
-        "Past the point where quality stops improving, more effort only costs time and usage.",
-        "Low didn't solve the task correctly in this scenario — speed without correctness is waste.",
+        "Max cost three times the time for no gain here; that isn't cheap.",
+        "Medium wasn't tested; recommending an unmeasured level is guessing.",
         null,
-        "Randomising adds variance and tells you nothing."
+        "Low was wrong on this task, and you may not notice a wrong root cause; the double run also costs more than High."
       ]
     },
     {
@@ -188,18 +188,18 @@
       "scenario": "You paste a 900-page specification into a chat and ask a question whose answer is a single clause on page 430. The answer misses it.",
       "question": "Which change most improves the result?",
       "options": [
-        "Add the full specification twice so the clause appears more often",
-        "Narrow the context to the relevant sections, put the document before the question, and ask for the quote with its location",
-        "Ask in a new chat without the document; the model already knows the spec",
-        "Raise effort to Max and keep the full document — context size doesn't affect accuracy"
+        "Raise effort to Max and keep the whole document, so the model reads more carefully",
+        "Narrow to the relevant sections, put them before the question, and ask for the quote",
+        "Paste the specification twice so the relevant clause appears more often in context",
+        "Ask in a new chat without the document, relying on the model's knowledge of the spec"
       ],
       "answer": 1,
       "explanation": "Long contexts cost more and models can under-use facts buried in the middle. Relevant, well-placed context and quote-grounding beat sheer volume.",
       "distractors": [
-        "Doubling the context doubles cost and noise; it doesn't fix retrieval.",
+        "Effort doesn't fix a fact buried in a huge context; size and placement affect accuracy.",
         null,
-        "Without the document, the model can only guess or hallucinate the clause.",
-        "Context size and placement do affect accuracy; effort alone won't fix a buried fact."
+        "Doubling the context doubles cost and noise; it doesn't fix retrieval.",
+        "Without the document, the model can only guess the clause."
       ]
     }
   ]
