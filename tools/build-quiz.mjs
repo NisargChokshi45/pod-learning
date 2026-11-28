@@ -76,6 +76,22 @@ for (const f of files) {
 }
 if (errors.length) { console.error("Validation failed:\n  " + errors.join("\n  ")); process.exit(1); }
 
+// Length tell: test-takers learn that "the longest option is right". Warn per set when the answer is the
+// longest option in more than 40% of items, or is >25% longer than every distractor.
+function lengthTells(items, label) {
+  let longest = 0; const blatant = [];
+  for (const it of items) {
+    const L = it.options.map(o => o.length);
+    const maxOther = Math.max(...L.filter((_, i) => i !== it.answer));
+    if (L[it.answer] >= maxOther) longest++;
+    if (L[it.answer] > 1.25 * maxOther) blatant.push(it.id);
+  }
+  if (longest > Math.ceil(items.length * 0.4) || blatant.length)
+    console.warn(`WARN length tell in ${label}: answer longest in ${longest}/${items.length}` + (blatant.length ? `; >25% longer: ${blatant.join(", ")}` : ""));
+}
+for (const m of modules) lengthTells(m.items, m.module);
+if (mock) lengthTells(mock.items, "mock");
+
 modules.sort((a, b) => (ORDER.indexOf(a.module) + 1 || 99) - (ORDER.indexOf(b.module) + 1 || 99));
 for (const m of modules) m.items = rebalance(m.items, m.module);
 if (mock) {
