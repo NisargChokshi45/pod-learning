@@ -1,0 +1,207 @@
+{
+ "module": "M5.5",
+ "title": "Testing with Claude",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M5.5-01",
+   "difficulty": "core",
+   "scenario": "Claude generated 40 unit tests for a pricing module, and coverage jumped from 35% to 92%. A reviewer notices that most tests patch the pricing function itself and assert on the patched return value.",
+   "question": "What does this suite actually tell you about the pricing logic?",
+   "options": [
+    "Very little: the tests check the mocks, so the logic could be wrong and still pass",
+    "That the logic is correct, because 92% of the lines executed without errors or exceptions",
+    "That the logic is mostly correct, but edge cases need another round",
+    "That the logic is correct for the inputs used, which is enough for a unit level"
+   ],
+   "answer": 0,
+   "explanation": "Mocking the unit under test means the assertions verify the mock setup, not the code. Coverage only shows that lines executed, not that outcomes were checked. Green here is not evidence.",
+   "distractors": [
+    null,
+    "Coverage counts executed lines; it says nothing about whether any result was asserted against an independent expectation.",
+    "The problem isn't missing edge cases. Even the main cases aren't tested, because the asserted value comes from the mock.",
+    "No real input-to-output behaviour is checked when the function under test is replaced by a mock."
+   ]
+  },
+  {
+   "id": "M5.5-02",
+   "difficulty": "core",
+   "scenario": "You ask Claude to write tests for a tax calculation, pasting the implementation. Later a customer reports a rounding bug, and you find that the test's expected value has the same wrong rounding as the code.",
+   "question": "What change to your prompting would have caught this?",
+   "options": [
+    "Ask for more test cases so that rounding is exercised more often",
+    "Derive expected values from the acceptance criteria, not from the code",
+    "Ask Claude to double-check that each expected value matches the code output",
+    "Switch to a higher effort setting so the model reasons more about rounding"
+   ],
+   "answer": 1,
+   "explanation": "With the implementation in context, Claude derives expected values from the code, so bugs become expectations. Spec-derived tests with independent expected values can disagree with the code, and that disagreement is how you find bugs.",
+   "distractors": [
+    "More cases derived from the same buggy code would repeat the same wrong expectation.",
+    null,
+    "Matching the code output is the problem. It turns the test into a change detector, not a correctness check.",
+    "Effort doesn't fix the source of the expected value. Reasoning harder about the code still reproduces the code's behaviour."
+   ]
+  },
+  {
+   "id": "M5.5-03",
+   "difficulty": "core",
+   "scenario": "A Playwright checkout test fails roughly one run in eight on CI and always passes locally. The test contains `await page.waitForTimeout(2000)` before reading the order total.",
+   "question": "What is the best fix?",
+   "options": [
+    "Raise the wait to 5000 ms so slow CI runners have enough time",
+    "Add automatic retries to the CI job so intermittent failures are absorbed",
+    "Mark the test as skipped on CI and keep running it on developer machines",
+    "Replace the fixed wait with a web-first assertion on the expected total"
+   ],
+   "answer": 3,
+   "explanation": "Fixed waits are a timing-based flake: they're too short on slow machines and waste time on fast ones. A web-first assertion such as `expect(locator).toHaveText(...)` retries until the condition holds, which removes the timing dependency.",
+   "distractors": [
+    "A longer fixed wait only makes the failure rarer and the suite slower. The race is still there.",
+    "Retries hide the flake rather than remove its cause, and they train the team to ignore red builds.",
+    "Skipping on CI removes the safety net where it matters. Any quarantine should be tracked and temporary, not a fix.",
+    null
+   ]
+  },
+  {
+   "id": "M5.5-04",
+   "difficulty": "core",
+   "scenario": "Your team is preparing a release regression suite. A QA lead suggests asking Claude to generate end-to-end tests for every screen, because generation is now cheap.",
+   "question": "What should decide how many E2E tests you add?",
+   "options": [
+    "The number of screens, so every page has at least one end-to-end test",
+    "Risk and upkeep: a few critical journeys, the rest pushed down the pyramid",
+    "The time Claude needs to generate them, since generation is the bottleneck",
+    "Whatever reaches the coverage target fastest, because E2E covers the most lines"
+   ],
+   "answer": 1,
+   "explanation": "Cheap generation removes the authoring cost, but E2E tests stay slow, flaky and expensive to debug. Pick a few critical journeys by risk, and cover the rest with unit and contract tests.",
+   "distractors": [
+    "Screen count isn't risk. One test per screen produces a slow, flaky ice-cream-cone suite.",
+    null,
+    "Generation is no longer the constraint. Run time, flakiness and maintenance are.",
+    "High E2E coverage hides weak assertions and creates a fragile suite. Coverage isn't the goal."
+   ]
+  },
+  {
+   "id": "M5.5-05",
+   "difficulty": "core",
+   "scenario": "To make integration tests realistic, a developer proposes copying 500 rows from the production customers table into a fixture file and asking Claude to build tests around them.",
+   "question": "What should you do instead?",
+   "options": [
+    "Use the rows but delete the email column before committing the fixture to the repo",
+    "Use the rows only locally and add the fixture file to .gitignore",
+    "Generate seeded synthetic data matching the schema, with deliberate boundary rows",
+    "Use the rows, but ask Claude to rewrite names so they look fictional"
+   ],
+   "answer": 2,
+   "explanation": "Production personal data must not go into fixtures, prompts or repos (M8.1). Seeded synthetic data reproduces failures, and a small set of boundary rows tests limits better than bulk real records.",
+   "distractors": [
+    "Removing one direct identifier leaves quasi-identifiers and other personal data. It is still production data in a repo and a prompt.",
+    "Keeping it out of Git doesn't stop the data going into Claude prompts or onto laptops. It is still an unapproved copy.",
+    null,
+    "The real rows have already been sent to Claude before the rewrite, and the other attributes can still identify people."
+   ]
+  },
+  {
+   "id": "M5.5-06",
+   "difficulty": "core",
+   "scenario": "The mobile app broke after the API team renamed a response field. Both teams have an OpenAPI file in the repository, but nothing checks it.",
+   "question": "Which approach most directly prevents a repeat?",
+   "options": [
+    "Contract tests from the OpenAPI file on the provider, plus consumer tests against a spec-based mock",
+    "A larger end-to-end suite that drives the mobile app against staging before each API release",
+    "A team rule that field renames must be announced in the shared channel a week ahead",
+    "Asking Claude to review each API pull request for anything that looks like a breaking change to clients"
+   ],
+   "answer": 0,
+   "explanation": "Contract tests make the spec executable on both sides. The provider is checked against the spec, and the consumer is checked against a mock built from the same spec. A rename then fails a build instead of reaching users.",
+   "distractors": [
+    null,
+    "E2E through the app is slow and late, and it catches the break only if a test happens to touch that field.",
+    "An announcement relies on memory and goodwill. Nothing fails automatically when someone forgets.",
+    "An AI review is a useful extra pass, but it's a filter, not a guarantee. It doesn't make the contract executable."
+   ]
+  },
+  {
+   "id": "M5.5-07",
+   "difficulty": "core",
+   "scenario": "In a Claude Code session, a spec-derived test for a discount rule fails. Claude's next diff changes the test's expected value so that the suite goes green, and the summary says 'fixed failing test'.",
+   "question": "What is the right response?",
+   "options": [
+    "Accept it, because the suite is green and the summary explains the change",
+    "Accept it, then add a second test with the original expected value",
+    "Ask Claude to explain its change, and accept it if the explanation is convincing and specific",
+    "Reject it, and decide with the spec owner whether the code or the test is wrong"
+   ],
+   "answer": 3,
+   "explanation": "Editing a spec-derived expectation to match the code removes the test's value. A failing spec test is a disagreement between the code and the requirement, and a human with the spec decides which side is wrong.",
+   "distractors": [
+    "A green suite after the test was weakened proves nothing. The summary reports the change but doesn't justify it.",
+    "This leaves two contradictory tests, one of which must fail, and avoids the actual decision.",
+    "A fluent explanation isn't evidence. The question is answered by the spec, not by Claude's reasoning about its own change.",
+    null
+   ]
+  },
+  {
+   "id": "M5.5-08",
+   "difficulty": "core",
+   "scenario": "Claude produced a traceability matrix mapping 30 acceptance criteria to tests. Every row is marked 'covered', and the release manager wants to attach it to the release sign-off.",
+   "question": "What should happen before it is attached?",
+   "options": [
+    "Attach it as is, since the matrix was generated directly from the test names",
+    "Spot-check covered rows against test bodies, and flag untested criteria and orphan tests",
+    "Ask Claude to regenerate it in a fresh chat and compare the two versions",
+    "Replace it with the coverage report, which is a more objective measure"
+   ],
+   "answer": 1,
+   "explanation": "Claude will map a test to a story it doesn't actually exercise, often based on a similar name. A matrix used as sign-off evidence must be checked against the test bodies, with gaps and orphans called out.",
+   "distractors": [
+    "Test names are claims about what a test does, not evidence. A misleadingly named test produces a false 'covered'.",
+    null,
+    "A second generation from the same inputs can repeat the same mapping errors. Agreement between two outputs isn't verification.",
+    "Coverage shows executed lines, not which requirements are verified, so it can't replace traceability."
+   ]
+  },
+  {
+   "id": "M5.5-09",
+   "difficulty": "stretch",
+   "scenario": "You run a mutation tool on a well-covered module. It reports a 68% mutation score. Most survivors flip comparison operators in the late-fee calculation, and a few are changes that cannot alter behaviour.",
+   "question": "What is the most useful next step?",
+   "options": [
+    "Raise line coverage to 100%, which will also raise the mutation score",
+    "Add boundary-value tests for late-fee thresholds, and accept equivalent mutants as unkillable",
+    "Disable the comparison-operator mutators, since they generate noise",
+    "Treat 68% as acceptable, because mutation scores above 60% are an industry norm"
+   ],
+   "answer": 1,
+   "explanation": "Surviving comparison mutants mean no test pins the boundary (for example `>` vs `>=`). Boundary-value tests kill them. Equivalent mutants change code without changing behaviour, so no test can kill them, and chasing 100% is wasted effort.",
+   "distractors": [
+    "The module is already well covered. The survivors run under tests but aren't checked, and more coverage doesn't add assertions.",
+    null,
+    "Those mutators found real gaps at the thresholds. Switching them off hides the exact weakness that matters for late fees.",
+    "There's no universal threshold that makes untested boundaries in a money calculation acceptable. The survivors point at real risk."
+   ]
+  },
+  {
+   "id": "M5.5-10",
+   "difficulty": "stretch",
+   "scenario": "An E2E test for a booking flow fails intermittently only when the suite runs in parallel. Run alone, it always passes. Claude suggests adding retries and longer timeouts.",
+   "question": "What is the most likely root cause to investigate first?",
+   "options": [
+    "Network latency to the test environment during peak parallel load",
+    "A browser rendering bug that appears under heavy CPU usage",
+    "Shared state across parallel workers, such as the same account or booking slot",
+    "Timeouts that are too short for the slowest CI runner in the pool under parallel load"
+   ],
+   "answer": 2,
+   "explanation": "A test that fails only alongside other tests and never alone points to shared state or order dependency, not timing. Isolate data per test, for example unique accounts and slots per worker. Retries and timeouts would only hide it.",
+   "distractors": [
+    "Latency would also hit the test when it runs alone, sometimes. The parallel-only pattern points to interaction between tests.",
+    "A rendering bug is possible but unlikely, and it doesn't explain the clean split between parallel and solo runs.",
+    null,
+    "If timeouts were the cause, the solo runs on the same runners would flake too. Longer timeouts treat a symptom."
+   ]
+  }
+ ]
+}

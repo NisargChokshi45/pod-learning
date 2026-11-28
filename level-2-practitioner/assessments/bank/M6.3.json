@@ -1,0 +1,207 @@
+{
+ "module": "M6.3",
+ "title": "Multi-file changes, worktrees, testing, debugging and Git",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M6.3-01",
+   "difficulty": "core",
+   "scenario": "Before a release you start two Claude Code sessions in the same checkout: one fixing a flaky test, one adding an endpoint. The endpoint session's changes vanish after the other session runs git stash.",
+   "question": "What setup prevents this?",
+   "options": [
+    "Use separate branches in the same directory",
+    "Run one session in plan mode and the other in default mode",
+    "Give each task its own git worktree and its own session",
+    "Ask both sessions not to run Git commands"
+   ],
+   "answer": 2,
+   "explanation": "A worktree gives each task its own working directory, index and HEAD while sharing the object store, so sessions can't overwrite each other's files.",
+   "distractors": [
+    "Branches share one working directory and index; switching or stashing in one session affects the other.",
+    "Modes control permissions, not shared files on disk.",
+    null,
+    "Formatters, codegen and tests still write to the shared files; a request isn't isolation."
+   ]
+  },
+  {
+   "id": "M6.3-02",
+   "difficulty": "core",
+   "scenario": "Three tickets are planned in parallel worktrees. Two of them each add a database migration changing the invoices table.",
+   "question": "What is the right call?",
+   "options": [
+    "Run all three in parallel and resolve conflicts at merge",
+    "Sequence the two schema tickets after agreeing the schema once",
+    "Let the two sessions coordinate by reading each other's worktrees",
+    "Squash both migrations into one after both finish"
+   ],
+   "answer": 1,
+   "explanation": "Parallelism stops paying when work shares a schema change or needs one coherent decision. Decide the schema once, then sequence those tickets; the third can still run in parallel.",
+   "distractors": [
+    "Conflicting migrations and decisions surface late, when they are most expensive.",
+    null,
+    "Sessions reading each other's in-progress work reintroduces the coupling worktrees remove.",
+    "Squashing afterwards still means two sessions designed the schema independently."
+   ]
+  },
+  {
+   "id": "M6.3-03",
+   "difficulty": "core",
+   "scenario": "You ask Claude to implement a tax calculation fix. It implements, the tests fail, and it changes the test expectations until they pass.",
+   "question": "Which prompt pattern would have closed this loophole?",
+   "options": [
+    "'Make all tests pass before you finish.'",
+    "'Implement the fix, then write tests for it so nothing is left untested.'",
+    "'Use maximum effort and be careful.'",
+    "'Write failing tests first, then implement; don't edit agreed tests.'"
+   ],
+   "answer": 3,
+   "explanation": "Test-first pins the target before implementation, and forbidding edits to agreed tests stops the 'edit tests to go green' path.",
+   "distractors": [
+    "This instruction is exactly what rewards weakening the tests.",
+    "Tests written after the code tend to mirror whatever the code does.",
+    "Effort doesn't define what counts as done or prevent test edits.",
+    null
+   ]
+  },
+  {
+   "id": "M6.3-04",
+   "difficulty": "core",
+   "scenario": "A colleague's PR implements a feature in one commit touching 38 files. A regression appears in production two weeks later.",
+   "question": "What would most have helped locate the cause?",
+   "options": [
+    "Small commits, each green, so git bisect can isolate the step",
+    "A longer commit message describing all 38 files and why each one changed",
+    "Running /code-review again on the merged commit",
+    "Reverting the whole commit and re-implementing"
+   ],
+   "answer": 0,
+   "explanation": "Incremental, individually passing commits make bisect and partial revert possible; a single mega-commit can only be reverted whole.",
+   "distractors": [
+    null,
+    "A longer message doesn't make the change bisectable.",
+    "Re-reviewing may or may not spot it; bisect finds it mechanically.",
+    "A full revert throws away correct work and doesn't tell you what broke."
+   ]
+  },
+  {
+   "id": "M6.3-05",
+   "difficulty": "core",
+   "scenario": "Claude proposes cleaning up a feature branch by rewriting history and running git push --force to the shared branch your teammate is also using.",
+   "question": "What should you do?",
+   "options": [
+    "Approve it, since a clean, linear history is easier for reviewers to read",
+    "Let it proceed as long as the full test suite passes afterwards on CI",
+    "Refuse: add new commits instead; destructive ops need explicit approval",
+    "Approve it but ask Claude to notify the teammate"
+   ],
+   "answer": 2,
+   "explanation": "Force-pushing a shared branch can silently delete others' commits. The hard rule is no force push and no destructive operation without explicit human approval.",
+   "distractors": [
+    "Review convenience doesn't justify destroying shared history.",
+    "Tests don't detect a teammate's lost commits.",
+    null,
+    "Notifying after the fact doesn't restore overwritten work."
+   ]
+  },
+  {
+   "id": "M6.3-06",
+   "difficulty": "core",
+   "scenario": "CI fails on your PR; you only have the CI log. The failure doesn't reproduce on your laptop at first glance.",
+   "question": "What is the most effective next step with Claude?",
+   "options": [
+    "Ask Claude to guess the fix from the error message and push it",
+    "Disable the failing test so the release isn't blocked, then fix it after",
+    "Re-run CI until it passes",
+    "Give the full log, get ranked hypotheses, and reproduce it first"
+   ],
+   "answer": 3,
+   "explanation": "Debugging with evidence: the full log, ranked hypotheses, and a reproduction that fails reliably. The reproduction then becomes the regression test.",
+   "distractors": [
+    "A guessed fix without a reproduction can't be shown to work.",
+    "Disabling the test hides the defect.",
+    "Re-running treats a real failure as noise and proves nothing.",
+    null
+   ]
+  },
+  {
+   "id": "M6.3-07",
+   "difficulty": "core",
+   "scenario": "Two agents' branches conflict in the same service file. One added retry logic, the other changed the timeout model.",
+   "question": "How should the conflict be resolved?",
+   "options": [
+    "Take whichever branch merged first",
+    "Resolve by intent, keeping both behaviours, with a test for each",
+    "Take the branch with more passing tests",
+    "Ask Claude to pick one side so the merge stays quick and the diff stays small"
+   ],
+   "answer": 1,
+   "explanation": "Resolve conflicts by reading both sides' intent (plans, commit messages), produce a version satisfying both, and prove both behaviours with tests; re-run the suite after the merge.",
+   "distractors": [
+    "Merge order says nothing about which change is right; the other intent is lost.",
+    null,
+    "Test counts don't measure whether both features survive.",
+    "Picking a side wholesale discards one change's intent."
+   ]
+  },
+  {
+   "id": "M6.3-08",
+   "difficulty": "core",
+   "scenario": "A vendor team proposes that Claude's automated PR review replace the human approval step to speed up merges.",
+   "question": "What is the right position?",
+   "options": [
+    "Accept; an AI review is more thorough than a human one",
+    "Accept only for small PRs under 50 lines",
+    "Reject AI review entirely as unreliable",
+    "AI review is an input; a named human still approves every PR"
+   ],
+   "answer": 3,
+   "explanation": "Automated review helps the reviewer, but accountability needs a named human approver for every change (M8.3).",
+   "distractors": [
+    "Thoroughness doesn't create accountability, and AI review can miss context-dependent defects.",
+    "Size doesn't remove the need for an accountable approver.",
+    "AI review is useful as a first pass; the issue is replacing the human, not using it.",
+    null
+   ]
+  },
+  {
+   "id": "M6.3-09",
+   "difficulty": "stretch",
+   "scenario": "You add the Claude GitHub Action so teammates can mention @claude on issues. The draft workflow grants write-all permissions and stores the API key in the YAML for convenience.",
+   "question": "Which change matters most before merging the workflow?",
+   "options": [
+    "Move the key to a repo secret and grant only the permissions needed",
+    "Rename the trigger phrase so fewer people can invoke the action by accident",
+    "Run the action only on weekdays",
+    "Pin Claude to a cheaper model to control cost"
+   ],
+   "answer": 0,
+   "explanation": "The agent's reach in CI equals the workflow token's permissions and the credentials it holds. Secrets belong in the secret store, and least privilege limits damage.",
+   "distractors": [
+    null,
+    "A trigger phrase is not an access control.",
+    "Scheduling doesn't reduce privilege or protect the key.",
+    "Cost control doesn't address the exposed key or broad permissions."
+   ]
+  },
+  {
+   "id": "M6.3-10",
+   "difficulty": "stretch",
+   "scenario": "Running four parallel sessions, you notice two of them are now editing the same module as part of 'cleanup'. Merges keep conflicting on every hunk.",
+   "question": "What is the best adjustment?",
+   "options": [
+    "Add a fifth session whose only job is resolving conflicts continuously",
+    "Force-push the session with the cleaner diff",
+    "Scope tasks so no two sessions own the same module",
+    "Turn off tests until all sessions finish"
+   ],
+   "answer": 2,
+   "explanation": "Overlapping refactors are where parallelism stops paying. Scope each session to disjoint files, or sequence the overlapping work.",
+   "distractors": [
+    "Another session adds coordination cost without removing the overlap.",
+    "Force-pushing destroys work and breaks the hard rule.",
+    null,
+    "Disabling tests removes the check that catches broken merges."
+   ]
+  }
+ ]
+}

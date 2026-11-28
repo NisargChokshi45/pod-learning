@@ -1,0 +1,207 @@
+{
+ "module": "M6.8",
+ "title": "What Claude writes down in the repo",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M6.8-01",
+   "difficulty": "core",
+   "scenario": "Eighteen months after a refund-rounding fix, an auditor asks why rounding happens after currency conversion. The commit message says only 'fix rounding'.",
+   "question": "Which artefact should have captured the answer?",
+   "options": [
+    "The project CLAUDE.md",
+    "A worklog entry for that fix, linked from the commit",
+    "Claude's auto memory on the original developer's laptop",
+    "A MISTAKES.md entry written by Claude"
+   ],
+   "answer": 1,
+   "explanation": "A worklog entry records the symptom, what was investigated, what was rejected and why, and what was chosen — exactly the 'why' a later reader needs.",
+   "distractors": [
+    "CLAUDE.md holds standing instructions, not the history of a fix.",
+    null,
+    "Auto memory is machine-local, unreviewed and not a record; it may not even exist anymore.",
+    "MISTAKES.md is for human corrections, and Claude doesn't write to it."
+   ]
+  },
+  {
+   "id": "M6.8-02",
+   "difficulty": "core",
+   "scenario": "A developer proposes committing ~/.claude/projects/.../memory/MEMORY.md into the repo so the team shares what Claude has learned.",
+   "question": "What is the right response?",
+   "options": [
+    "Commit it; shared memory keeps everyone's sessions consistent across machines",
+    "Commit it but regenerate it weekly",
+    "Don't commit it; promote true, useful notes into CLAUDE.md or rules",
+    "Copy it into the README instead"
+   ],
+   "answer": 2,
+   "explanation": "Auto memory is per-machine, unreviewed and self-contradicting. The right path is to promote reviewed, stable facts into committed instructions.",
+   "distractors": [
+    "It turns unreviewed guesses into shared instructions without review.",
+    "Regenerating it doesn't make it reviewed or consistent.",
+    null,
+    "Moving unreviewed notes into another file doesn't fix that nobody checked them."
+   ]
+  },
+  {
+   "id": "M6.8-03",
+   "difficulty": "core",
+   "scenario": "A worklog entry from last month turns out to be wrong about the root cause. A teammate wants to edit the entry to fix it.",
+   "question": "What is the convention?",
+   "options": [
+    "Edit the old entry so readers only see the correct version",
+    "Delete the old entry to avoid confusion",
+    "Move the old entry to an archive folder",
+    "Append a new entry that corrects it and links back"
+   ],
+   "answer": 3,
+   "explanation": "The worklog is append-only: an edited record can't be trusted. Corrections are new entries that reference the old one.",
+   "distractors": [
+    "Silent edits destroy the trustworthiness of the whole log.",
+    "Deletion loses the history of what was believed and why.",
+    "Archiving hides the error without recording the correction.",
+    null
+   ]
+  },
+  {
+   "id": "M6.8-04",
+   "difficulty": "core",
+   "scenario": "The team decides all services must publish domain events through a transactional outbox. A developer writes it up as a worklog entry.",
+   "question": "Where should this decision live, and why?",
+   "options": [
+    "In an ADR, because it binds future work",
+    "In the worklog, because it was decided this week",
+    "In MISTAKES.md, because the old approach lost events",
+    "Only in the PR description that introduced it"
+   ],
+   "answer": 0,
+   "explanation": "An ADR binds future work; a worklog explains past work. A rule that constrains all future services is an ADR, with deciders named.",
+   "distractors": [
+    null,
+    "A worklog entry explains a past fix; it doesn't carry decision status or bind future changes.",
+    "MISTAKES.md records corrections to Claude's work, not architecture decisions.",
+    "PR descriptions are hard to find later and have no status or supersede mechanism."
+   ]
+  },
+  {
+   "id": "M6.8-05",
+   "difficulty": "core",
+   "scenario": "Two years after ADR-0004 chose Kafka, the team moves to a managed queue. Someone suggests deleting ADR-0004 to avoid confusing new joiners.",
+   "question": "What should happen to ADR-0004?",
+   "options": [
+    "Delete it and renumber the remaining ADRs",
+    "Edit it to describe the new queue instead",
+    "Mark it superseded by the new ADR, which links back",
+    "Leave it unchanged and add a note about the new queue to CLAUDE.md"
+   ],
+   "answer": 2,
+   "explanation": "ADRs are superseded, not deleted. The record of why the team changed its mind is part of the history.",
+   "distractors": [
+    "Deleting and renumbering breaks references and loses history.",
+    "Rewriting an accepted ADR falsifies the original decision.",
+    null,
+    "An unchanged ADR still reads as current; the status must change."
+   ]
+  },
+  {
+   "id": "M6.8-06",
+   "difficulty": "core",
+   "scenario": "To be helpful, Claude has started adding entries to MISTAKES.md whenever it notices it made an error.",
+   "question": "Why is this a problem?",
+   "options": [
+    "Claude's entries are too long for the file",
+    "Its value is human judgement; Claude can't log errors it didn't notice",
+    "MISTAKES.md must be generated automatically by a hook, not written by Claude",
+    "It's fine as long as a human reads the file weekly"
+   ],
+   "answer": 1,
+   "explanation": "MISTAKES.md is human corrections only. Its value is a human's judgement that something was wrong, which by definition includes the errors Claude didn't notice.",
+   "distractors": [
+    "Length isn't the issue; who judges the mistake is.",
+    null,
+    "Hook-generated content is the anti-pattern this module warns against.",
+    "Reading doesn't change that the entries reflect only Claude's self-detected errors."
+   ]
+  },
+  {
+   "id": "M6.8-07",
+   "difficulty": "core",
+   "scenario": "A repo has plan.md files from three features. In one, the implementation changed approach mid-way and plan.md was never updated.",
+   "question": "What is the risk, and the fix?",
+   "options": [
+    "No risk; plans are only drafts",
+    "Delete all plan.md files from the repository so they can never drift",
+    "Leave it as is; the worklog entries will explain the difference eventually",
+    "A stale plan misleads; update it in the same PR or record the deviation"
+   ],
+   "answer": 3,
+   "explanation": "A plan.md that no longer matches the code is worse than none. Keep it honest in the same PR, or record the deviation in the worklog.",
+   "distractors": [
+    "Committed plans are part of the audit trail readers trust.",
+    "Deleting them throws away the reasoning the trail exists to keep.",
+    "An unlinked future note doesn't stop readers being misled by the plan now.",
+    null
+   ]
+  },
+  {
+   "id": "M6.8-08",
+   "difficulty": "core",
+   "scenario": "A new teammate's PR includes CLAUDE.local.md with their personal paths and a .claude/settings.local.json they created by hand.",
+   "question": "What should the repo do?",
+   "options": [
+    "Accept both; they help Claude in CI",
+    "Ignore both in the repo .gitignore and remove them from the PR",
+    "Accept the settings file but ignore CLAUDE.local.md",
+    "Rename both to the shared filenames and commit"
+   ],
+   "answer": 1,
+   "explanation": "Both are personal, machine-local files. Add them to the repository .gitignore so every clone is protected, rather than relying on per-user global excludes.",
+   "distractors": [
+    "Personal paths and local settings don't belong in a shared repo and may leak details.",
+    null,
+    "settings.local.json is personal by design and shouldn't be committed either.",
+    "Turning personal preferences into shared instructions bypasses review of what the team wants."
+   ]
+  },
+  {
+   "id": "M6.8-09",
+   "difficulty": "stretch",
+   "scenario": "After a team adds a hook that forces a worklog file on every commit, the repo has 900 entries in three months, most reading 'Symptom: n/a'.",
+   "question": "What is the best correction?",
+   "options": [
+    "Keep the hook and ask Claude to write longer entries",
+    "Require entries for judgement calls, checked in PR review; drop the per-commit hook",
+    "Delete docs/worklog/ entirely",
+    "Move the entries into CLAUDE.md, where Claude will read them at every session start"
+   ],
+   "answer": 1,
+   "explanation": "Documentation generated because a hook required it is the named anti-pattern. Entries are for fixes and judgement calls, reviewed like code.",
+   "distractors": [
+    "Longer filler is still filler; volume without value.",
+    null,
+    "Losing the worklog removes the record for the cases that matter.",
+    "That bloats CLAUDE.md with history, the failure mode the five-artefact split prevents."
+   ]
+  },
+  {
+   "id": "M6.8-10",
+   "difficulty": "stretch",
+   "scenario": "A client's compliance team asks you to show how AI-assisted changes to their codebase were controlled over the engagement.",
+   "question": "Which evidence best answers them?",
+   "options": [
+    "Exported chat transcripts from developers' Claude sessions",
+    "Each developer's auto memory files",
+    "A signed statement from the tech lead that Claude Code was configured securely throughout",
+    "Committed intent/spec/plan, reviewed diffs, and worklog entries naming reviewers"
+   ],
+   "answer": 3,
+   "explanation": "The committed record shows reasoning, approval points and named human reviewers for each change — reconstructable from the repo alone.",
+   "distractors": [
+    "Transcripts are scattered, may not be retained, and don't show review or approval.",
+    "Auto memory is unreviewed private scratch, not evidence of control.",
+    "An assertion isn't evidence.",
+    null
+   ]
+  }
+ ]
+}

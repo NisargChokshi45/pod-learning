@@ -1,0 +1,217 @@
+{
+ "module": "M5.1",
+ "title": "From requirements to design",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M5.1-01",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "You ask Claude to 'summarise the requirements' from a 30-message client thread. The summary lists 'SSO via Okta' as a requirement, but nobody can remember it being said.",
+   "question": "How should you restructure the extraction?",
+   "options": [
+    "Ask Claude to be more careful and regenerate the summary from the same thread",
+    "Require a verbatim source quote per requirement, with inferences listed as assumptions",
+    "Switch to the highest effort setting so it reasons harder about what the client meant",
+    "Remove all requirements that sound technical, since a business client wouldn't write them"
+   ],
+   "answer": 1,
+   "explanation": "Requiring a quote per row turns generation into retrieval plus labelling, and makes fabrication checkable: search the source for the quote.",
+   "distractors": [
+    "An exhortation doesn't change the task. Plausible inventions remain.",
+    null,
+    "More reasoning doesn't make the output traceable.",
+    "Technical-sounding requirements can be real. The problem is traceability."
+   ]
+  },
+  {
+   "id": "M5.1-02",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "Extracted requirements for a payments feature contain functional requirements only. The client's emails never mention performance, availability or data residency.",
+   "question": "What should you do about the missing non-functional requirements?",
+   "options": [
+    "Record 'NFRs: none' in the spec, since the client did not state any in the thread",
+    "Fill in reasonable industry-standard NFRs and include them in the spec as requirements",
+    "Treat it as a gap: probe each NFR category and add questions with defaults to the client list",
+    "Defer NFRs until after go-live, when real production load and usage are actually known"
+   ],
+   "answer": 2,
+   "explanation": "Clients rarely state NFRs. Silence is a gap, not a 'none'. Ask, and make your defaults visible.",
+   "distractors": [
+    "Silence isn't confirmation. Discovering residency or latency needs late is expensive.",
+    "Invented values presented as requirements are fabrications. Label them as defaults or assumptions.",
+    null,
+    "Performance and residency can change the architecture. Deferring them is costly."
+   ]
+  },
+  {
+   "id": "M5.1-03",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "A generated story reads: 'As a system, I want an invoices_export table with a status column so that exports are tracked.'",
+   "question": "Which INVEST problems does it show most clearly?",
+   "options": [
+    "It is not Independent of other stories, and not Small enough for one sprint",
+    "Not Valuable to a named user, and not Negotiable: it prescribes the implementation",
+    "It is not Estimable, because a database table design cannot be sized in points",
+    "It has no problems, because it is specific, testable and clear about exactly what to build"
+   ],
+   "answer": 1,
+   "explanation": "'As a system' names no user who gets value, and specifying the table fixes the design instead of stating the need.",
+   "distractors": [
+    "Nothing in it suggests dependency or excessive size. The clear defects are value and negotiability.",
+    null,
+    "A table can be estimated. The issue is that it's implementation, not need.",
+    "Specificity about implementation is the defect, not a virtue."
+   ]
+  },
+  {
+   "id": "M5.1-04",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "Claude's acceptance criteria for a CSV export cover only the case of a user exporting a few invoices successfully.",
+   "question": "What is the most useful next prompt?",
+   "options": [
+    "'Make the acceptance criteria more detailed, and make sure they cover the whole export feature properly.'",
+    "'For each edge-case category (empty, limits, permissions, concurrency, failure, time zone), write Given-When-Then.'",
+    "'Rewrite every criterion in formal, unambiguous English, using MUST and SHALL throughout the list.'",
+    "'Add a criterion that the export should be fast and reliable for all users.'"
+   ],
+   "answer": 1,
+   "explanation": "Claude's default is the happy path. Naming the edge-case categories gets systematic coverage in a testable form.",
+   "distractors": [
+    "'More detailed' gives no direction, so you get more happy-path words.",
+    null,
+    "Register isn't the problem. Coverage is.",
+    "'Fast' isn't testable. It needs a measurable threshold."
+   ]
+  },
+  {
+   "id": "M5.1-05",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "A .NET team and a TypeScript team each asked Claude for 'the invoice API' and got different field casing and error shapes.",
+   "question": "What fixes this at the source?",
+   "options": [
+    "Let each team keep its own version of the contract and translate the names in the frontend",
+    "Agree one convention and one source-of-truth OpenAPI file, review against it, record an ADR",
+    "Ask Claude to merge both specs into one, choosing whichever naming looks better in each case",
+    "Switch to GraphQL, since it has no naming conventions for the two teams to disagree on"
+   ],
+   "answer": 1,
+   "explanation": "Claude follows the conventions it's given. One reviewed contract plus a recorded convention removes the two dialects.",
+   "distractors": [
+    "Translation layers lock the inconsistency in.",
+    null,
+    "'Whichever looks better' delegates a convention decision without criteria.",
+    "GraphQL schemas have naming conventions too. Switching tools doesn't decide the convention."
+   ]
+  },
+  {
+   "id": "M5.1-06",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "Claude drafts an ADR choosing a message queue. It states that 'Service X guarantees exactly-once delivery' and quotes a specific free-tier limit.",
+   "question": "What must happen before the ADR is accepted?",
+   "options": [
+    "Nothing extra, since ADRs record the team's opinions and trade-offs rather than facts",
+    "Check each factual claim against official vendor docs and cite it; named people decide",
+    "Ask Claude to add 'to the best of my knowledge' to each claim it cannot fully confirm",
+    "Remove the context section, so the ADR contains no factual claims that could turn out wrong"
+   ],
+   "answer": 1,
+   "explanation": "Guarantees and limits are high-risk, volatile claims. Verify and cite them. The decision itself is made by named humans.",
+   "distractors": [
+    "ADRs record decisions built on factual premises, and false premises mean bad decisions.",
+    null,
+    "A hedge doesn't verify anything.",
+    "Context is a required part of an ADR. Remove false claims, not context."
+   ]
+  },
+  {
+   "id": "M5.1-07",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "Sales asks for 'just a rough number' for a feature. Claude produces '12 developer-days' from the story list.",
+   "question": "How should the estimate be delivered?",
+   "options": [
+    "Send 12 days, since the client only asked for a rough number and will expect revisions",
+    "A range with stated assumptions and risks, owned by a named tech lead, marked indicative",
+    "Pad it by 50% to cover unknowns and send that figure without further explanation",
+    "Refuse to estimate until the full design is complete and every single requirement is signed off"
+   ],
+   "answer": 1,
+   "explanation": "Estimates go out assumption-tagged and with a named human owner. Claude knows nothing of your team's velocity and isn't accountable.",
+   "distractors": [
+    "A single unowned number tends to become a commitment, for example in a fixed-price contract.",
+    null,
+    "Hidden padding hides the assumptions instead of stating them.",
+    "An indicative, assumption-tagged range is the responsible answer. Refusing helps nobody."
+   ]
+  },
+  {
+   "id": "M5.1-08",
+   "module": "M5.1",
+   "difficulty": "core",
+   "scenario": "Your team keeps architecture diagrams as PNG exports in a shared drive. They no longer match the ADRs or the API contract.",
+   "question": "What change best addresses this?",
+   "options": [
+    "Ask Claude to redraw the PNGs from the current code each quarter so they stay accurate",
+    "Keep diagrams as Mermaid or PlantUML text in the repo, reviewed with the ADR and contract",
+    "Stop drawing diagrams and rely on the code, which is always the real source of truth",
+    "Add a 'last updated' date to each PNG so readers know how far to trust it"
+   ],
+   "answer": 1,
+   "explanation": "Diagrams as code can be diffed and reviewed in the same change as the design they describe, which keeps them in sync.",
+   "distractors": [
+    "Periodic redraws still drift between redraws and can't be reviewed as diffs.",
+    null,
+    "Diagrams communicate design quickly. Dropping them loses that.",
+    "A date shows the drift but doesn't prevent it."
+   ]
+  },
+  {
+   "id": "M5.1-09",
+   "module": "M5.1",
+   "difficulty": "stretch",
+   "scenario": "Asked for an architecture for an internal tool used by 40 people, Claude proposes microservices, event sourcing and Kubernetes. The team is three developers who know a single web framework well.",
+   "question": "What is the best way to correct the design?",
+   "options": [
+    "Accept it, since it follows published best practice from large, well-known engineering organisations",
+    "Give Claude the real constraints (team, load, budget) and ask for the simplest design that fits",
+    "Ask Claude to add a service mesh so the team gets observability across all the services",
+    "Pick the option with the most components, so the system can scale later without a rewrite"
+   ],
+   "answer": 1,
+   "explanation": "Claude drifts toward over-represented 'big' architectures. Real constraints and a 'simplest that meets the NFRs' framing reverse that bias. Team skill is a design constraint.",
+   "distractors": [
+    "Published reference designs target very different scale and teams.",
+    null,
+    "This adds complexity the team can't operate.",
+    "Scaling for unneeded load costs operating effort now for no benefit."
+   ]
+  },
+  {
+   "id": "M5.1-10",
+   "module": "M5.1",
+   "difficulty": "stretch",
+   "scenario": "Mid-sprint, the client changes 'export within 1 minute' to 'export available in under 5 seconds'. You have requirement IDs, stories, an OpenAPI contract, an ADR and tests linked by references.",
+   "question": "How should you assess the change's impact?",
+   "options": [
+    "Regenerate all the artefacts from scratch with the new requirement included from the start",
+    "Trace forward from the changed NFR to every story, contract operation, ADR and test, and list each",
+    "Update only the requirement text, since the downstream artefacts will catch up in review",
+    "Ask Claude whether the change is small or large, then plan the follow-up work from that"
+   ],
+   "answer": 1,
+   "explanation": "Traceability makes impact analysis mechanical. Follow the references from the changed requirement to everything built on it, here including the async-queue ADR.",
+   "distractors": [
+    "Regenerating throws away reviewed work and hides what actually changed.",
+    null,
+    "Leaving the downstream artefacts unchanged leaves the ADR and contract wrong.",
+    "A size judgement without the trace is a guess."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,207 @@
+{
+ "module": "M6.2",
+ "title": "The agentic coding workflow",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M6.2-01",
+   "difficulty": "core",
+   "scenario": "You ask Claude Code to 'add rate limiting to the public API' in a client repo you have never opened. Twenty minutes later it has edited eleven files and added a new middleware library; the team already had a rate-limit helper in lib/http.",
+   "question": "What change to your workflow would most likely have prevented this?",
+   "options": [
+    "Explore the code and agree a plan before allowing any edits",
+    "Switch to a more capable model so it finds existing helpers itself",
+    "Add 'be careful' and 'reuse code' to the end of the prompt",
+    "Accept the edits, then ask Claude to refactor onto the helper"
+   ],
+   "answer": 0,
+   "explanation": "Skipping the plan lets Claude commit to the first plausible approach across many files. A plan review is the cheapest point to inject knowledge it lacks (the existing helper) and to reject a new dependency.",
+   "distractors": [
+    null,
+    "A stronger model still guesses the approach without the plan step; the cost was the unreviewed direction, not capability.",
+    "Vague exhortations add no specific knowledge and leave the approach unreviewed.",
+    "Refactoring a coherent wrong design costs far more than correcting a plan, and the dependency still has to be unpicked."
+   ]
+  },
+  {
+   "id": "M6.2-02",
+   "difficulty": "core",
+   "scenario": "Claude presents a plan in plan mode. Step 2 introduces a new ORM abstraction; your team's convention is to keep raw repositories.",
+   "question": "What is the most effective response?",
+   "options": [
+    "Approve it and fix step 2 during code review afterwards",
+    "Reject or edit step 2 with the reason, then approve the revised plan",
+    "Approve it, because plan mode guarantees nothing is changed",
+    "Exit plan mode and give the original request again in default mode instead"
+   ],
+   "answer": 1,
+   "explanation": "The plan is where your knowledge goes in. Editing or rejecting a step with a reason redirects the whole implementation before any file changes.",
+   "distractors": [
+    "Fixing it after implementation means unwinding edits across files that all assumed the abstraction.",
+    null,
+    "Approving the plan authorises implementation of that step; plan mode's no-edit property ends at approval.",
+    "Restarting in default mode throws away the exploration and removes the review point entirely."
+   ]
+  },
+  {
+   "id": "M6.2-03",
+   "difficulty": "core",
+   "scenario": "A team's CLAUDE.md has grown to 400 lines: build commands, the current sprint goals, who is on call this week, and a narrative of last quarter's outages.",
+   "question": "What should be done with it?",
+   "options": [
+    "Keep it all; more context always improves Claude's answers on this codebase",
+    "Move it into auto memory so Claude manages it automatically",
+    "Keep commands, conventions and boundaries; move volatile content out",
+    "Split it into four CLAUDE.local.md files, one per developer"
+   ],
+   "answer": 2,
+   "explanation": "CLAUDE.md loads into every session, so every line costs context and stale weekly content misleads. It should hold stable instructions; history and rotas belong elsewhere.",
+   "distractors": [
+    "Irrelevant and stale content dilutes the instructions that matter and costs tokens every session.",
+    "Auto memory is Claude's unreviewed, machine-local notes, not a place for team instructions.",
+    null,
+    "Local files aren't shared, so the team loses the common instructions it needs."
+   ]
+  },
+  {
+   "id": "M6.2-04",
+   "difficulty": "core",
+   "scenario": "Your ~/.claude/CLAUDE.md says 'always use yarn'; the project CLAUDE.md says 'use npm ci'. Claude uses yarn in some sessions and npm in others.",
+   "question": "What is the best fix?",
+   "options": [
+    "Rely on the project file overriding your personal file",
+    "Restate 'use npm' in every prompt for this project",
+    "Turn off auto memory so the instructions stop conflicting",
+    "Remove the conflict so only one instruction applies to this project"
+   ],
+   "answer": 3,
+   "explanation": "CLAUDE.md files are concatenated into context, not merged by a rule engine, so contradictions aren't resolved deterministically. Resolve them in the files.",
+   "distractors": [
+    "Load order makes the more specific file later, but both remain in context; the inconsistent behaviour shows recency is not a guarantee.",
+    "Per-prompt reminders add context and don't remove the standing contradiction.",
+    "Auto memory isn't the source of either instruction; disabling it doesn't touch the conflict.",
+    null
+   ]
+  },
+  {
+   "id": "M6.2-05",
+   "difficulty": "core",
+   "scenario": "A client NDA forbids unreviewed persistence of project details on engineers' machines. A developer notices Claude Code has been writing notes about the client repo between sessions.",
+   "question": "What should the team do?",
+   "options": [
+    "Turn auto memory off for the repo in settings, and record that in CLAUDE.md",
+    "Commit the auto memory file so the client's reviewers can audit what Claude noted",
+    "Delete the notes weekly but leave auto memory on",
+    "Use incognito mode in the claude.ai app instead"
+   ],
+   "answer": 0,
+   "explanation": "Auto memory is Claude's own machine-local notes, on by default. Where policy requires, turn it off with the documented setting (committed so it applies to everyone) and make the rule visible.",
+   "distractors": [
+    null,
+    "Committing unreviewed, self-contradicting notes spreads them further and doesn't satisfy a no-persistence rule.",
+    "Notes still persist between deletions, which is what the NDA forbids.",
+    "Incognito is a claude.ai app feature; it doesn't control Claude Code's local auto memory."
+   ]
+  },
+  {
+   "id": "M6.2-06",
+   "difficulty": "core",
+   "scenario": "Three hours into a session, Claude starts re-introducing a bug it already fixed and forgets the agreed naming. /context shows the window mostly filled with old test output.",
+   "question": "What is the best recovery?",
+   "options": [
+    "Keep going and remind Claude of the naming convention every few turns",
+    "Raise effort to the maximum for the rest of the session",
+    "Write a handover note to a file, clear, and continue from the note",
+    "Run /compact with no instructions and carry on"
+   ],
+   "answer": 2,
+   "explanation": "The context is full of stale material. A deliberate handover in a file, then a fresh session, carries forward what matters and drops the noise.",
+   "distractors": [
+    "Each reminder adds more context to an already overloaded window; the drift continues.",
+    "Effort doesn't free context; the problem is what's in the window.",
+    null,
+    "An unsteered summary may drop exactly the decisions you need (naming, fixed bugs)."
+   ]
+  },
+  {
+   "id": "M6.2-07",
+   "difficulty": "core",
+   "scenario": "Claude ran a codemod script via Bash that rewrote 30 files. The result is wrong, so you rewind to the checkpoint before the prompt. Most files are still modified.",
+   "question": "What explains this, and what is the safer habit?",
+   "options": [
+    "Checkpoints expired; increase how many are kept",
+    "Rewind only works in plan mode; switch modes first",
+    "Bash-only file changes aren't snapshotted; commit before running scripts",
+    "The conversation was restored but not the code; rewind again and pick code only"
+   ],
+   "answer": 2,
+   "explanation": "Checkpoints track edits made through Claude's file tools. A Bash script's writes are opaque to the harness, so Git — committing before risky steps — is the real undo.",
+   "distractors": [
+    "The checkpoint existed; the issue is what it covers, not retention.",
+    "Rewind isn't limited to plan mode.",
+    null,
+    "Even a code restore can't bring back changes that were never snapshotted."
+   ]
+  },
+  {
+   "id": "M6.2-08",
+   "difficulty": "core",
+   "scenario": "Claude reports 'all tests pass' after a refactor. You are about to approve and push.",
+   "question": "What must you do before accepting the change?",
+   "options": [
+    "Nothing more; passing tests prove the refactor is correct",
+    "Read every hunk of the diff, including changes to tests",
+    "Ask Claude to confirm it didn't break anything",
+    "Run the tests a second time to rule out flakiness"
+   ],
+   "answer": 1,
+   "explanation": "Never accept a diff unread. Tests passing is evidence, not proof — tests themselves may have been weakened, and unplanned changes can hide in a large diff.",
+   "distractors": [
+    "Green tests can come from edited or deleted assertions.",
+    null,
+    "Claude's self-report isn't independent verification.",
+    "A second run checks flakiness, not whether the change or the tests are right."
+   ]
+  },
+  {
+   "id": "M6.2-09",
+   "difficulty": "stretch",
+   "scenario": "You want to keep a week-long feature effort coherent across many sessions. Decisions made in chat keep getting lost after compaction.",
+   "question": "Which approach best preserves them?",
+   "options": [
+    "Disable auto-compact so nothing is ever summarised",
+    "Ask Claude to remember decisions in auto memory",
+    "Re-paste the whole previous transcript at the start of each session",
+    "Keep the plan and decision log in a committed file, read at each start"
+   ],
+   "answer": 3,
+   "explanation": "Compaction is lossy summarisation of chat turns; files survive it and can be reviewed. A committed plan/decision file (M6.8) is the durable carrier.",
+   "distractors": [
+    "Without compaction the window fills and quality degrades or the session fails; it doesn't preserve decisions durably.",
+    "Auto memory is unreviewed, machine-local and can contradict itself.",
+    "Re-pasting transcripts floods the window with noise and repeats the original problem.",
+    null
+   ]
+  },
+  {
+   "id": "M6.2-10",
+   "difficulty": "stretch",
+   "scenario": "In a monorepo, billing has strict money-handling rules that are irrelevant to the other 30 packages. Putting them in the root CLAUDE.md bloats every session.",
+   "question": "Where should those rules live?",
+   "options": [
+    "In the root CLAUDE.md, since only one file is ever read",
+    "In each developer's personal ~/.claude/CLAUDE.md",
+    "In a billing-scoped place: a nested CLAUDE.md or a path-scoped rule",
+    "In auto memory, which loads only when billing is touched"
+   ],
+   "answer": 2,
+   "explanation": "Nested directory CLAUDE.md files and path-scoped rules load only when Claude works on matching files, keeping the context small elsewhere while the rules are committed and reviewed.",
+   "distractors": [
+    "Multiple CLAUDE.md files are supported and nested ones load on demand.",
+    "Personal files aren't shared, so teammates and CI never get the rules.",
+    null,
+    "Auto memory isn't scoped by path and isn't a reviewed instruction source."
+   ]
+  }
+ ]
+}

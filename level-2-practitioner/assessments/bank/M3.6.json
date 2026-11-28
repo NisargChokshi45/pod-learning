@@ -1,0 +1,207 @@
+{
+ "module": "M3.6",
+ "title": "Design, prototyping and handoff with Claude Design",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M3.6-01",
+   "difficulty": "core",
+   "scenario": "A designer finishes a three-screen flow in Claude Design. The developer picking up the ticket asks for 'screenshots in Jira so I can build it'.",
+   "question": "What is the best handoff?",
+   "options": [
+    "Export high-resolution PNGs of each screen and attach them to the ticket",
+    "Export a PDF of the flow so the developer has a fixed reference to build against",
+    "Record a short screen-capture video walking through the prototype",
+    "Send the design to Claude Code and attach a handoff note listing open decisions"
+   ],
+   "answer": 3,
+   "explanation": "Handing over the design lets the coding agent continue from its structure (components, tokens, copy) instead of reverse-engineering pixels. The handoff note covers what no design carries.",
+   "distractors": [
+    "Pixels lose components, tokens and states, so the developer has to infer them and drift creeps in.",
+    "A PDF flattens structure just as a screenshot does, plus it loses the interaction.",
+    "Video shows behaviour but carries no structure, tokens or copy to build from.",
+    null
+   ]
+  },
+  {
+   "id": "M3.6-02",
+   "difficulty": "core",
+   "scenario": "Pre-sales has a clickable mobile concept prototype. The client's product lead wants to tap through it on their phone before Thursday's pitch.",
+   "question": "Which output fits what the recipient will do?",
+   "options": [
+    "A PDF export, because it's easy to attach to an email and opens on any phone",
+    "A hosted or standalone HTML version they can open and click through",
+    "A PPTX export so it can be added to the pitch deck",
+    "A .zip of the source files so they have everything"
+   ],
+   "answer": 1,
+   "explanation": "Choose the export by what the recipient will do next. Clicking through on a phone needs the interaction to survive, which HTML or a hosted send preserves.",
+   "distractors": [
+    "A PDF flattens the prototype, so the interaction they want to try is lost.",
+    null,
+    "Slides suit presenting, not tapping through a flow on a phone.",
+    "Source files are for storage or further work, not for a stakeholder to experience the flow."
+   ]
+  },
+  {
+   "id": "M3.6-03",
+   "difficulty": "core",
+   "scenario": "You start a client's internal tool mock-up by typing 'design a dashboard for the ops team' and get something generic. Three rounds of 'make it more modern' haven't helped.",
+   "question": "What is the most effective next move?",
+   "options": [
+    "Switch to a different artifact type and start again with the same request",
+    "Keep iterating with more descriptive adjectives until the result finally looks right to you",
+    "Write a brief (audience, platform, task, constraints, brand), then request specific changes",
+    "Ask Claude to generate ten variations, then pick the best-looking one for the client"
+   ],
+   "answer": 2,
+   "explanation": "Claude fills every gap in the brief with a guess. A brief that sets audience, platform, task, constraints and brand, followed by specific testable feedback, converges; adjectives don't.",
+   "distractors": [
+    "The type isn't the problem; the missing brief is.",
+    "Untestable feedback produces endless rounds without convergence.",
+    null,
+    "More variations of an unspecified design still guess at audience and constraints."
+   ]
+  },
+  {
+   "id": "M3.6-04",
+   "difficulty": "core",
+   "scenario": "During an accessibility review, Claude looks at a screenshot and says the grey helper text 'appears to meet the 4.5:1 contrast requirement'. The release is tomorrow.",
+   "question": "What should you do before accepting this?",
+   "options": [
+    "Compute the contrast ratio from the actual colour tokens with a contrast checker",
+    "Accept it, since Claude analysed the full-resolution image and stated the ratio",
+    "Ask Claude to look again more carefully and confirm its answer",
+    "Increase the font size slightly so that the stricter normal-text requirement no longer applies"
+   ],
+   "answer": 0,
+   "explanation": "Vision estimates are approximate, and for contrast near a threshold approximately right is wrong. Measure on the real token values; a computed 4.4:1 fails.",
+   "distractors": [
+    null,
+    "Resolution doesn't make a visual estimate of a ratio exact; small colour differences decide pass or fail.",
+    "A second look is still an estimate, not a measurement.",
+    "A slight increase may not reach the large-text size, and it dodges checking whether the colour is compliant."
+   ]
+  },
+  {
+   "id": "M3.6-05",
+   "difficulty": "core",
+   "scenario": "Your team is about to start a client's screen set. The client has a design system, but nobody is sure whether the version on a shared drive or the one in the main code repository is current.",
+   "question": "What should you do before importing?",
+   "options": [
+    "Import the shared-drive version, since the designers maintain and update that copy",
+    "Import both and let Claude merge them into one system",
+    "Skip the design system and apply the brand by hand later",
+    "Confirm with the design-system owner which source is canonical, then import it"
+   ],
+   "answer": 3,
+   "explanation": "Design-system location and ownership is a governance question. Importing a stale copy makes it the house style by accident; the owner decides what is canonical.",
+   "distractors": [
+    "Assuming which copy is current is how a stale system gets adopted.",
+    "Merging two possibly conflicting systems creates a third, unowned one.",
+    "Re-skinning every screen later is slower and lets tokens drift.",
+    null
+   ]
+  },
+  {
+   "id": "M3.6-06",
+   "difficulty": "core",
+   "scenario": "A developer built a screen from a handed-off design. In QA, the loading, empty and API-error states look improvised and inconsistent with the rest of the app.",
+   "question": "What would have prevented this?",
+   "options": [
+    "Exporting the design at a higher resolution so details were visible",
+    "A handoff note listing which states were designed and what engineering still had to decide",
+    "Asking the developer to copy the default state's styling for every other state they need",
+    "Running the heuristic evaluation after the code was merged"
+   ],
+   "answer": 1,
+   "explanation": "Undesigned states don't survive a handoff because they were never in the design. The handoff note makes them explicit so they get designed or decided, not invented.",
+   "distractors": [
+    "Resolution can't show states that were never designed.",
+    null,
+    "That produces states that look the same but don't communicate loading, emptiness or failure.",
+    "Reviewing after merge finds the problem late instead of preventing it."
+   ]
+  },
+  {
+   "id": "M3.6-07",
+   "difficulty": "core",
+   "scenario": "A heuristic review of a logistics screen finds a destructive 'Cancel shipment' button styled exactly like 'Save' and placed beside it.",
+   "question": "Which fix best addresses the underlying usability principle?",
+   "options": [
+    "Add a tooltip to the cancel button explaining what it does and that it discards changes",
+    "Move both buttons to the bottom of the page",
+    "Make the destructive action visually distinct, separate it from Save, and confirm it",
+    "Rename the button to 'Cancel' so the label is shorter"
+   ],
+   "answer": 2,
+   "explanation": "This is error prevention: a destructive action that looks and sits like a routine one invites mistakes. Visual distinction, separation and confirmation prevent the slip.",
+   "distractors": [
+    "A tooltip needs hovering and does nothing for the user who clicks by mistake.",
+    "Moving both keeps the identical styling and adjacency that cause the error.",
+    null,
+    "A shorter label makes the action more ambiguous, not safer."
+   ]
+  },
+  {
+   "id": "M3.6-08",
+   "difficulty": "core",
+   "scenario": "A stakeholder review is scheduled on an AI-powered prototype artifact you built. Twelve people from the client will open it during the session.",
+   "question": "What should you tell them beforehand?",
+   "options": [
+    "That AI features in the prototype run on each viewer's own account and usage",
+    "That they need your login to see the AI features",
+    "That the prototype must be exported to PDF before anyone outside the team can review it",
+    "Nothing, because shared artifacts use only the creator's usage"
+   ],
+   "answer": 0,
+   "explanation": "AI-powered artifacts run on the viewer's own account, so each reviewer's usage is consumed and their access applies. Say so before the review, not during it.",
+   "distractors": [
+    null,
+    "Sharing credentials breaks policy, and the artifact doesn't work that way.",
+    "A PDF would remove the interaction the review is meant to test.",
+    "That's backwards; the viewer's account and usage are what get used."
+   ]
+  },
+  {
+   "id": "M3.6-09",
+   "difficulty": "stretch",
+   "scenario": "A front-end lead says: 'The design file is the spec, so if it's not in the design, the developer should just follow existing code patterns.' The design covers six screens at one breakpoint.",
+   "question": "What is the strongest response?",
+   "options": [
+    "Agree, since following existing code patterns will keep the implementation consistent with the app",
+    "Ask the designer to add every breakpoint and state before any code is written",
+    "Ask Claude Code to infer the missing decisions from the design while it builds the screens",
+    "List what the design can't carry (data, states, breakpoints, errors) and give each an owner"
+   ],
+   "answer": 3,
+   "explanation": "A design carries layout, components, tokens and copy; it doesn't carry data contracts, state, undesigned breakpoints or error logic. Making those explicit, with owners, is what prevents silent invention.",
+   "distractors": [
+    "Existing patterns may not fit, and the decisions still get made silently by whoever codes them.",
+    "Designing everything up front delays delivery; some decisions belong to engineering, not design.",
+    "Inference is exactly the invention the handoff note exists to prevent.",
+    null
+   ]
+  },
+  {
+   "id": "M3.6-10",
+   "difficulty": "stretch",
+   "scenario": "Two weeks before a hard deadline, you learn that a client's design system lives only on a hosted design site that the vendor has announced it is closing on a fixed date.",
+   "question": "How should you handle this on the engagement?",
+   "options": [
+    "Keep working as normal and migrate the design system after the current deliverable ships",
+    "Export screenshots of the design system pages as a backup",
+    "Log it as a dated risk with an owner, migrate early, and verify against a known screen",
+    "Rebuild the design system from scratch inside your own tooling"
+   ],
+   "answer": 2,
+   "explanation": "A dated platform change is a delivery risk: record it, assign the owner, migrate before the date, and verify the migrated system reproduces a known screen.",
+   "distractors": [
+    "If the site closes mid-deliverable, the house style becomes unavailable when you need it most.",
+    "Screenshots lose the tokens and components that make a design system usable.",
+    null,
+    "Rebuilding from scratch is slower and risks drifting from the canonical system."
+   ]
+  }
+ ]
+}

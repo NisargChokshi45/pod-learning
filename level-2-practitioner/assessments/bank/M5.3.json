@@ -1,0 +1,217 @@
+{
+ "module": "M5.3",
+ "title": "Debugging, refactoring and optimisation",
+ "status": "ELECTIVE",
+ "items": [
+  {
+   "id": "M5.3-01",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "Payments retries started throwing DuplicateKeyException five minutes after a deploy that bumped a resilience library and raised the worker pool from 8 to 32. You have the trace, logs and the diff.",
+   "question": "What is the most effective first prompt?",
+   "options": [
+    "'Here is the error and the stack trace. What is the bug, and how do I fix it quickly?'",
+    "'Rewrite the retry worker so it is fully thread-safe, then explain what you changed.'",
+    "'Explain what DuplicateKeyException means in JPA and list its common causes in services.'",
+    "Evidence in tags; rank up to five hypotheses with evidence and a cheap test for each; no fix yet"
+   ],
+   "answer": 3,
+   "explanation": "Ranked hypotheses tied to evidence, each with a falsification test, turn debugging into cheap experiments and surface alternatives a single confident answer would hide.",
+   "distractors": [
+    "Asking for 'the bug' gets the single most plausible story, which may not be the one your evidence supports.",
+    "Rewriting on a hunch skips diagnosis; the cause might be the library's retry semantics, not threading.",
+    "A definition doesn't use your evidence or move the diagnosis forward.",
+    null
+   ]
+  },
+  {
+   "id": "M5.3-02",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "Claude gives a confident, detailed explanation that an intermittent failure is 'a classic TOCTOU race between the cache check and the insert'. The bug only appears under production load.",
+   "question": "What should you do before implementing the suggested lock?",
+   "options": [
+    "Implement it, since the explanation names a well-known bug class that matches the logs",
+    "Reproduce it under a stress test, or add instrumentation that would confirm the race",
+    "Ask Claude how confident it is and proceed if it says high",
+    "Ask Claude to explain the race in more detail"
+   ],
+   "answer": 1,
+   "explanation": "A fluent diagnosis isn't evidence. Concurrency bugs need a reproduction or targeted instrumentation (thread IDs, correlation IDs) before you act on a story.",
+   "distractors": [
+    "Naming a famous bug class is exactly what makes a wrong story sound right.",
+    null,
+    "Self-reported confidence carries no information about correctness.",
+    "More detail makes the story more convincing, not more verified."
+   ]
+  },
+  {
+   "id": "M5.3-03",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "A disk on a logging host filled up overnight. The on-call engineer proposes a cron job that deletes logs older than one day.",
+   "question": "Why is this insufficient as the fix?",
+   "options": [
+    "It treats the symptom; the cause (such as rotation disabled by a config change) will recur",
+    "Cron jobs are unreliable on busy hosts and should be replaced with a systemd timer",
+    "One day is too short; logs should be kept for seven days to support incident review",
+    "Deleting logs on a schedule violates every data retention policy the client is likely to have"
+   ],
+   "answer": 0,
+   "explanation": "Disk-full is a symptom. Root-cause analysis (timeline, 5 whys from evidence) finds why rotation stopped; fixing that prevents recurrence.",
+   "distractors": [
+    null,
+    "The scheduler choice doesn't address why the disk filled.",
+    "Retention length is a policy detail; the fix is still aimed at the symptom.",
+    "Overstated — retention policies vary; the real issue is symptom versus cause."
+   ]
+  },
+  {
+   "id": "M5.3-04",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "You need to refactor a 300-line calculateShipping() function that has no tests. A colleague suggests: 'Paste it into Claude, ask for a clean refactor, and review the result.'",
+   "question": "What should happen first?",
+   "options": [
+    "Ask Claude to add comments throughout so the refactor is easier for reviewers to follow",
+    "Ask for the refactor at maximum effort to minimise mistakes",
+    "Write characterisation tests that capture current outputs by running the code",
+    "Split the function into two files so the diff is smaller"
+   ],
+   "answer": 2,
+   "explanation": "Behaviour-preserving refactoring needs tests that pin current behaviour. Characterisation tests, with outputs captured by running the code, make each small step checkable.",
+   "distractors": [
+    "Comments don't detect behaviour changes.",
+    "Effort doesn't replace a safety net; a one-shot rewrite can still change a branch silently.",
+    null,
+    "Moving code without tests is itself an unguarded refactor."
+   ]
+  },
+  {
+   "id": "M5.3-05",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "While writing characterisation tests for an invoice rounding function, Claude fills in the expected values for twenty inputs.",
+   "question": "What is the problem with this?",
+   "options": [
+    "Twenty inputs are too many for a characterisation test",
+    "Expected values should come from running the existing code, not from Claude's prediction",
+    "Characterisation tests should use random inputs, not fixed ones",
+    "Rounding functions shouldn't get characterisation tests, because their rules change often"
+   ],
+   "answer": 1,
+   "explanation": "A characterisation test pins what the code does now. A predicted value is a guess about behaviour; a captured value is a fact — including quirks callers may depend on.",
+   "distractors": [
+    "Coverage of branches and boundaries matters more than a small count.",
+    null,
+    "Fixed, captured inputs are what make the test a stable reference.",
+    "Code that changes often is exactly where a behaviour pin helps."
+   ]
+  },
+  {
+   "id": "M5.3-06",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "Claude reviews a slow endpoint and says: 'Replacing this list lookup with a dictionary should make the endpoint about 40% faster.'",
+   "question": "How should you treat that number?",
+   "options": [
+    "As a reasonable estimate to put in the PR description",
+    "As a lower bound, since Claude tends to be conservative",
+    "As accurate, provided Claude used extended thinking at a high effort to produce it",
+    "As a prediction: profile first, then measure before and after on the same data"
+   ],
+   "answer": 3,
+   "explanation": "Claude can't measure in chat. Speed-ups are established by profiling and repeated before/after runs with the same harness and dataset.",
+   "distractors": [
+    "An unmeasured number in a PR becomes a false record.",
+    "There's no basis for treating it as a bound in either direction.",
+    "Thinking improves reasoning, not measurement; no code was run.",
+    null
+   ]
+  },
+  {
+   "id": "M5.3-07",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "An order list page has p95 latency of 2.8 s for large accounts. ORM SQL logging shows 201 queries per request: one for orders and one per order for its customer.",
+   "question": "What is the right fix and proof?",
+   "options": [
+    "Add a response cache in front of the endpoint and report the cache hit rate after a day",
+    "Add a database index on customer.id and report the new p95",
+    "Eager-load the customer relation and report query count and p95 before and after",
+    "Paginate to 20 orders per page and report the reduced query count"
+   ],
+   "answer": 2,
+   "explanation": "This is an N+1. Eager loading (select_related / include / JOIN FETCH) removes it; the proof is measured query counts and latency on the same dataset.",
+   "distractors": [
+    "A cache hides the N+1, serves stale data and still runs 201 queries on a miss.",
+    "Primary-key lookups are already indexed; the problem is the number of round trips.",
+    null,
+    "Pagination reduces N but keeps the N+1 pattern."
+   ]
+  },
+  {
+   "id": "M5.3-08",
+   "module": "M5.3",
+   "difficulty": "core",
+   "scenario": "You've been pasting files into a chat to trace where a shared counter is mutated. You're now pasting the twelfth file and re-pasting earlier ones each turn, and next you need to run the tests.",
+   "question": "What is the best next move?",
+   "options": [
+    "Move the task to Claude Code, which can read the repo and run the tests itself",
+    "Start a fresh chat and paste all twelve files at once",
+    "Ask Claude to guess which other files might be involved",
+    "Raise the effort level so it keeps track of all twelve files and their imports better"
+   ],
+   "answer": 0,
+   "explanation": "Repeated pasting and a need to run tests are the signals that chat is the wrong tool. Claude Code reads the repository and runs commands itself.",
+   "distractors": [
+    null,
+    "Pasting everything at once spends the window and dilutes attention without enabling test runs.",
+    "Guessing about unseen files produces confident but unverified answers.",
+    "Effort doesn't give Claude access to the repo or the test runner."
+   ]
+  },
+  {
+   "id": "M5.3-09",
+   "module": "M5.3",
+   "difficulty": "stretch",
+   "scenario": "Your team's technical-debt register lists 'ReportBuilder: cyclomatic complexity 87, god class'. The engineering manager asks why it should be funded over a feature.",
+   "question": "Which rewrite is most likely to get it funded?",
+   "options": [
+    "'ReportBuilder violates SOLID principles and has very high cyclomatic complexity in nearly every method.'",
+    "'ReportBuilder adds ~3 days to each reporting change; one person can edit it safely; 2 sprints fixes it.'",
+    "'Claude analysed ReportBuilder in depth and rated it the worst file in the entire repository.'",
+    "'Industry research shows technical debt costs companies about 40% of their engineering time.'"
+   ],
+   "answer": 1,
+   "explanation": "Debt gets funded in business terms: lead time, incidents, key-person risk, cost — with numbers traced to your own data.",
+   "distractors": [
+    "Engineering jargon doesn't connect to a business decision.",
+    null,
+    "Appealing to the tool's rating isn't evidence of cost.",
+    "A generic, unsourced statistic is exactly the invented figure M8.2 warns about."
+   ]
+  },
+  {
+   "id": "M5.3-10",
+   "module": "M5.3",
+   "difficulty": "stretch",
+   "scenario": "During a five-step refactor, step 3 (Extract Method) turns one characterisation test red. The change looks harmless.",
+   "question": "What should you do?",
+   "options": [
+    "Update the test's expected value to match the new output so the suite goes green again quickly",
+    "Continue with steps 4 and 5, then fix all the failing tests together at the very end",
+    "Revert step 3 and redo it in smaller steps, keeping refactor and behaviour change apart",
+    "Ask Claude to explain why the test is wrong"
+   ],
+   "answer": 2,
+   "explanation": "Red during a refactor means behaviour changed. Revert, don't debug forward; a refactor and a behaviour change never share a commit.",
+   "distractors": [
+    "Changing the pin to match new output silently accepts a behaviour change.",
+    "Stacking more steps on a red build makes the cause harder to find.",
+    null,
+    "The test pins current behaviour; assuming it's wrong inverts the safety net."
+   ]
+  }
+ ]
+}
