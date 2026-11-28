@@ -97,7 +97,11 @@ if (mock) lengthTells(mock.items, "mock");
 modules.sort((a, b) => (ORDER.indexOf(a.module) + 1 || 99) - (ORDER.indexOf(b.module) + 1 || 99));
 for (const m of modules) m.items = rebalance(m.items, m.module);
 if (mock) {
-  mock.items = rebalance(mock.items, "mock");
+  // Each scored set (core, then each elective block) gets its own letter spread.
+  mock.items = BLOCKS
+    ? [rebalance(mock.items.filter(i => !i.elective), "mock"),
+       ...Object.keys(BLOCKS).map(b => rebalance(mock.items.filter(i => i.elective && i.block === b), "mock-" + b))].flat()
+    : rebalance(mock.items, "mock");
   const core = mock.items.filter(i => !i.elective).length;
   if (core !== MOCK_CORE) console.warn(`WARN: mock has ${core} core items (expected ${MOCK_CORE})`);
   if (BLOCKS) for (const [b, cfg] of Object.entries(BLOCKS)) {
