@@ -4,8 +4,9 @@ This repo turns the internal **Claude AI Certification Program** syllabi (PDFs i
 study packs for **technical teams**: structured notes, scenario quizzes, a mock exam, a verification
 drill, and a practical lab. Every future session that adds or edits content MUST follow this file.
 
-Source syllabi: `01_Foundational_Claude_Certification.pdf` (Level 1 of 4). Levels 2–4 (Practitioner,
-Advanced, Expert) will follow the same structure under `level-N-<name>/`.
+Source syllabi: `01_Foundational_Claude_Certification.pdf` (Level 1 of 4) → `level-1-foundational/`;
+`02_Practitioner_Claude_Certification.pdf` (Level 2 of 4) → `level-2-practitioner/`. Levels 3–4 (Advanced,
+Expert) will follow the same structure under `level-N-<name>/`.
 
 ---
 
@@ -44,7 +45,13 @@ tools/
 
 - Teaching order for Level 1: `01-M1.1 → 02-M8.1 → 03-M1.2 → 04-M2.1 → 05-M3.1 → 06-M4.1 → 07-M6.1`.
   M8.1 (data privacy) is deliberately second — the file numbering must make that visible.
-- After any change under `bank/`, run `node tools/build-quiz.mjs level-1-foundational`. It validates every
+- Teaching order for Level 2 (CORE 01–10, then electives 11–20): `01-M1.3 → 02-M2.2 → 03-M2.3 → 04-M3.2 →
+  05-M3.4 → 06-M8.2 → 07-M3.5 → 08-M3.3 → 09-M4.2 → 10-M8.3 → 11-M3.6 → 12-M5.1 → 13-M5.2 → 14-M5.3 →
+  15-M5.5 → 16-M6.2 → 17-M6.3 → 18-M6.8 → 19-M7.1 → 20-M7.2`. M8.2 (verification) is deliberately sixth —
+  the earliest its "any two D3 modules" prerequisite allows.
+- Each level's `assessments/level.json` holds its teaching order, mock size and elective blocks; the build
+  script and `quiz.html` read it. Bank files carry `"status": "CORE" | "ELECTIVE"`.
+- After any change under `bank/`, run `node tools/build-quiz.mjs <level-dir>`. It validates every
   item, rebalances answer positions deterministically (authors need not), and regenerates
   `quiz-bank.js` + `answer-key.md`.
 
@@ -60,7 +67,8 @@ Each `notes/*.md` file uses exactly these sections, in this order:
 5. **In production** — 3–5 realistic engineering scenarios: situation → right move → why → failure mode.
 6. **Pitfalls** — table: anti-pattern | why it bites | do instead.
 7. **Hands-on exercises** — the syllabus exercises, each with a concrete "done when" criterion.
-8. **Practitioner preview** — 2–4 forward pointers into the Level 2 modules this one leads to.
+8. **Next-level preview** — 2–4 forward pointers into the next level's modules this one leads to
+   ("Practitioner preview" at Level 1, "Advanced preview" at Level 2).
 9. **Check yourself** — link to the module's quiz as `quiz.html#m8-1` (lowercase, dot → hyphen; page
    anchors may only use letters, digits and hyphens).
 
@@ -111,6 +119,10 @@ Items live in `bank/<module>.json` under `"items": [...]` as (JSON, shown JS-sty
   carries `"module"`): exactly **25 core** items across the six CORE modules weighted by hours, pass =
   **20/25 (80%)**, plus a **5-item elective block** for M6.1 (`"elective": true`) scored separately (pass 4/5).
   Mock items are new — never copies of per-module items.
+- Level 2 mock: **25 core** items across the ten CORE modules weighted by hours (M2.2, M2.3, M3.2, M3.4,
+  M8.2 ×3; M3.3, M3.5, M4.2, M1.3, M8.3 ×2), pass 20/25, plus **four 5-item elective blocks**
+  (`"elective": true, "block": "DESIGN" | "D5" | "D6" | "D7"`, defined in `level.json`), each scored
+  separately (pass 4/5). Candidates take only the blocks their cluster's electives cover.
 - Answer-letter spread is enforced by the build script. Never write options that reference other
   options by letter, and no "all/none of the above".
 - Every option gets a reason. Distractors must be mistakes real people make.
@@ -122,17 +134,23 @@ Items live in `bank/<module>.json` under `"items": [...]` as (JSON, shown JS-sty
   wrong limit, invented reference, arithmetic slip, privacy leak, unsafe permission advice, missed
   prompt injection, wrong surface routing. Pass = find ≥70% (state as a count).
 - Practical lab → 60 minutes, timed run sheet, rubric with point values and a pass line.
+- Level 2 adds, per its syllabus: a **prompt-and-output review** against a rubric, a **90-minute** lab, a
+  **graded deliverable with a verification note**, and the verification drill at **≥80%** (not 70%).
 
-## 8. Published quiz artifact
+## 8. Published quiz artifacts
 
-The Level 1 quiz is published as a private claude.ai artifact:
-**https://claude.ai/artifact/KcVBhGjJVcnpYHudRhKvid**
+Each level's quiz is published as a private claude.ai artifact:
 
-To update it, never publish without the URL, because that creates a duplicate artifact:
+| Level | URL | `<level-dir>` |
+|---|---|---|
+| 1 | **https://claude.ai/artifact/KcVBhGjJVcnpYHudRhKvid** | `level-1-foundational` |
+| 2 | **L2_ARTIFACT_URL** | `level-2-practitioner` |
+
+To update one, never publish without its URL, because that creates a duplicate artifact:
 1. Edit `assessments/bank/*.json` (or `quiz.html`).
-2. Run `node tools/build-quiz.mjs level-1-foundational`.
-3. Republish with the Artifact tool, passing `url` = the link above, `file_path` = `level-1-foundational/assessments/quiz.html`,
-   and `files: {"quiz-bank.js": "level-1-foundational/assessments/quiz-bank.js"}`. The published `quiz-bank.js` is a
+2. Run `node tools/build-quiz.mjs <level-dir>`.
+3. Republish with the Artifact tool, passing `url` = the level's link, `file_path` = `<level-dir>/assessments/quiz.html`,
+   and `files: {"quiz-bank.js": "<level-dir>/assessments/quiz-bank.js"}`. The published `quiz-bank.js` is a
    copy made at publish time, so **republish after every rebuild**, or the live quiz goes stale.
 
 Sharing is controlled by the owner from the page's Share menu. Other people can't open it until it's shared.
